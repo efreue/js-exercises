@@ -1,0 +1,12 @@
+{
+  "name": "js-exercises",
+  "version": "0.1.0",
+  "issueId": "",
+  "description": "Web app exercises using JavaScript, HTML &amp; CSS",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/efreue/js-exercises"
+  },
+  "devDependencies": {
+  }
+}
