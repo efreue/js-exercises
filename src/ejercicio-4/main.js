@@ -33,14 +33,11 @@ var addBehaviorNodes = function() {
 var moveElementPositioned = function(e) {
     var evento = e || window.event;
     var node = document.body.getElementsByClassName("selected")[0];
-    if (node) {
-        if (evento.type === 'mousemove') {
-			var getNewMouseCoordinates = getMouseCoordinates(evento);
-			setPosition(node, getNewMouseCoordinates);
-	    }
-    }
-};
+	if (node && evento.type === 'mousemove') {
+		var getNewMouseCoordinates = getMouseCoordinates(evento);
+		setPosition(node, getNewMouseCoordinates);
 
+};
 
 var getMouseCoordinates = function(evento) {
     var ie = navigator.userAgent.toLowerCase().indexOf('msie') != -1;
