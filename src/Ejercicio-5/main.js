@@ -19,24 +19,21 @@ EventBall.prototype.stopMoveLeft = function(idInterval) {
 	clearInterval(idInterval);
 };
 
-EventBall.prototype.startmoveLeft = function(newBall,idInterval) {
+EventBall.prototype.startmoveLeft = function(newBall, idInterval) {
 	var posMove = parseInt(newBall.style.left);
-	if (( posMove + Config.step) < Config.maxXPosition) {
-			newBall.style.left = posMove + Config.step + 'px';
+	if ((posMove + Config.step) < Config.maxXPosition) {
+		newBall.style.left = posMove + Config.step + 'px';
 	}
 	else {
-		this.StopMoveLeft(idInterval);
+		this.stopMoveLeft(idInterval);
 	}
 };
-
 
 var PlayBall = function(newBall) {
 	var myBall = new EventBall(newBall);
-	var	leftPos = myBall.getPosition(newBall)
-	newBall.style.left = leftPos;
+	newBall.style.left = myBall.getPosition(newBall);
 	var idInterval = setInterval(myBall.startmoveLeft, 80, newBall, idInterval);
 };
-
 
 var addNewBall = function() {
     var newBall = document.createElement("div");
