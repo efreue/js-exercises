@@ -31,30 +31,30 @@ var addBehaviorNodes = function() {
 };
 
 var moveElementPositioned = function(e) {
-    var evento = e || window.event;
+    var ev = e || window.event;
     var node = document.body.getElementsByClassName("selected")[0];
-	if (node && evento.type === 'mousemove') {
-		var getNewMouseCoordinates = getMouseCoordinates(evento);
+	if (node && ev.type === 'mousemove') {
+		var getNewMouseCoordinates = getMouseCoordinates(ev);
 		setPosition(node, getNewMouseCoordinates);
-
+    }
 };
 
-var getMouseCoordinates = function(evento) {
+var getMouseCoordinates = function(ev) {
     var ie = navigator.userAgent.toLowerCase().indexOf('msie') != -1;
     var coordinateXabsolute, coordinateYabsolute;
     if (ie) {
         if (document.documentElement && document.documentElement.scrollTop) {
-            coordinateXabsolute = evento.clientX + document.documentElement.scrollLeft;
-            coordinateYabsolute = evento.clientY + document.documentElement.scrollTop;
+            coordinateXabsolute = ev.clientX + document.documentElement.scrollLeft;
+            coordinateYabsolute = ev.clientY + document.documentElement.scrollTop;
         }
         else {
-            coordinateXabsolute = evento.clientX + document.body.scrollLeft;
-            coordinateYabsolute = evento.clientY + document.body.scrollTop;
+            coordinateXabsolute = ev.clientX + document.body.scrollLeft;
+            coordinateYabsolute = ev.clientY + document.body.scrollTop;
        }
     }
     else {
-       coordinateXabsolute = evento.pageX;
-       coordinateYabsolute = evento.pageY;
+       coordinateXabsolute = ev.pageX;
+       coordinateYabsolute = ev.pageY;
     }
 	return {
 		posX: coordinateXabsolute,
