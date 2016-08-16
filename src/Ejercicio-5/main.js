@@ -1,5 +1,5 @@
 var Css = {
-	add: function (node, className) {
+	add: function(node, className) {
     	node.className += " " + className;
 	}
 };
@@ -19,20 +19,21 @@ EventBall.prototype.stopMoveLeft = function(idInterval) {
 	clearInterval(idInterval);
 };
 
-EventBall.prototype.startmoveLeft = function(newBall, idInterval) {
+EventBall.prototype.startMoveLeft = function(newBall, myBall) {
+	var idInterval = setInterval(myBall.startMoveLeft, 80, newBall, myBall);
 	var posMove = parseInt(newBall.style.left);
 	if ((posMove + Config.step) < Config.maxXPosition) {
 		newBall.style.left = posMove + Config.step + 'px';
 	}
 	else {
-		this.stopMoveLeft(idInterval);
+		myBall.stopMoveLeft(idInterval);
 	}
 };
 
 var PlayBall = function(newBall) {
 	var myBall = new EventBall(newBall);
 	newBall.style.left = myBall.getPosition(newBall);
-	var idInterval = setInterval(myBall.startmoveLeft, 80, newBall, idInterval);
+	myBall.startMoveLeft(newBall,myBall);
 };
 
 var addNewBall = function() {
