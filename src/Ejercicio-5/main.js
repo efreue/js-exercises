@@ -16,7 +16,13 @@ var Ball = function(initLeft, initTop, element) {
 	this.element = element;
 	this.x = initLeft;
 	this.y = initTop;
+	this.interval = 0;
+	this.finish = 0;
 };
+
+Ball.prototype.setInterval = function(idIntervalBall) {
+	this.interval = idIntervalBall;
+}
 
 Ball.prototype.updateLeft = function() {
 	var x = this.x + Config.step;
@@ -27,20 +33,28 @@ Ball.prototype.updateLeft = function() {
 };
 
 var App = {
+	ball: null,
 	interval: null,
 	onEnterFrame: function() {
+		if (ball.interval == 0) {
+			ball.setInterval(App.terval);
+		}
 		ball.updateLeft();
+		if (ball.finish == 1) {
+			App.stop();
+		}
 	},
 	start: function() {
-		App.interval = setInterval(App.onEnterFrame, Config.interval);
+		App.terval = setInterval(App.onEnterFrame, Config.interval);
 	},
 	stop: function() {
-		clearInterval(App.interval);
+		clearInterval(ball.interval);
 	},
 	createBall: function() {
 		var element = document.createElement("div");
 		Css.add(element, "ball");
 		document.body.appendChild(element);
-		window.ball = new Ball(Config.initLeft, Config.initTop, element);
+		ball = new Ball(Config.initLeft, Config.initTop, element);
+		App.start();
 	}
 };
