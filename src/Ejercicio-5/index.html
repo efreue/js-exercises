@@ -5,7 +5,10 @@
         <script language="javascript" src="main.js"></script>
        <link rel="stylesheet" href="main.css">
     </head>
-    <body>
-        <input type = "button" value = "add ball" name = "btn_add_ball" onclick = "App.createBall();">
+    <body onload="App.start();">
+	    <input type = "button" id = "add" value = "add ball" name = "btn_add_ball" onclick = "App.createBall();">
+		<input type = "button" id = "reStart" value = "re start ball" name = "btn_restart_ball" disabled = "true" onclick = "App.reStart();">
+		<input type = "button" id = "pause" value = "pause ball" name = "btn_pause_ball" disabled = "true" onclick = "App.pause();">
+		<input type = "button" id = "stop" value = "stop ball" name = "btn_stop_ball" disabled = "true" onclick = "App.stop();">
     </body>
 </html>
