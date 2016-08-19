@@ -51,6 +51,4 @@ var App = {
 		ball.moveTop();
 		ball.moveLeft();
 	}
-
-
 }
