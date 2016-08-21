@@ -46,7 +46,7 @@ var App = {
 		if (Config.firstClickButtonAdd == 0) {
 			App.activeButton("add");
 			App.start();
-			Config.firstClickButtonAdd==1;
+			Config.firstClickButtonAdd = 1;
 		}
 	},
 	updateLeft: function() {
