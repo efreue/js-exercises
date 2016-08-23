@@ -21,18 +21,27 @@ var Ball = function(initLeft, initTop, element) {
 	this.element = element;
 	this.x = initLeft;
 	this.y = initTop;
-	this.positionDown = function() {
+	this.move = function() {
 		this.element.style.top = this.y + 'px';
-	};
+		if (App.paused == 1) {
+			return;
+		}
+		else {
+			var x = this.element.offsetLeft	+ Config.step;
+			if(x <= Config.maxXPosition) {
+				this.element.style.left = x + 'px';
+			}
+		}
+	}
 };
 
 var App = {
 	paused: 0,
 	interval: null,
+	allElements:[],
 	createBall: function() {
 		var setTopBall = 0;
 		var element = document.createElement("div");
-		element.className = "clsBall";
 		Css.add(element, "ball");
 		document.body.appendChild(element);
 		if (Config.firstClickButtonAdd == 0) {
@@ -42,30 +51,22 @@ var App = {
 			setTopBall = Config.acumulateTop();
 		}
 		var ball = new Ball(Config.initLeft, setTopBall, element);
-		ball.positionDown();
+		App.allElements.push(ball);
+
 		if (Config.firstClickButtonAdd == 0) {
 			App.activeButton("add");
-			App.start();
+			App.start(App.allElements);
 			Config.firstClickButtonAdd = 1;
 		}
 	},
-	updateLeft: function() {
-		if (App.paused == 1) {
-			return;
-		}
-		else {
-			var nodes = document.getElementsByClassName("clsBall");
-			for (var i=0; i< nodes.length; i++) {
-				var x = nodes[i].offsetLeft	+ Config.step;
-				if(x < Config.maxXPosition) {
-					nodes[i].style.left = x + 'px';
-				}
-			}
+	moveElement: function(allBalls) {
+		for (var i=0; i < allBalls.length; i++) {
+			allBalls[i].move();
 		}
 	},
-	start: function() {
-		App.interval = setInterval(App.updateLeft, Config.interval);
-	},
+	start: function(allBalls) {
+				App.interval = setInterval(App.moveElement, Config.interval, allBalls);
+			},
 	pause: function() {
 		App.paused = 1;
 		App.activeButton("pause");
