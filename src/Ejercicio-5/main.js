@@ -10,29 +10,23 @@ var Config = {
 	interval: 80,
 	initLeft: 100,
 	initTop: 100,
-	increaseTop: 90,
+	stepTop: 90,
 	firstClickButtonAdd: 0,
-	acumulateTop: function () {
-		return Config.initTop += Config.increaseTop;
-	}
+	increaseTop: 0
 };
 
 var Ball = function(initLeft, initTop, element) {
 	this.element = element;
 	this.x = initLeft;
-	this.y = initTop;
+	this.element.style.top = initTop + 'px';
 	this.move = function() {
-		this.element.style.top = this.y + 'px';
-		if (App.paused == 1) {
-			return;
-		}
-		else {
+		if (App.paused === 0) {
 			var x = this.element.offsetLeft	+ Config.step;
 			if(x <= Config.maxXPosition) {
 				this.element.style.left = x + 'px';
 			}
 		}
-	}
+	};
 };
 
 var App = {
@@ -40,55 +34,47 @@ var App = {
 	interval: null,
 	allElements:[],
 	createBall: function() {
-		var setTopBall = 0;
 		var element = document.createElement("div");
 		Css.add(element, "ball");
 		document.body.appendChild(element);
 		if (Config.firstClickButtonAdd == 0) {
-			setTopBall = Config.initTop;
+			Config.increaseTop = Config.initTop;
 		}
 		else {
-			setTopBall = Config.acumulateTop();
+			Config.increaseTop += Config.stepTop;
 		}
-		var ball = new Ball(Config.initLeft, setTopBall, element);
+		var ball = new Ball(Config.initLeft, Config.increaseTop, element);
 		App.allElements.push(ball);
-
 		if (Config.firstClickButtonAdd == 0) {
-			App.activeButton("add");
-			App.start(App.allElements);
+			App.EnableButton("pause");
+			App.disableButton("play");
+			App.start();
 			Config.firstClickButtonAdd = 1;
 		}
 	},
-	moveElement: function(allBalls) {
-		for (var i=0; i < allBalls.length; i++) {
-			allBalls[i].move();
+	moveElement: function() {
+		for (var i=0; i < App.allElements.length; i++) {
+			App.allElements[i].move();
 		}
 	},
-	start: function(allBalls) {
-				App.interval = setInterval(App.moveElement, Config.interval, allBalls);
-			},
+	start: function() {
+		App.interval = setInterval(App.moveElement, Config.interval);
+	},
 	pause: function() {
 		App.paused = 1;
-		App.activeButton("pause");
+		App.disableButton("pause");
+		App.EnableButton("play");
 	},
 	play: function() {
 		App.paused = 0;
-		App.activeButton("play");
+		App.disableButton("play");
+		App.EnableButton("pause");
 	},
-	activeButton: function(idButton) {
-		switch(idButton) {
-			case "pause":
-				document.getElementById("pause").disabled = true;
-				document.getElementById("play").disabled = false;
-				break;
-			case "play":
-				document.getElementById("pause").disabled = false;
-				document.getElementById("play").disabled = true;
-				break;
-			case "add":
-				document.getElementById("pause").disabled = false;
-				document.getElementById("play").disabled = true;
-				break;
-		}
+	disableButton: function(idButton) {
+		document.getElementById(idButton).disabled = true;
+	},
+	EnableButton: function(idButton) {
+		document.getElementById(idButton).disabled = false;
 	}
+
 }
