@@ -46,7 +46,7 @@ var App = {
 		var ball = new Ball(Config.initLeft, Config.increaseTop, element);
 		App.allElements.push(ball);
 		if (Config.firstClickButtonAdd == 0) {
-			App.EnableButton("pause");
+			App.enableButton("pause");
 			App.disableButton("play");
 			App.start();
 			Config.firstClickButtonAdd = 1;
@@ -63,17 +63,17 @@ var App = {
 	pause: function() {
 		App.paused = 1;
 		App.disableButton("pause");
-		App.EnableButton("play");
+		App.enableButton("play");
 	},
 	play: function() {
 		App.paused = 0;
 		App.disableButton("play");
-		App.EnableButton("pause");
+		App.enableButton("pause");
 	},
 	disableButton: function(idButton) {
 		document.getElementById(idButton).disabled = true;
 	},
-	EnableButton: function(idButton) {
+	enableButton: function(idButton) {
 		document.getElementById(idButton).disabled = false;
 	}
 
