@@ -20,19 +20,77 @@ var Ball = function(initLeft, initTop, element) {
 	this.element = element;
 	this.x = initLeft;
 	this.y = initTop;
+	this.endDiagonalyTopDown = 0;
+	this.endDiagonalyTopUp = 0;
+	this.endDirectionWidthLeft = 0;
+	this.endDirectionWidthRight = 0;
+	this.setScreenWidth = function() {
+		return document.body.clientWidth;
+	}
+	this.setScreenHeight = function() {
+		return document.body.clientHeight;
+	}
+	this.moveLeft = function (posLeft, direction) {
+		if (direction === "left") {;
+			var l = posLeft + Config.step;
+			if(l <= this.setScreenWidth()) {
+				this.element.style.left = l + 'px';
+				this.endDirectionWidthLeft = 0;
+			}
+			else {
+				this.endDirectionWidthLeft = 1;
+			}
+		}
+		else {
+			var r = posLeft - Config.step;
+			if(r >= this.setScreenHeight()) {
+				this.element.style.left = r + 'px';
+				this.endDirectionWidthRight = 0;
+			}
+			else {
+				this.endDirectionWidthRight = 1;
+			}
+		}
+	}
+	this.moveDiagonalyDown = function(posTop, direction) {
+		if (direction === "down") {
+			var d = posTop + Config.step;
+			if (d <= this.setScreenHeight()) {
+				this.element.style.top = d + 'px';
+				this.endDiagonalyTopDown = 0;
+			}
+			else {
+				this.endDiagonalyTopDown = 1;
+			}
+		}
+		else {
+			var t = posTop - Config.step;
+			if (t >= this.setScreenHeight()) {
+				this.element.style.top = d + 'px';
+				this.endDiagonalyTopUp = 0;
+			}
+			else {
+				this.endDiagonalyTopUp = 1;
+			}
+
+		}
+
+	}
 	this.move = function() {
 		if (App.paused == 1) {
 			return;
 		}
 		else {
-			var x = this.element.offsetLeft	+ Config.step;
-			var y = this.element.offsetTop	+ Config.step;
-			if(x <= document.body.clientWidth) {
-				this.element.style.left = x + 'px';
+			var posLeft = this.element.offsetLeft;
+			var posHight = this.element.offsetTop;
+
+			if (this.endDirectionWidthLeft == 0) {
+				this.moveLeft(posLeft,"left");
 			}
-			if(y <= document.body.clientHeight) {
-				this.element.style.top = y + 'px';
+			if (this.endDiagonalyTopDown == 0) {
+				this.moveDiagonalyDown(posHight,"down");
 			}
+
 		}
 	}
 };
