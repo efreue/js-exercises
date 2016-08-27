@@ -9,78 +9,61 @@ var Config = {
 	interval: 80,
 	initLeft: 100,
 	initTop: 100,
-	increaseTop: 90,
+	stepTop: 90,
 	firstClickButtonAdd: 0,
-	acumulateTop: function () {
-		return Config.initTop += Config.increaseTop;
-	}
+	increaseTop: 0
 };
 
 var Ball = function(initLeft, initTop, element) {
 	this.element = element;
 	this.x = initLeft;
-	this.y = initTop;
+	this.element.style.top = initTop + 'px';
 	this.endDiagonalyTopDown = 0;
-	this.endDiagonalyTopUp = 0;
 	this.endDirectionWidthLeft = 0;
-	this.endDirectionWidthRight = 0;
 	this.setScreenWidth = function() {
 		return document.body.clientWidth;
-	}
+	};
 	this.setScreenHeight = function() {
 		return document.body.clientHeight;
-	}
+	};
 	this.moveLeft = function (posLeft, direction) {
 		if (direction === "left") {;
-			var l = posLeft + Config.step;
-			if(l <= this.setScreenWidth()) {
-				this.element.style.left = l + 'px';
-				this.endDirectionWidthLeft = 0;
+			if(posLeft + Config.step <= this.setScreenWidth()) {
+				this.element.style.left = posLeft + Config.step + 'px';
 			}
 			else {
 				this.endDirectionWidthLeft = 1;
 			}
 		}
 		else {
-			var r = posLeft - Config.step;
-			if(r >= this.setScreenHeight()) {
-				this.element.style.left = r + 'px';
-				this.endDirectionWidthRight = 0;
+			if(posLeft - Config.step >= 0) {
+				this.element.style.left = posLeft - Config.step + 'px';
 			}
 			else {
-				this.endDirectionWidthRight = 1;
+				this.endDirectionWidthLeft = 0;
 			}
 		}
-	}
+	};
 	this.moveDiagonalyDown = function(posTop, direction) {
 		if (direction === "down") {
-			var d = posTop + Config.step;
-			if (d <= this.setScreenHeight()) {
-				this.element.style.top = d + 'px';
-				this.endDiagonalyTopDown = 0;
+			if (posTop + Config.step <= this.setScreenHeight()) {
+				this.element.style.top = posTop + Config.step + 'px';
 			}
 			else {
 				this.endDiagonalyTopDown = 1;
 			}
 		}
 		else {
-			var t = posTop - Config.step;
-			if (t >= this.setScreenHeight()) {
-				this.element.style.top = d + 'px';
-				this.endDiagonalyTopUp = 0;
+			if (posTop - Config.step >= 0) {
+				this.element.style.top = posTop - Config.step + 'px';
 			}
 			else {
-				this.endDiagonalyTopUp = 1;
+				this.endDiagonalyTopDown = 0;
 			}
-
 		}
-
-	}
+	};
 	this.move = function() {
-		if (App.paused == 1) {
-			return;
-		}
-		else {
+		if (App.paused === 0) {
 			var posLeft = this.element.offsetLeft;
 			var posHight = this.element.offsetTop;
 
@@ -90,61 +73,60 @@ var Ball = function(initLeft, initTop, element) {
 			if (this.endDiagonalyTopDown == 0) {
 				this.moveDiagonalyDown(posHight,"down");
 			}
-
+			if (this.endDiagonalyTopDown == 1) {
+				this.moveDiagonalyDown(posHight,"top");
+			}
+			if (this.endDirectionWidthLeft == 1) {
+				this.moveLeft(posLeft,"right");
+			}
 		}
-	}
+	};
 };
-
 var App = {
 	paused: 0,
 	interval: null,
+	allElements:[],
 	createBall: function() {
-		var setTopBall = 0;
 		var element = document.createElement("div");
-		element.className = "clsBall";
 		Css.add(element, "ball");
 		document.body.appendChild(element);
 		if (Config.firstClickButtonAdd == 0) {
-			setTopBall = Config.initTop;
+			Config.increaseTop = Config.initTop;
 		}
 		else {
-			setTopBall = Config.acumulateTop();
+			Config.increaseTop += Config.stepTop;
 		}
-		var ball = new Ball(Config.initLeft, setTopBall, element);
+		var ball = new Ball(Config.initLeft, Config.increaseTop, element);
+		App.allElements.push(ball);
 		if (Config.firstClickButtonAdd == 0) {
-			App.activeButton("add");
-			App.start(ball);
+			App.enableButton("pause");
+			App.disableButton("play");
+			App.start();
 			Config.firstClickButtonAdd = 1;
 		}
 	},
-	moveObj: function(ball) {
-		ball.move();
+	moveElement: function() {
+		for (var i=0; i < App.allElements.length; i++) {
+			App.allElements[i].move();
+		}
 	},
-	start: function(ball) {
-		App.interval = setInterval(App.moveObj, Config.interval, ball);
+	start: function() {
+		App.interval = setInterval(App.moveElement, Config.interval);
 	},
 	pause: function() {
 		App.paused = 1;
-		App.activeButton("pause");
+		App.disableButton("pause");
+		App.enableButton("play");
 	},
 	play: function() {
 		App.paused = 0;
-		App.activeButton("play");
+		App.disableButton("play");
+		App.enableButton("pause");
 	},
-	activeButton: function(idButton) {
-		switch(idButton) {
-			case "pause":
-				document.getElementById("pause").disabled = true;
-				document.getElementById("play").disabled = false;
-				break;
-			case "play":
-				document.getElementById("pause").disabled = false;
-				document.getElementById("play").disabled = true;
-				break;
-			case "add":
-				document.getElementById("pause").disabled = false;
-				document.getElementById("play").disabled = true;
-				break;
-		}
+	disableButton: function(idButton) {
+		document.getElementById(idButton).disabled = true;
+	},
+	enableButton: function(idButton) {
+		document.getElementById(idButton).disabled = false;
 	}
 }
