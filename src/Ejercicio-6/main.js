@@ -16,49 +16,61 @@ var Config = {
 
 var Ball = function(initLeft, initTop, element) {
 	this.element = element;
-	this.x = initLeft;
+	this.element.style.left = initLeft + 'px';
 	this.element.style.top = initTop + 'px';
-	this.endDiagonalyTopDown = 0;
-	this.endDirectionWidthLeft = 0;
-	this.setScreenWidth = function() {
-		return document.body.clientWidth;
+	this.directionY = "down";
+	this.directionX = "left";
+	this.getScreenWidth = function() {
+		return document.body.clientWidth - 50;
 	};
-	this.setScreenHeight = function() {
-		return document.body.clientHeight;
+	this.getScreenHeight = function() {
+		return document.body.clientHeight  - 50;
 	};
-	this.moveLeft = function (posLeft, direction) {
+	this.moveX = function (posLeft, direction) {
+		var posX;
+		var screenSizeX;
 		if (direction === "left") {;
-			if(posLeft + Config.step <= this.setScreenWidth()) {
-				this.element.style.left = posLeft + Config.step + 'px';
+			screenSizeX = this.getScreenWidth();
+			posX = posLeft + Config.step;
+			if(posX < screenSizeX) {
+				this.element.style.left = posX + 'px';
 			}
 			else {
-				this.endDirectionWidthLeft = 1;
+				this.element.style.left = screenSizeX + 'px';
+				this.directionX = "right";
 			}
 		}
-		else {
-			if(posLeft - Config.step >= 0) {
-				this.element.style.left = posLeft - Config.step + 'px';
+		else if(direction === "right") {
+			posX = posLeft - Config.step;
+			if(posX > 0) {
+				this.element.style.left = posX + 'px';
 			}
 			else {
-				this.endDirectionWidthLeft = 0;
+				this.element.style.left = 0 + 'px';
+				this.directionX = "left";
 			}
 		}
 	};
-	this.moveDiagonalyDown = function(posTop, direction) {
+	this.moveY = function(posTop, direction) {
+		var posY;
+		var screenSizeY;
 		if (direction === "down") {
-			if (posTop + Config.step <= this.setScreenHeight()) {
-				this.element.style.top = posTop + Config.step + 'px';
+			screenSizeY =  this.getScreenHeight();
+			posY = posTop + Config.step;
+			if (posY <= screenSizeY ) {
+				this.element.style.top = posY + 'px';
 			}
 			else {
-				this.endDiagonalyTopDown = 1;
+				this.directionY = "top";
 			}
 		}
-		else {
-			if (posTop - Config.step >= 0) {
-				this.element.style.top = posTop - Config.step + 'px';
+		else if (direction === "top") {
+			posY = posTop - Config.step;
+			if (posY >= 0) {
+				this.element.style.top = posY + 'px';
 			}
 			else {
-				this.endDiagonalyTopDown = 0;
+				this.directionY = "down";
 			}
 		}
 	};
@@ -66,19 +78,8 @@ var Ball = function(initLeft, initTop, element) {
 		if (App.paused === 0) {
 			var posLeft = this.element.offsetLeft;
 			var posHight = this.element.offsetTop;
-
-			if (this.endDirectionWidthLeft == 0) {
-				this.moveLeft(posLeft,"left");
-			}
-			if (this.endDiagonalyTopDown == 0) {
-				this.moveDiagonalyDown(posHight,"down");
-			}
-			if (this.endDiagonalyTopDown == 1) {
-				this.moveDiagonalyDown(posHight,"top");
-			}
-			if (this.endDirectionWidthLeft == 1) {
-				this.moveLeft(posLeft,"right");
-			}
+			this.moveX(posLeft,this.directionX);
+			this.moveY(posHight,this.directionY);
 		}
 	};
 };
@@ -107,7 +108,7 @@ var App = {
 	},
 	moveElement: function() {
 		for (var i=0; i < App.allElements.length; i++) {
-			App.allElements[i].move();
+			App.allElements[i].move(App.allElements[i]);
 		}
 	},
 	start: function() {
