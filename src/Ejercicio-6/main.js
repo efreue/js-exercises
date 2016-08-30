@@ -21,16 +21,16 @@ var Ball = function(initLeft, initTop, element) {
 	this.directionY = "down";
 	this.directionX = "left";
 	this.getScreenWidth = function() {
-		return document.body.clientWidth - 50;
+		return document.body.clientWidth;
 	};
 	this.getScreenHeight = function() {
-		return document.body.clientHeight  - 50;
+		return document.body.clientHeight;
 	};
 	this.moveX = function (posLeft, direction) {
 		var posX;
 		var screenSizeX;
 		if (direction === "left") {;
-			screenSizeX = this.getScreenWidth();
+			screenSizeX = this.getScreenWidth() - this.element.clientWidth;
 			posX = posLeft + Config.step;
 			if(posX < screenSizeX) {
 				this.element.style.left = posX + 'px';
@@ -55,7 +55,7 @@ var Ball = function(initLeft, initTop, element) {
 		var posY;
 		var screenSizeY;
 		if (direction === "down") {
-			screenSizeY =  this.getScreenHeight();
+			screenSizeY =  this.getScreenHeight() - this.element.clientHeight;
 			posY = posTop + Config.step;
 			if (posY <= screenSizeY ) {
 				this.element.style.top = posY + 'px';
