@@ -18,6 +18,8 @@ var Ball = function(initLeft, initTop, element) {
 	this.element = element;
 	this.element.style.left = initLeft + 'px';
 	this.element.style.top = initTop + 'px';
+    this.posx = initLeft;
+    this.posy = initTop;
 	this.directionY = "down";
 	this.directionX = "left";
 	this.getScreenWidth = function() {
@@ -26,14 +28,13 @@ var Ball = function(initLeft, initTop, element) {
 	this.getScreenHeight = function() {
 		return document.body.clientHeight;
 	};
-	this.moveX = function (posLeft, direction) {
-		var posX;
+	this.moveX = function (direction) {
 		var screenSizeX;
 		if (direction === "left") {;
 			screenSizeX = this.getScreenWidth() - this.element.clientWidth;
-			posX = posLeft + Config.step;
-			if(posX < screenSizeX) {
-				this.element.style.left = posX + 'px';
+			this.posx += Config.step;
+			if(this.posx < screenSizeX) {
+				this.element.style.left = this.posx + 'px';
 			}
 			else {
 				this.element.style.left = screenSizeX + 'px';
@@ -41,9 +42,9 @@ var Ball = function(initLeft, initTop, element) {
 			}
 		}
 		else if(direction === "right") {
-			posX = posLeft - Config.step;
-			if(posX > 0) {
-				this.element.style.left = posX + 'px';
+			this.posx -= Config.step;
+			if(this.posx > 0) {
+				this.element.style.left = this.posx + 'px';
 			}
 			else {
 				this.element.style.left = 0 + 'px';
@@ -51,23 +52,22 @@ var Ball = function(initLeft, initTop, element) {
 			}
 		}
 	};
-	this.moveY = function(posTop, direction) {
-		var posY;
+	this.moveY = function(direction) {
 		var screenSizeY;
 		if (direction === "down") {
 			screenSizeY =  this.getScreenHeight() - this.element.clientHeight;
-			posY = posTop + Config.step;
-			if (posY <= screenSizeY ) {
-				this.element.style.top = posY + 'px';
+			this.posy += Config.step;
+			if (this.posy <= screenSizeY ) {
+				this.element.style.top = this.posy + 'px';
 			}
 			else {
 				this.directionY = "top";
 			}
 		}
 		else if (direction === "top") {
-			posY = posTop - Config.step;
-			if (posY >= 0) {
-				this.element.style.top = posY + 'px';
+			this.posy -= Config.step;
+			if (this.posy >= 0) {
+				this.element.style.top = this.posy + 'px';
 			}
 			else {
 				this.directionY = "down";
@@ -76,10 +76,8 @@ var Ball = function(initLeft, initTop, element) {
 	};
 	this.move = function() {
 		if (App.paused === 0) {
-			var posLeft = this.element.offsetLeft;
-			var posHight = this.element.offsetTop;
-			this.moveX(posLeft,this.directionX);
-			this.moveY(posHight,this.directionY);
+			this.moveX(this.directionX);
+			this.moveY(this.directionY);
 		}
 	};
 };
