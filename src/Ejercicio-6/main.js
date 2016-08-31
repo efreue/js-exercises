@@ -33,21 +33,19 @@ var Ball = function(initLeft, initTop, element) {
 		if(direction === "left") {;
 			screenSizeX = this.getScreenWidth() - this.element.clientWidth;
 			this.posx += Config.step;
-			if(this.posx < screenSizeX) {
+			if(this.posx  <= screenSizeX) {
 				this.element.style.left = this.posx + 'px';
 			}
 			else {
-				this.element.style.left = screenSizeX + 'px';
 				this.directionX = "right";
 			}
 		}
 		else if(direction === "right") {
 			this.posx -= Config.step;
-			if(this.posx > 0) {
+			if(this.posx >= 0) {
 				this.element.style.left = this.posx + 'px';
 			}
 			else {
-				this.element.style.left = 0 + 'px';
 				this.directionX = "left";
 			}
 		}
