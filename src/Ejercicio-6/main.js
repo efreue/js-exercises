@@ -30,7 +30,7 @@ var Ball = function(initLeft, initTop, element) {
 	};
 	this.moveX = function (direction) {
 		var screenSizeX;
-		if (direction === "left") {;
+		if(direction === "left") {;
 			screenSizeX = this.getScreenWidth() - this.element.clientWidth;
 			this.posx += Config.step;
 			if(this.posx < screenSizeX) {
@@ -75,21 +75,21 @@ var Ball = function(initLeft, initTop, element) {
 		}
 	};
 	this.move = function() {
-		if (App.paused === 0) {
+		if (App.started === 1) {
 			this.moveX(this.directionX);
 			this.moveY(this.directionY);
 		}
 	};
 };
 var App = {
-	paused: 0,
+	started: 0,
 	interval: null,
 	allElements:[],
 	createBall: function() {
 		var element = document.createElement("div");
 		Css.add(element, "ball");
 		document.body.appendChild(element);
-		if (Config.firstClickButtonAdd == 0) {
+		if(Config.firstClickButtonAdd == 0) {
 			Config.increaseTop = Config.initTop;
 		}
 		else {
@@ -97,9 +97,9 @@ var App = {
 		}
 		var ball = new Ball(Config.initLeft, Config.increaseTop, element);
 		App.allElements.push(ball);
-		if (Config.firstClickButtonAdd == 0) {
-			App.enableButton("pause");
-			App.disableButton("play");
+		if(Config.firstClickButtonAdd == 0) {
+			App.disableButton("pause");
+			App.enableButton("play");
 			App.start();
 			Config.firstClickButtonAdd = 1;
 		}
@@ -113,12 +113,12 @@ var App = {
 		App.interval = setInterval(App.moveElement, Config.interval);
 	},
 	pause: function() {
-		App.paused = 1;
+		App.started = 0;
 		App.disableButton("pause");
 		App.enableButton("play");
 	},
 	play: function() {
-		App.paused = 0;
+		App.started = 1;
 		App.disableButton("play");
 		App.enableButton("pause");
 	},
