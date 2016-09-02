@@ -1,6 +1,6 @@
 var readDataJson = function() {
 	var xmlhttp = new XMLHttpRequest(); // Creo el objeto XMLHttpRequest
-	var url = "http://127.0.0.1:50986/data.json";
+	var url = "data.json";
 	xmlhttp.onload = function() {
 		if(this.status == 200) {
 			//cargo en un array el contenido del archivo json
