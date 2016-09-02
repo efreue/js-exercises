@@ -1,9 +1,35 @@
 .icon {
-	width: 50px;
-	height: 50px;
-}
+	width: 200px;
+	height: 250px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+ }
 
 .center {
 	text-align: center;
 	font: bold 15px "Arial";
+}
+
+.positionable {
+    cursor: move;
+}
+
+.container {
+    margin: auto;
+    width:300px;
+    height: 400px;
+    background-color: white;
+
+}
+
+.positioned {
+    border-width: 1px;
+    border-style: solid double;
+    border-color: aqua;
+    z-index: 1;
+}
+
+#content {
+    background: #f8F3DF;
 }
