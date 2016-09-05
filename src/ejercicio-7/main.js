@@ -17,10 +17,10 @@ var readDataJson = function() {
 var generateHTML = function(element) {
 	var newContent = "";
 	//recorro el contenido del json
-	for (var i = 0; i < element.length; i++) {
+	for (i = 0; i < element.length; i++) {
 		newContent += '<div class="container positioned">';
-		newContent += '<p class="center">'+element[i].title+'</p><br>';
-		newContent += '<img src="'+ element[i].img +'" class="icon positionable">';
+		newContent += '<p class="center">'+element[i].title+'</p>';
+		newContent += '<img src="'+ element[i].img +'" class="icon"><br>';
 		newContent += '</div">';
 	}
 	//Actualizando la pagina con el nuevo contenido
