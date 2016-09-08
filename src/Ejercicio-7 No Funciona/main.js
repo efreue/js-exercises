@@ -6,8 +6,9 @@ var JsonData = function() {
 	this.read = function() {
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", Config.fileJS, true);
-		xmlhttp.send(null);
-		if (xmlhttp.status == 0)  return xmlhttp.responseText;
+		xmlhttp.send();
+		if (xmlhttp.status != 200)  return "";
+		else return xmlhttp.responseText;
 	};
 };
 var App = {
