@@ -2,22 +2,17 @@ var Config = {
 	fileJS: "data.json",
 	id_ElementDom: 'content'
 };
-
-var readJsonData = function(){
-	var xmlhttp = new XMLHttpRequest(); // Creo el objeto XMLHttpRequest
+var readJsonData = function() {
+	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onload = function() {
 		if(this.status == 200) {
-			//cargo en un array el contenido del archivo json
-			var arrDataJson = JSON.parse(this.responseText);
+			var arrDataJson = JSON.parse(this.responseText); //cargo en un array el contenido del archivo json
 			App.dataJS = arrDataJson;
 		}
 	};
-	//se prepara la peticion al servidor
 	xmlhttp.open("GET", Config.fileJS, true);
-	//se envia peticion
 	xmlhttp.send();
-}
-
+};
 var App = {
 	dataJS:[],
 	textHtml:"",
@@ -40,40 +35,3 @@ var App = {
 		App.showHTML();
 	}
 };
-
-
-/*
-'content'
-var readDataJson = function() {
-	var xmlhttp = new XMLHttpRequest(); // Creo el objeto XMLHttpRequest
-	var url = "data.json";
-	xmlhttp.onload = function() {
-		if(this.status == 200) {
-			//cargo en un array el contenido del archivo json
-			var arrDataJson = JSON.parse(this.responseText);
-			generateHTML(arrDataJson);
-		}
-	};
-	//se prepara la peticion al servidor
-	xmlhttp.open("GET", url, true);
-	//se envia peticion
-	xmlhttp.send();
-};
-*/
-/*
-var generateHTML = function(element, idElementDom) {
-	var newContent = "";
-	//recorro el contenido del json
-	for (i = 0; i < element.length; i++) {
-		newContent += '<div class="container positioned">';
-		newContent += '<p class="center">'+element[i].title+'</p>';
-		newContent += '<img src="'+ element[i].img +'" class="icon"><br>';
-		newContent += '</div">';
-	}
-
-	return newContent;
-			//Actualizando la pagina con el nuevo contenido
-//	document.getElementById(idElementDom).innerHTML = newContent;
-
-};
-*/
