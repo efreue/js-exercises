@@ -3,17 +3,19 @@ var Config = {
 	id_ElementDom: 'content'
 };
 var JsonData = function() {
-	this.read = function() {
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.open("GET", Config.fileJS, true);
-		xmlhttp.send();
-		if (xmlhttp.status != 200)  return "";
-		else return xmlhttp.responseText;
+	this.objs = new XMLHttpRequest();
+	this.objs.onload = function(){
+		if(this.status == 200) {
+			var arrDataJson = JSON.parse(this.responseText); //cargo en un array el contenido del archivo json
+			return arrDataJson;
+		}
 	};
+	this.objs.open("GET", Config.fileJS, true);
+	this.objs.send();		
 };
 var App = {
 	dataJS:[],
-	xmlhttp: null,
+	obJsLoad: new JsonData(), //instancio objeto json
 	generateHTML: function() {
 		var newContent = "";
 		//recorro el contenido del json
@@ -29,12 +31,8 @@ var App = {
 		document.getElementById(Config.id_ElementDom).innerHTML = App.textHtml;
 	},
 	init: function(){
-		var obJs = new JsonData();
-		App.xmlhttp = obJs.read();
-		if (App.xmlhttp != "") {
-			App.dataJS = JSON.parse(App.xmlhttp);
-			App.generateHTML();
-			App.showHTML();
-		};
+		App.dataJS = App.obJsLoad.objs.onload();
+		App.generateHTML();
+		App.showHTML();
 	}
 };
