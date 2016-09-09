@@ -4,7 +4,7 @@ var Config = {
 };
 var JsonData = function() {
 	this.objs = new XMLHttpRequest();
-	this.objs.onload = function(){
+	this.objs.onload = function() {
 		if(this.status == 200) {
 			var arrDataJson = JSON.parse(this.responseText); //cargo en un array el contenido del archivo json
 			return arrDataJson;
