@@ -1,7 +1,6 @@
 var Config = {
 	listFileJS: ["data-1.json","data-2.json"], //agregar los archivos json que deberan analizarse
-	id_ElementDom1: 'listJson',
-	id_ElementDom2: 'containJson'
+    id_ElementDom: ["listJson", "containJson","imgJson"]
 };
 
 var JsonData = function(fileJS) {
@@ -35,43 +34,37 @@ var App = {
 	obJsLoad2: null, //instancio objeto json
 	obJsLoad3: null, //instancio objeto json
 	textHtml: "",
-	getJsonExists: function() {
-		var newContent = "";
-		for (i=0; i < Config.listFileJS.length; i++) {
-			newContent += '<button class="roundButton" onclick="App.getContentJson(this,listJson)">'+Config.listFileJS[i]+'</button>';
-		}
-		return newContent;
-	},
 	generateHTML: function(atributeShow) {
 		var newContent = "";
-		//recorro el contenido del json
-		if (atributeShow === "title") {
+		if (atributeShow === "files") {
+            for (i=0; i < Config.listFileJS.length; i++) {
+                newContent += '<button class="roundButton" onclick="App.getContentJson(this,'+Config.id_ElementDom[0]+')">'+Config.listFileJS[i]+'</button>';
+            }
+        }
+        else if (atributeShow === "title") { //recorro el contenido del json
 			for (i = 0; i < App.dataJS1.length; i++) {
-					newContent += '<button class="roundButton" onclick="App.getContentJson(this,listJson)">'+App.dataJS1[i].title+'</button>';
+					newContent += '<button class="roundButton" onclick="App.getContentJson(this,'+Config.id_ElementDom[1]+')">'+App.dataJS1[i].title+'</button>';
 			}
 		}
-		App.textHtml = newContent;
+        else if (atributeShow === "img") { //recorro el contenido del json
+			newContent += '<button class="roundButton" onclick="App.getContentJson(this,'+Config.id_ElementDom[2]+')">'+App.dataJS1[0].img+'</button>';
+        }
+		return newContent;
 	},
 	showHTML: function(idElement, txtHtml) {
 		document.getElementById(idElement).innerHTML = txtHtml;
 	},
-	managerJsonInElement: function(idDiv) {
-		var fileJsonUse;
-		if (idDiv.id === Config.id_ElementDom1) {
-			fileJsonUse = Config.listFileJS[0];
-		}
-		else if (idDiv.id === Config.id_ElementDom2) {
-			fileJsonUse = Config.listFileJS[1]
-		} else {
-			fileJsonUse = Config.listFileJS[2]
-		}
-
-		return fileJsonUse;
-	},
 	managerSelectedButton: function(idDiv, className, node) {
 		var buttonSel;
-		if (idDiv.id === Config.id_ElementDom1){
-			buttonSel = document.getElementsByClassName(className)[0];
+		if (idDiv.id === Config.id_ElementDom[0]){
+			buttonSel = document.getElementById(Config.id_ElementDom[0]).getElementsByClassName(className)[0];
+			if (buttonSel && Css.contains(buttonSel, className)) {
+				Css.del(buttonSel,className);
+			}
+			Css.add(node,className);
+		}
+        else if (idDiv.id === Config.id_ElementDom[1]) {
+			buttonSel = document.getElementById(Config.id_ElementDom[1]).getElementsByClassName(className)[0];
 			if (buttonSel && Css.contains(buttonSel, className)) {
 				Css.del(buttonSel,className);
 			}
@@ -80,21 +73,32 @@ var App = {
 	},
 	getContentJson: function(node,idDiv) {
 		var className = "Buttonselected"
-		var fileJsonSel;
-		App.managerSelectedButton(idDiv, className, node);
-		if (idDiv.id === Config.id_ElementDom1) {
-			fileJsonSel = App.managerJsonInElement(idDiv);
-			App.dataJS1 = App.obJsLoad1.objs.onload();
-			App.generateHTML("title");
-			App.showHTML(Config.id_ElementDom2,App.textHtml);
-		}s
+        App.managerSelectedButton(idDiv, className, node);
+        if (App.dataJS1.length == 0) {
+            App.dataJS1 = App.obJsLoad1.objs.onload();
+        }
+        if (App.dataJS2.length == 0) {
+            App.dataJS2 = App.obJsLoad2.objs.onload();
+        }
+
+		if (idDiv.id === Config.id_ElementDom[0]) {
+
+			App.textHtml = App.generateHTML("title");
+			App.showHTML(Config.id_ElementDom[1],App.textHtml);
+		}
+        else if (idDiv.id === Config.id_ElementDom[1]) {
+
+			App.textHtml = App.generateHTML("img");
+			App.showHTML(Config.id_ElementDom[2],App.textHtml);
+		}
+        ;
 	},
 	init: function(){
-		var textHtml = "";
 		//show files json exists in html
-		textHtml = App.getJsonExists();
-		App.showHTML(Config.id_ElementDom1,textHtml);
-		App.obJsLoad1 = new JsonData(Config.listFileJS[0]); //instancio objeto json
-		App.obJsLoad2 = new JsonData(Config.listFileJS[1]); //instancio objeto json
+		App.textHtml = App.generateHTML("files");
+		App.showHTML(Config.id_ElementDom[0], App.textHtml);
+        //instancio objetos json
+		App.obJsLoad1 = new JsonData(Config.listFileJS[0]);
+		App.obJsLoad2 = new JsonData(Config.listFileJS[1]);
 	}
 };
