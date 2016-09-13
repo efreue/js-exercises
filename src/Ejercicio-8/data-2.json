@@ -1,17 +1,22 @@
 [
 	{
-		"title": "Boca Junior aux",
-		"img": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTVwm4ZZ7Abh2AYbMImPkKlVHkDJOirJZl39TrNW2HsFQWpEHNZ",
-		"dest": "http://www.bocajuniors.com.ar/"
+		"title": "Barcelona",
+		"img": "http://as00.epimg.net/img/comunes/fotos/fichas/equipos/large/3.png",
+		"dest": "https://www.fcbarcelona.com/"
 	},
 	{
-		"title": "River Plate aux",
-		"img": "http://cdn5.dibujos.net/dibujos/pintados/201631/escudo-atletico-river-plate-deportes-escudos-de-futbol-10760670.jpg",
-		"dest": "http://www.cariverplate.com.ar/"
+		"title": "Real Madrid",
+		"img": "http://www.vakeourbano.com/wp-content/uploads/2014/06/46947/real-madrid-logo.png",
+		"dest": "http://www.realmadrid.com/"
 	},
 	{
-		"title": "Racing aux",
-		"img": "http://4vector.com/i/free-vector-asociacion-racing-club-de-puerto-san-julian_039913_asociacion-racing-club-de-puerto-san-julian.png",
-		"dest": "http://www.racingclub.com.ar/"
+		"title": "Real Sociedad",
+		"img": "https://upload.wikimedia.org/wikipedia/en/thumb/f/f1/Real_Sociedad_logo.svg/891px-Real_Sociedad_logo.svg.png",
+		"dest": "http://www.realsociedad.com/"
+	},
+	{
+		"title": "Atletico Madrid",
+		"img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3ID4FiEDQ93D_kMIByFUWVExFmBZzmB0RafGtkOTokSRNVKzL",
+		"dest": "http://clubatleticodemadrid.com/"
 	}
 ]

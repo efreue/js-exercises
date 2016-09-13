@@ -25,3 +25,9 @@
     border-style: dashed;
     background-color: #CAE4FF;
 }
+.clsImg {
+	width:200px;
+	height: 200px;
+	margin-top: 30px;
+	margin-left: 20px;
+}
