@@ -38,12 +38,12 @@ var App = {
 		var newContent = "";
 		if (atributeShow === "files") {
             for (i=0; i < Config.listFileJS.length; i++) {
-                newContent += '<button class="roundButton" onclick="App.getContentJson(this,'+Config.id_ElementDom[0]+')">'+Config.listFileJS[i]+'</button>';
+                newContent += '<button class="roundButton" onclick="App.managerContentJson(this,'+Config.id_ElementDom[0]+')">'+Config.listFileJS[i]+'</button>';
             }
         }
         else if (atributeShow === "title") { //recorro el contenido del json
 			for (i = 0; i < dataJS.length; i++) {
-					newContent += '<button class="roundButton" onclick="App.getContentJson(this,'+Config.id_ElementDom[1]+')">'+dataJS[i].title+'</button>';
+					newContent += '<button class="roundButton" onclick="App.managerContentJson(this,'+Config.id_ElementDom[1]+')">'+dataJS[i].title+'</button>';
 			}
 		}
         else if (atributeShow === "img") { //recorro el contenido del json
@@ -91,7 +91,7 @@ var App = {
 			App.showHTML(Config.id_ElementDom[2],App.textHtml);
 		}
 	},
-	getContentJson: function(node,idDiv) {
+	managerContentJson: function(node,idDiv) {
 		var className = "Buttonselected"
         App.managerSelectedButton(idDiv, className, node);
 		App.clearImg("clsImg");
