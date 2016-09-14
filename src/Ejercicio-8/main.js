@@ -48,7 +48,7 @@ var App = {
         else if (atributeShow === "img") { //recorro el contenido del json
 			for (i = 0; i < dataJS.length; i++) {
 				if (node.textContent === dataJS[i].title) {
-					newContent += '<img src = '+ dataJS[i].img +' class="clsImg" onclick="window.open("'+dataJS[i].dest+'")"></img>';
+					newContent += '<img src = "'+ dataJS[i].img +'" class="clsImg" onclick="App.imageClick("'+dataJS[i].dest+'")"></img>';
 				}
 			}
         }
@@ -80,7 +80,7 @@ var App = {
 			Css.add(node,className);
 		}
 	},
-	logicGenerateHTML: function(node, idDiv, dataJS) {
+	managerChildsElementDivs: function(node, idDiv, dataJS) {
 		if (idDiv.id === Config.id_ElementDom[0]) {
 			App.textHtml = App.generateHTML("title", node, dataJS);
 			App.showHTML(Config.id_ElementDom[1],App.textHtml);
@@ -89,6 +89,7 @@ var App = {
 			App.textHtml = App.generateHTML("img", node, dataJS);
 			App.showHTML(Config.id_ElementDom[2],App.textHtml);
 		}
+
 	},
 	managerContentJson: function(node,idDiv) {
 		var className = "Buttonselected"
@@ -98,32 +99,35 @@ var App = {
 			if (App.dataJS1.length == 0) {
 				App.dataJS1 = App.obJsLoad1.objs.onload();
 			}
-			App.logicGenerateHTML(node, idDiv, App.dataJS1);
+			App.managerChildsElementDivs(node, idDiv, App.dataJS1);
 			App.btnJsonSelected = Config.listFileJS[0];
 		}
 		else if (node.textContent === Config.listFileJS[1]) {
 			if (App.dataJS2.length == 0) {
 				App.dataJS2 = App.obJsLoad2.objs.onload();
 			}
-			App.logicGenerateHTML(node, idDiv, App.dataJS2);
+			App.managerChildsElementDivs(node, idDiv, App.dataJS2);
 			App.btnJsonSelected = Config.listFileJS[1];
 		}
 		else if (node.textContent === Config.listFileJS[2]) {
 			if (App.dataJS3.length == 0) {
 				App.dataJS3 = App.obJsLoad3.objs.onload();
 			}
-			App.logicGenerateHTML(node, idDiv, App.dataJS3);
+			App.managerChildsElementDivs(node, idDiv, App.dataJS3);
 			App.btnJsonSelected = Config.listFileJS[2];
 		}
 		else if (App.btnJsonSelected === Config.listFileJS[0]) {
-			App.logicGenerateHTML(node, idDiv, App.dataJS1);
+			App.managerChildsElementDivs(node, idDiv, App.dataJS1);
 		}
 		else if (App.btnJsonSelected === Config.listFileJS[1]) {
-			App.logicGenerateHTML(node, idDiv, App.dataJS2);
+			App.managerChildsElementDivs(node, idDiv, App.dataJS2);
 		}
 		else if (App.btnJsonSelected === Config.listFileJS[2]) {
-			App.logicGenerateHTML(node, idDiv, App.dataJS3);
+			App.managerChildsElementDivs(node, idDiv, App.dataJS3);
 		}
+	},
+	imageClick: function(url) {
+		window.location.href = url;
 	},
 	init: function(){
 		//show files json exists in html
