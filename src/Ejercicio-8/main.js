@@ -13,7 +13,6 @@ var JsonData = function(fileJS) {
 	this.objs.open("GET", fileJS, true);
 	this.objs.send();
 };
-//creo objeto Css que agrupa funciones
 var Css = {
 	add: function (node, className) {
     	node.className += " " + className;
@@ -29,9 +28,9 @@ var App = {
 	dataJS1:[],
 	dataJS2:[],
 	dataJS3:[],
-	obJsLoad1: null, //instancio objeto json
-	obJsLoad2: null, //instancio objeto json
-	obJsLoad3: null, //instancio objeto json
+	obJsLoad1: null,
+	obJsLoad2: null,
+	obJsLoad3: null,
 	textHtml: "",
 	btnJsonSelected: "",
 	generateHTML: function(atributeShow, node, dataJS) {
