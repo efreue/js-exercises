@@ -127,7 +127,7 @@ var App = {
 		}
 	},
 	imageClick: function(url) {
-		window.location.href = url;
+		window.location.assign = url;
 	},
 	init: function(){
 		//show files json exists in html
