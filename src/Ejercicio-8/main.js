@@ -1,56 +1,66 @@
 var config = {
-	path:"./data/",
-
+	path: "./data/data-"
 };
-var filesNamesJS = '{ "filesJS" : [' +
-'{ "name":"data-1"},' +
-'{ "name":"data-2"},' +
-'{ "name":"data-3"},' +
-'{ "name":"data-4"},' +
-'{ "name":"data-5"},' +
-'{ "name":"data-6"},' +
-'{ "name":"data-7"},' +
-'{ "name":"data-8"},' +
-'{ "name":"data-9"},' +
-'{ "name":"data-10"},' +
-'{ "name":"data-11"},' +
-'{ "name":"data-12"},' +
-'{ "name":"data-13"},' +
-'{ "name":"data-14"},' +
-'{ "name":"data-15"},' +
-'{ "name":"data-16"},' +
-'{ "name":"data-17"},' +
-'{ "name":"data-18"},' +
-'{ "name":"data-19"},' +
-'{ "name":"data-20"},' +
-'{ "name":"data-21"},' +
-'{ "name":"data-22"},' +
-'{ "name":"data-23"},' +
-'{ "name":"data-24"},' +
-'{ "name":"data-25"},' +
-'{ "name":"data-26"},' +
-'{ "name":"data-27"},' +
-'{ "name":"data-28"},' +
-'{ "name":"data-29"},' +
-'{ "name":"data-30"} ]}';
+var getUrl = function(id) {
+    var url = config.path + id + ".json";
+    return url;
+}
 
-var listFilesNameJS = function(strFilesNames){
-	return this.JSON.parse(strFilesNames);
-};
 var objAjax = function(fileJS) {
 	this.objs = new XMLHttpRequest();
 	this.objs.onload = function() {
 		if(this.status == 200) {
 			var arrDataJson = JSON.parse(this.responseText);
+            App.showDataInHTML(this.status, arrDataJson);
 		}
+        else {
+           App.showStatusAjax(this.status);
+        }
 	};
 	this.objs.open("GET", fileJS, true);
 	this.objs.send();
 };
+var Css = {
+	add: function(node, className) {
+    	node.className += " " + className;
+	},
+	del: function(node, className) {
+    	node.className = node.className.replace(className, "");
+	},
+	contains: function(node, className) {
+    	return node.className.search(className) != -1;
+	}
+};
 var App = {
-	init: function(){
-		var objList = listFilesNameJS(filesNamesJS);
-		var pathFile = config.path + objList.filesJS["0"].name + ".json";
-		objAjax(pathFile);
+	showStatusAjax: function(statusRequest) {
+        var nodes = document.body.getElementsByClassName("styleText");
+        var mens = "Error loading page";
+        if (nodes.length > 0) {
+            if (statusRequest != 200) {
+                if (statusRequest == 0) {
+                    mens = "Loading..."
+                }
+            }
+            for(var i=0; i < nodes.length; i++) {
+                if (statusRequest != 200) {
+                    nodes[i].innerHTML = mens;
+                    if (Css.contains(nodes[i], "textHidden")) {
+                         Css.del(nodes[i], "textHidden")
+                    }
+                }
+                else {
+                    if(!Css.contains(nodes[i], "textHidden")) {
+                        Css.add(nodes[i], "textHidden")
+                    }
+                }
+            }
+        }
+    },
+    showDataInHTML: function(statusRequest, dataJS) {
+        App.showStatusAjax (statusRequest);
+    },
+    init: function() {
+		var url = getUrl("1");
+        objAjax(url);
 	}
 };
