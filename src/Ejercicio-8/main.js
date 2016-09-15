@@ -1,141 +1,56 @@
-var Config = {
-	listFileJS: ["data-1.json","data-2.json","data-3.json"], //agregar los archivos json que deberan analizarse
-    id_ElementDom: ["listJson", "containJson","imgJson"]
+var config = {
+	path:"./data/",
+
 };
-var JsonData = function(fileJS) {
+var filesNamesJS = '{ "filesJS" : [' +
+'{ "name":"data-1"},' +
+'{ "name":"data-2"},' +
+'{ "name":"data-3"},' +
+'{ "name":"data-4"},' +
+'{ "name":"data-5"},' +
+'{ "name":"data-6"},' +
+'{ "name":"data-7"},' +
+'{ "name":"data-8"},' +
+'{ "name":"data-9"},' +
+'{ "name":"data-10"},' +
+'{ "name":"data-11"},' +
+'{ "name":"data-12"},' +
+'{ "name":"data-13"},' +
+'{ "name":"data-14"},' +
+'{ "name":"data-15"},' +
+'{ "name":"data-16"},' +
+'{ "name":"data-17"},' +
+'{ "name":"data-18"},' +
+'{ "name":"data-19"},' +
+'{ "name":"data-20"},' +
+'{ "name":"data-21"},' +
+'{ "name":"data-22"},' +
+'{ "name":"data-23"},' +
+'{ "name":"data-24"},' +
+'{ "name":"data-25"},' +
+'{ "name":"data-26"},' +
+'{ "name":"data-27"},' +
+'{ "name":"data-28"},' +
+'{ "name":"data-29"},' +
+'{ "name":"data-30"} ]}';
+
+var listFilesNameJS = function(strFilesNames){
+	return this.JSON.parse(strFilesNames);
+};
+var objAjax = function(fileJS) {
 	this.objs = new XMLHttpRequest();
 	this.objs.onload = function() {
 		if(this.status == 200) {
-			var arrDataJson = JSON.parse(this.responseText); //cargo en un array el contenido del archivo json
-			return arrDataJson;
+			var arrDataJson = JSON.parse(this.responseText);
 		}
 	};
 	this.objs.open("GET", fileJS, true);
 	this.objs.send();
 };
-var Css = {
-	add: function (node, className) {
-    	node.className += " " + className;
-	},
-	del: function (node, className) {
-    	node.className = node.className.replace(className, "");
-	},
-	contains: function (node, className) {
-    	return node.className.search(className) != -1;
-	}
-};
 var App = {
-	dataJS1:[],
-	dataJS2:[],
-	dataJS3:[],
-	obJsLoad1: null,
-	obJsLoad2: null,
-	obJsLoad3: null,
-	textHtml: "",
-	btnJsonSelected: "",
-	generateHTML: function(atributeShow, node, dataJS) {
-		var newContent = "";
-		if (atributeShow === "files") {
-            for (i=0; i < Config.listFileJS.length; i++) {
-                newContent += '<button class="roundButton" onclick="App.managerContentJson(this,'+Config.id_ElementDom[0]+')">'+Config.listFileJS[i]+'</button>';
-            }
-        }
-        else if (atributeShow === "title") { //recorro el contenido del json
-			for (i = 0; i < dataJS.length; i++) {
-					newContent += '<button class="roundButton" onclick="App.managerContentJson(this,'+Config.id_ElementDom[1]+')">'+dataJS[i].title+'</button>';
-			}
-		}
-        else if (atributeShow === "img") { //recorro el contenido del json
-			for (i = 0; i < dataJS.length; i++) {
-				if (node.textContent === dataJS[i].title) {
-					newContent += '<img src = "'+ dataJS[i].img +'" class="clsImg" onclick="App.imageClick("'+dataJS[i].dest+'")"></img>';
-				}
-			}
-        }
-		return newContent;
-	},
-	showHTML: function(idElement, txtHtml) {
-		document.getElementById(idElement).innerHTML = txtHtml;
-	},
-	clearImg: function(className) {
-		var imgExists = document.getElementById(Config.id_ElementDom[2]);
-		while (imgExists.firstChild) {
-			imgExists.removeChild(imgExists.firstChild);
-		}
-	},
-	managerSelectedButton: function(idDiv, className, node) {
-		var buttonSel;
-		if (idDiv.id === Config.id_ElementDom[0]){
-			buttonSel = document.getElementById(Config.id_ElementDom[0]).getElementsByClassName(className)[0];
-			if (buttonSel && Css.contains(buttonSel, className)) {
-				Css.del(buttonSel,className);
-			}
-			Css.add(node,className);
-		}
-        else if (idDiv.id === Config.id_ElementDom[1]) {
-			buttonSel = document.getElementById(Config.id_ElementDom[1]).getElementsByClassName(className)[0];
-			if (buttonSel && Css.contains(buttonSel, className)) {
-				Css.del(buttonSel,className);
-			}
-			Css.add(node,className);
-		}
-	},
-	managerChildsElementDivs: function(node, idDiv, dataJS) {
-		if (idDiv.id === Config.id_ElementDom[0]) {
-			App.textHtml = App.generateHTML("title", node, dataJS);
-			App.showHTML(Config.id_ElementDom[1],App.textHtml);
-		}
-		else if (idDiv.id === Config.id_ElementDom[1]) {
-			App.textHtml = App.generateHTML("img", node, dataJS);
-			App.showHTML(Config.id_ElementDom[2],App.textHtml);
-		}
-
-	},
-	managerContentJson: function(node,idDiv) {
-		var className = "Buttonselected"
-        App.managerSelectedButton(idDiv, className, node);
-		App.clearImg("clsImg");
-		if (node.textContent === Config.listFileJS[0]) {
-			if (App.dataJS1.length == 0) {
-				App.dataJS1 = App.obJsLoad1.objs.onload();
-			}
-			App.managerChildsElementDivs(node, idDiv, App.dataJS1);
-			App.btnJsonSelected = Config.listFileJS[0];
-		}
-		else if (node.textContent === Config.listFileJS[1]) {
-			if (App.dataJS2.length == 0) {
-				App.dataJS2 = App.obJsLoad2.objs.onload();
-			}
-			App.managerChildsElementDivs(node, idDiv, App.dataJS2);
-			App.btnJsonSelected = Config.listFileJS[1];
-		}
-		else if (node.textContent === Config.listFileJS[2]) {
-			if (App.dataJS3.length == 0) {
-				App.dataJS3 = App.obJsLoad3.objs.onload();
-			}
-			App.managerChildsElementDivs(node, idDiv, App.dataJS3);
-			App.btnJsonSelected = Config.listFileJS[2];
-		}
-		else if (App.btnJsonSelected === Config.listFileJS[0]) {
-			App.managerChildsElementDivs(node, idDiv, App.dataJS1);
-		}
-		else if (App.btnJsonSelected === Config.listFileJS[1]) {
-			App.managerChildsElementDivs(node, idDiv, App.dataJS2);
-		}
-		else if (App.btnJsonSelected === Config.listFileJS[2]) {
-			App.managerChildsElementDivs(node, idDiv, App.dataJS3);
-		}
-	},
-	imageClick: function(url) {
-		window.location.assign = url;
-	},
 	init: function(){
-		//show files json exists in html
-		App.textHtml = App.generateHTML("files",null, null);
-		App.showHTML(Config.id_ElementDom[0], App.textHtml);
-        //instancio objetos json
-		App.obJsLoad1 = new JsonData(Config.listFileJS[0]);
-		App.obJsLoad2 = new JsonData(Config.listFileJS[1]);
-		App.obJsLoad3 = new JsonData(Config.listFileJS[2]);
+		var objList = listFilesNameJS(filesNamesJS);
+		var pathFile = config.path + objList.filesJS["0"].name + ".json";
+		objAjax(pathFile);
 	}
 };
