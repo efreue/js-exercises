@@ -6,14 +6,14 @@ var getUrl = function(id) {
     var url = config.path + id + ".json"
     return url
 };
-var getListUrls = function() {
-	var listUrls=[];
-	var url = "";
+var getListFiles = function() {
+	var listFiles=[];
+	var file = "";
 	for(i=1; i <= 30; i++) {
-		url = config.path + i + ".json";
-		listUrls.push(url);
+		file = "data-" + i + ".json";
+		listFiles.push(file);
 	}
-	return listUrls;
+	return listFiles;
 }
 var Css = {
 	add: function(node, className) {
@@ -40,10 +40,11 @@ var objAjax = function(fileJS) {
 	this.objs.open("GET", fileJS, true);
 	this.objs.send();
 };
-
 var App = {
 	textHtml: "",
 	loadListUrls: true,
+	btnJsonSelected: "",
+	divParentBtnSelected: "",
 	modifyingElement: function(node, atributeShow, statusAjax) {
 		if (atributeShow === 'showStatus') {
 			if(Css.contains(node, "textHidden")) {
@@ -70,8 +71,12 @@ var App = {
 		var newContent = "";
 		if (atributeShow === "loadUrls") {
 			if (node.length > 0) {
+				var x=0;
 				for (i=0; i < node.length; i++) {
-                	newContent += '<button class="roundButton" onclick="App.managerContentJson(this,'+config.id_ElementDom[0]+')">'+node[i]+'</button>';
+					x=i+1;
+                	newContent += '<button class="roundButton"'
+					newContent += 'onclick="App.selectUrl('+x+',this)">'
+					newContent += node[i]+'</button>';
             	}
 			}
         }
@@ -83,15 +88,21 @@ var App = {
     processingData: function(statusRequest, dataJS) {
         App.showStatusAjax (statusRequest);
 		if(App.loadListUrls == true) {
-			var listUrls = getListUrls();
+			var listUrls = getListFiles();
 			App.textHtml = App.generateHTML("loadUrls",listUrls,null);
 			App.showHTML(config.id_ElementDom[0],App.textHtml);
 			App.loadListUrls = false;
 		}
-
     },
-    init: function() {
-		var url = getUrl("1");
+	selectUrl: function(id, node) {
+		var url = getUrl(id);
         objAjax(url, true);
+		App.btnJsonSelected = node.textContent;
+		App.divParentBtnSelected = node.parentNode.id;
+		console.log(App.btnJsonSelected);
+		console.log(App.divParentBtnSelected);
+	},
+    init: function() {
+		App.selectUrl("1",null);
 	}
 };
