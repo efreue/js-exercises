@@ -1,20 +1,11 @@
-var config = {
-	path: "./data/data-",
-	id_ElementDom: ["listJson", "containJson","imgJson"]
+var Config = {
+	path: "./data/data-"
 };
-var getUrl = function(id) {
-    var url = config.path + id + ".json"
-    return url
+var Url = function() {
+	this.id="",
+	this.name= "",
+	this.path= ""
 };
-var getListFiles = function() {
-	var listFiles=[];
-	var file = "";
-	for(i=1; i <= 30; i++) {
-		file = "data-" + i + ".json";
-		listFiles.push(file);
-	}
-	return listFiles;
-}
 var Css = {
 	add: function(node, className) {
     	node.className += " " + className
@@ -26,83 +17,70 @@ var Css = {
     	return node.className.search(className) != -1
 	}
 };
-var objAjax = function(fileJS) {
+var objAjax = function(fileJS, getFileDataJS, getStatusHttp) {
 	this.objs = new XMLHttpRequest();
 	this.objs.onload = function() {
 		if(this.status == 200) {
-			var arrDataJson = JSON.parse(this.responseText);
-			App.processingData(this.status, arrDataJson);
+			getFileDataJS(this.responseText);
 		}
-        else {
-           App.showStatusAjax(this.status);
-        }
+		getStatusHttp(this.status);
 	};
+	getStatusHttp(this.status);
 	this.objs.open("GET", fileJS, true);
 	this.objs.send();
 };
 var App = {
-	textHtml: "",
-	loadListUrls: true,
-	btnJsonSelected: "",
-	divParentBtnSelected: "",
-	modifyingElement: function(node, atributeShow, statusAjax) {
-		if (atributeShow === 'showStatus') {
+	getInformationServer: function() {
+		var listUrls=[];
+		var objData = new Url();
+		for(var i=1; i <= 30; i++) {
+			objData.id= i
+			objData.name= "data-" + i
+			objData.path= Config.path + i + ".json"
+			listUrls.push(objData)
+		}
+		return listUrls;
+	},
+	showHTML: function(idElement, txtHtml) {
+		document.getElementById(idElement).innerHTML = txtHtml;
+	},
+	hiddeStatus: function(status, node) {
+		if (status === 200) {
+			if(!Css.contains(node, "textHidden")) {
+				Css.add(node, "textHidden");
+			}
+		}
+		else {
 			if(Css.contains(node, "textHidden")) {
 				Css.del(node, "textHidden");
 			}
-			node.innerHTML = statusAjax;
 		}
 	},
-	showStatusAjax: function(statusRequest) {
-        var nodes = document.body.getElementsByClassName("styleText");
+	getStatusHttp: function(statusRequest) {
+		var nodes = document.body.getElementsByClassName("styleText");
         var textStatus = "Loading...";
 		if (statusRequest != 200) {
 			if (statusRequest != 0) {
 				textStatus = "Error loading page";
 			}
 		}
-        if (nodes.length > 0) {
+		if (nodes.length > 0) {
 			for(var i=0; i < nodes.length; i++) {
-          		App.modifyingElement(nodes[i], "showStatus", textStatus);
+          		App.hiddeStatus(statusRequest, nodes[i]);
+				App.showHTML(nodes[i].parentNode.id, textStatus);
 			}
         }
     },
-	generateHTML: function(atributeShow, node, dataJS) {
-		var newContent = "";
-		if (atributeShow === "loadUrls") {
-			if (node.length > 0) {
-				var x=0;
-				for (i=0; i < node.length; i++) {
-					x=i+1;
-                	newContent += '<button class="roundButton"'
-					newContent += 'onclick="App.selectUrl('+x+',this)">'
-					newContent += node[i]+'</button>';
-            	}
-			}
-        }
-		return newContent;
-	},
-	showHTML: function(idElement, txtHtml) {
-		document.getElementById(idElement).innerHTML = txtHtml;
-	},
-    processingData: function(statusRequest, dataJS) {
-        App.showStatusAjax (statusRequest);
-		if(App.loadListUrls == true) {
-			var listUrls = getListFiles();
-			App.textHtml = App.generateHTML("loadUrls",listUrls,null);
-			App.showHTML(config.id_ElementDom[0],App.textHtml);
-			App.loadListUrls = false;
+	getFileDataJS: function(text) {
+		var arrDataJson = JSON.parse(text);
+		if (arrDataJson.length > 0)
+		{
+			console.log(arrDataJson["0"].title);
 		}
-    },
-	selectUrl: function(id, node) {
-		var url = getUrl(id);
-        objAjax(url, true);
-		App.btnJsonSelected = node.textContent;
-		App.divParentBtnSelected = node.parentNode.id;
-		console.log(App.btnJsonSelected);
-		console.log(App.divParentBtnSelected);
+
 	},
-    init: function() {
-		App.selectUrl("1",null);
+	init: function() {
+		var urls = App.getInformationServer();
+		objAjax(urls["0"].path, App.getFileDataJS, App.getStatusHttp);
 	}
 };
