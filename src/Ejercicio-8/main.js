@@ -44,6 +44,7 @@ var App = {
 	showHTML: function(idElement, txtHtml) {
 		document.getElementById(idElement).innerHTML = txtHtml;
 	},
+
 	hiddeStatus: function(status, node) {
 		if (status === 200) {
 			if(!Css.contains(node, "textHidden")) {
@@ -56,9 +57,18 @@ var App = {
 			}
 		}
 	},
+	getFileDataJS: function(text) {
+		var arrDataJson = JSON.parse(text);
+		if (arrDataJson.length > 0)
+		{
+			//return arrDataJson;
+			console.log(arrDataJson["0"].title);
+		}
+
+	},
 	getStatusHttp: function(statusRequest) {
 		var nodes = document.body.getElementsByClassName("styleText");
-        var textStatus = "Loading...";
+		var textStatus = "Loading...";
 		if (statusRequest != 200) {
 			if (statusRequest != 0) {
 				textStatus = "Error loading page";
@@ -66,18 +76,10 @@ var App = {
 		}
 		if (nodes.length > 0) {
 			for(var i=0; i < nodes.length; i++) {
-          		App.hiddeStatus(statusRequest, nodes[i]);
-				App.showHTML(nodes[i].parentNode.id, textStatus);
+				App.hiddeStatus(statusRequest, nodes[i]);
+				App.showHTML(nodes[i].id, textStatus);
 			}
-        }
-    },
-	getFileDataJS: function(text) {
-		var arrDataJson = JSON.parse(text);
-		if (arrDataJson.length > 0)
-		{
-			console.log(arrDataJson["0"].title);
 		}
-
 	},
 	init: function() {
 		var urls = App.getInformationServer();
