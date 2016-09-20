@@ -1,10 +1,19 @@
 var Config = {
-	path: "./data/data-"
+	path: "./data/data-",
+	id_ElementDom: ["listJson", "containJson","imgJson"]
 };
-var Url = function() {
-	this.id="",
-	this.name= "",
-	this.path= ""
+var getUrl = function(id) {
+    var url = Config.path + id + ".json"
+    return url
+};
+var getListUrls = function() {
+	var listUrls=[];
+	var url = "";
+	for(i=1; i <= 30; i++) {
+		url = "data-" + i + ".json";
+		listUrls.push(url);
+	}
+	return listUrls;
 };
 var Css = {
 	add: function(node, className) {
@@ -17,30 +26,27 @@ var Css = {
     	return node.className.search(className) != -1
 	}
 };
-var objAjax = function(fileJS, getFileDataJS, getStatusHttp) {
+var objAjax = function(listUrl, getUrl, idUrlFind, atributeShow, node, getFileDataJS, getStatusHttp, generateHTML, showHTML) {
+	this.fileJS = getUrl(idUrlFind);
 	this.objs = new XMLHttpRequest();
 	this.objs.onload = function() {
 		if(this.status == 200) {
-			getFileDataJS(this.responseText);
+			this.dataJS = getFileDataJS(this.responseText);
+			if(atributeShow === "files") {
+				this.textHTML = generateHTML("files", node, listUrl);
+			}
+			getStatusHttp(this.status);
+			showHTML(Config.id_ElementDom[0],this.textHTML);
 		}
-		getStatusHttp(this.status);
+		else {
+			getStatusHttp(this.status);
+		}
 	};
 	getStatusHttp(this.status);
-	this.objs.open("GET", fileJS, true);
+	this.objs.open("GET", this.fileJS, true);
 	this.objs.send();
 };
 var App = {
-	getInformationServer: function() {
-		var listUrls=[];
-		var objData = new Url();
-		for(var i=1; i <= 30; i++) {
-			objData.id= i
-			objData.name= "data-" + i
-			objData.path= Config.path + i + ".json"
-			listUrls.push(objData)
-		}
-		return listUrls;
-	},
 	showHTML: function(idElement, txtHtml) {
 		document.getElementById(idElement).innerHTML = txtHtml;
 	},
@@ -61,8 +67,7 @@ var App = {
 		var arrDataJson = JSON.parse(text);
 		if (arrDataJson.length > 0)
 		{
-			//return arrDataJson;
-			console.log(arrDataJson["0"].title);
+			return arrDataJson;
 		}
 
 	},
@@ -81,8 +86,24 @@ var App = {
 			}
 		}
 	},
+	generateHTML: function(atributeShow, node, dataJS) {
+		var newContent = "";
+		if (atributeShow === "files") {
+            for (i=0; i < dataJS.length; i++) {
+				newContent += '<button class="roundButton"'
+				newContent += 'onclick="App.contentLogic('+i+',this)">'
+				newContent += dataJS[i]+'</button>';
+            }
+        }
+        return newContent;
+	},
+	contentLogic: function(idUrlFind, atributeShow, node) {
+		var listUrl = getListUrls();
+		objAjax(listUrl, getUrl, idUrlFind, atributeShow, node, App.getFileDataJS, App.getStatusHttp, App.generateHTML, App.showHTML);
+	},
 	init: function() {
-		var urls = App.getInformationServer();
-		objAjax(urls["0"].path, App.getFileDataJS, App.getStatusHttp);
+		var atributeShow= "files";
+		var node = null;
+		App.contentLogic("1", atributeShow, node);
 	}
 };
