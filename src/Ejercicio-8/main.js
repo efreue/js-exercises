@@ -1,15 +1,6 @@
 var Config = {
 	path: "./data/",
-	fileNameSelected: "",
-	divIdSelected: ""
-};
-
-var setFileNameJsSelected = function(fileNameJs) {
-	Config.fileNameSelected = fileNameJs;
-};
-
-var setDivIdSelected = function(divId) {
-	Config.divIdSelected = divId;
+	parentFileNameSelected: ""
 };
 
 var getListNameFileJS = function() {
@@ -22,55 +13,72 @@ var getListNameFileJS = function() {
 	return listFile;
 };
 
-var getFirstNameFileJS = function(getListNameFileJS) {
-	var listFile = getListNameFileJS();
-	var fileName = "";
-	if(listFile.length > 0){
-		fileName = listFile[1];
-	}
-	return listFile;
-};
 
 var getURL = function(fileName, path) {
 	var url = path + fileName;
     return url;
 };
 
-var getDataJS = function(fileName, divId, text) {
+var generateHTMLDataJS = function(parentFileName, fileNameSel, divIdSel, dataJS) {
+	var newContent = "";
+	var divIdShow = ""
+	if (divIdSel === "listJson") {
+		divIdShow = "containJson";
+		for (i=0; i < dataJS.length; i++) {
+			newContent += '<button class="roundButton"';
+			newContent += 'onclick=generateHttpRequest("'+parentFileName+'","'+dataJS[i].title+'",';
+			newContent += '"'+divIdShow+'","'+Config.path+'",getURL,getDataJS)>';
+			newContent += dataJS[i].title+'</button>';
+		}
+	}
+	if (divIdSel === "containJson") {
+		divIdShow = "imgJson";
+		for (i=0; i < dataJS.length; i++) {
+			if(fileNameSel === dataJS[i].title) {
+				newContent += '<img src = "'+ dataJS[i].img.toString() +'"';
+				newContent += 'class="clsImg" onclick="imageClick("'+dataJS[i].dest.toString()+'")"></img>';
+			}
+		}
+	}
+	showHTML(divIdShow, newContent);
+};
+
+
+var getDataJS = function(parentFileName, fileName, divId, text) {
 	var arrDataJson = JSON.parse(text);
 	if (arrDataJson.length > 0)
 	{
-		console.log(arrDataJson["1"].title);
-		console.log(fileName);
-		console.log(divId);
-		//getHTMLDataJS(arrDataJson);
+		if (divId === "listJson") {
+			Config.parentFileNameSelected = fileName;
+		}
+		generateHTMLDataJS(parentFileName, fileName, divId, arrDataJson);
 	}
 };
 
-var generateHttpRequest = function(fileName, divId, path, getURL, getDataJS) {
-	var url = getURL(fileName, path);
+
+var generateHttpRequest = function(parentFileName, fileName, divId, path, getURL, getDataJS) {
+	var url = getURL(parentFileName, path);
 	var objs = new XMLHttpRequest();
 	objs.onload = function() {
 		if(this.status == 200) {
-			getDataJS(fileName, divId, this.responseText);
+			getDataJS(parentFileName, fileName, divId, this.responseText);
 		}
 	};
 	objs.open("GET", url, true);
 	objs.send();
 };
 
-var showHTML = function(textHTML){
-	if(Config.divIdSelected ==="listJson") {
-		document.getElementById("listJson").innerHTML = textHTML;
-	}
-}
+var showHTML = function(divIdSelected, textHTML){
+	document.getElementById(divIdSelected).innerHTML = textHTML;
+};
+
 
 var getHTMLListFileNameJS = function(getListNameFileJS) {
-	var newContent = "";
+	var newContent = ""
 	var listFiles = getListNameFileJS();
 	for (i=0; i < listFiles.length; i++) {
 		newContent += '<button class="roundButton"';
-		newContent += 'onclick=generateHttpRequest("'+listFiles[i]+'",';
+		newContent += 'onclick=generateHttpRequest("'+listFiles[i]+'","'+listFiles[i]+'",';
 		newContent += '"listJson","'+Config.path+'",getURL,getDataJS)>';
 		newContent += listFiles[i]+'</button>';
 	}
@@ -80,8 +88,7 @@ var getHTMLListFileNameJS = function(getListNameFileJS) {
 var App = {
 	init: function() {
 		var HTMLText = getHTMLListFileNameJS(getListNameFileJS);
-		setFileNameJsSelected(getFirstNameFileJS);
-		setDivIdSelected("listJson");
-		showHTML(HTMLText);
+		var divIdSelected = "listJson";
+		showHTML(divIdSelected, HTMLText);
 	}
-}
+};
