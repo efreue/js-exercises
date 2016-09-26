@@ -1,9 +1,9 @@
 var Config = {
 	path: "./data/",
-	parentFileNameSelected: ""
+	initialize: false
 };
 
-var getListNameFileJS = function() {
+var getListFileNameJS = function() {
 	var listFile=[];
 	var file = "";
 	for(i=1; i <= 30; i++) {
@@ -11,6 +11,49 @@ var getListNameFileJS = function() {
 		listFile.push(file);
 	}
 	return listFile;
+};
+
+var Css = {
+	add: function(node, className) {
+    	node.className += " " + className;
+	},
+	del: function(node, className) {
+    	node.className = node.className.replace(className, "");
+	},
+	contains: function(node, className) {
+    	return node.className.search(className) != -1;
+	}
+};
+
+
+
+var selectedButton = function(divIdSel, buttonParam) {
+	var className = "Buttonselected";
+	var findButtonParam = false;
+	var buttonSel = document.getElementById(divIdSel).getElementsByClassName(className)[0];
+	var nodes = document.getElementById(divIdSel).getElementsByClassName("roundButton");
+	if (buttonSel && Css.contains(buttonSel, className)) {
+		Css.del(buttonSel,className);
+	}
+	for(i=0; i < nodes.length; i++) {
+		if(nodes[i].textContent === buttonParam) {
+			findButtonParam = true
+			Css.add(nodes[i],className);
+		}
+	}
+	if (Config.initialize == false) {
+		if(findButtonParam == false) {
+			Css.add(nodes["0"],className);
+		}
+		nodes[0].click();
+	}
+};
+
+var getFirstFileNameJS = function() {
+	var FileName="";
+	var i = 1;
+	FileName = "data-" + i + ".json";
+	return FileName;
 };
 
 
@@ -23,6 +66,7 @@ var generateHTMLDataJS = function(parentFileName, fileNameSel, divIdSel, dataJS)
 	var newContent = "";
 	var divIdShow = ""
 	if (divIdSel === "listJson") {
+		selectedButton(divIdSel, fileNameSel);
 		divIdShow = "containJson";
 		for (i=0; i < dataJS.length; i++) {
 			newContent += '<button class="roundButton"';
@@ -35,26 +79,23 @@ var generateHTMLDataJS = function(parentFileName, fileNameSel, divIdSel, dataJS)
 		divIdShow = "imgJson";
 		for (i=0; i < dataJS.length; i++) {
 			if(fileNameSel === dataJS[i].title) {
-				newContent += '<img src = "'+ dataJS[i].img.toString() +'"';
-				newContent += 'class="clsImg" onclick="imageClick("'+dataJS[i].dest.toString()+'")"></img>';
+				newContent += '<img src = "'+ dataJS[i].img.toString() +'" ';
+				newContent += 'class="clsImg" onclick=imageClick("'+dataJS[i].dest+'")>';
+				newContent += '</img>';
 			}
 		}
 	}
-	showHTML(divIdShow, newContent);
+	showHTML(divIdShow, newContent, fileNameSel);
+	Config.initialize = true;
 };
-
 
 var getDataJS = function(parentFileName, fileName, divId, text) {
 	var arrDataJson = JSON.parse(text);
 	if (arrDataJson.length > 0)
 	{
-		if (divId === "listJson") {
-			Config.parentFileNameSelected = fileName;
-		}
 		generateHTMLDataJS(parentFileName, fileName, divId, arrDataJson);
 	}
 };
-
 
 var generateHttpRequest = function(parentFileName, fileName, divId, path, getURL, getDataJS) {
 	var url = getURL(parentFileName, path);
@@ -68,14 +109,15 @@ var generateHttpRequest = function(parentFileName, fileName, divId, path, getURL
 	objs.send();
 };
 
-var showHTML = function(divIdSelected, textHTML){
+var showHTML = function(divIdSelected, textHTML, fileNameSel){
 	document.getElementById(divIdSelected).innerHTML = textHTML;
+	selectedButton(divIdSelected, fileNameSel);
 };
 
 
-var getHTMLListFileNameJS = function(getListNameFileJS) {
+var getHTMLListFileNameJS = function(getListFileNameJS) {
 	var newContent = ""
-	var listFiles = getListNameFileJS();
+	var listFiles = getListFileNameJS();
 	for (i=0; i < listFiles.length; i++) {
 		newContent += '<button class="roundButton"';
 		newContent += 'onclick=generateHttpRequest("'+listFiles[i]+'","'+listFiles[i]+'",';
@@ -87,8 +129,10 @@ var getHTMLListFileNameJS = function(getListNameFileJS) {
 
 var App = {
 	init: function() {
-		var HTMLText = getHTMLListFileNameJS(getListNameFileJS);
+		var HTMLText = getHTMLListFileNameJS(getListFileNameJS);
 		var divIdSelected = "listJson";
-		showHTML(divIdSelected, HTMLText);
+		var FirstFileName = getFirstFileNameJS();
+		showHTML(divIdSelected, HTMLText, FirstFileName);
+		generateHttpRequest(FirstFileName, FirstFileName, divIdSelected, Config.path, getURL, getDataJS);
 	}
 };
