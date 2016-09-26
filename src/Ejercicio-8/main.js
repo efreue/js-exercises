@@ -62,11 +62,19 @@ var getURL = function(fileName, path) {
     return url;
 };
 
+var clearImg = function(className) {
+	var imgExists = document.getElementById("imgJson");
+	while (imgExists.firstChild) {
+		imgExists.removeChild(imgExists.firstChild);
+	}
+};
+
 var generateHTMLDataJS = function(parentFileName, fileNameSel, divIdSel, dataJS) {
 	var newContent = "";
 	var divIdShow = ""
 	if (divIdSel === "listJson") {
 		selectedButton(divIdSel, fileNameSel);
+		clearImg("clsImg");
 		divIdShow = "containJson";
 		for (i=0; i < dataJS.length; i++) {
 			newContent += '<button class="roundButton"';
