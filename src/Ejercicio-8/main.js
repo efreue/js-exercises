@@ -25,7 +25,14 @@ var Css = {
 	}
 };
 
-
+var hiddeStatus = function(className, divIdSel) {
+	var node = document.getElementById(divIdSel).getElementsByClassName("styleText")[0];
+	if(node) {
+		if(!Css.contains(node, className)) {
+			Css.add(node, className);
+		}
+	};
+};
 
 var selectedButton = function(divIdSel, buttonParam) {
 	var className = "Buttonselected";
@@ -69,11 +76,20 @@ var clearImg = function(className) {
 	}
 };
 
+var clearContainer = function(className) {
+	var imgExists = document.getElementById("containJson");
+	while (imgExists.firstChild) {
+		imgExists.removeChild(imgExists.firstChild);
+	}
+	imgExists.innerHTML='<p id="l2" class="styleText">Loading...</p>'
+};
+
 var generateHTMLDataJS = function(parentFileName, fileNameSel, divIdSel, dataJS) {
 	var newContent = "";
 	var divIdShow = ""
 	if (divIdSel === "listJson") {
 		selectedButton(divIdSel, fileNameSel);
+		clearContainer("containJson");
 		clearImg("clsImg");
 		divIdShow = "containJson";
 		for (i=0; i < dataJS.length; i++) {
@@ -84,6 +100,7 @@ var generateHTMLDataJS = function(parentFileName, fileNameSel, divIdSel, dataJS)
 		}
 	}
 	if (divIdSel === "containJson") {
+		selectedButton(divIdSel, fileNameSel);
 		divIdShow = "imgJson";
 		for (i=0; i < dataJS.length; i++) {
 			if(fileNameSel === dataJS[i].title) {
@@ -117,7 +134,9 @@ var generateHttpRequest = function(parentFileName, fileName, divId, path, getURL
 	objs.send();
 };
 
+
 var showHTML = function(divIdSelected, textHTML, fileNameSel){
+	hiddeStatus("textHidden",divIdSelected);
 	document.getElementById(divIdSelected).innerHTML = textHTML;
 	selectedButton(divIdSelected, fileNameSel);
 };
