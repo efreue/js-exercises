@@ -93,9 +93,9 @@ var generateHTMLDataJS = function(parentFileName, fileNameSel, divIdSel, dataJS)
 		clearImg("clsImg");
 		divIdShow = "containJson";
 		for (i=0; i < dataJS.length; i++) {
-			newContent += '<button class="roundButton"';
-			newContent += 'onclick=generateHttpRequest("'+parentFileName+'","'+dataJS[i].title+'",';
-			newContent += '"'+divIdShow+'","'+Config.path+'",getURL,getDataJS)>';
+			newContent += '<button class="roundButton" ';
+			newContent += 'onclick="generateHttpRequest(\''+parentFileName+'\',\''+dataJS[i].title+'\',';
+			newContent += '\''+divIdShow+'\',\''+Config.path+'\',getURL,getDataJS)">';
 			newContent += dataJS[i].title+'</button>';
 		}
 	}
@@ -105,7 +105,7 @@ var generateHTMLDataJS = function(parentFileName, fileNameSel, divIdSel, dataJS)
 		for (i=0; i < dataJS.length; i++) {
 			if(fileNameSel === dataJS[i].title) {
 				newContent += '<img src = "'+ dataJS[i].img.toString() +'" ';
-				newContent += 'class="clsImg" onclick=imageClick("'+dataJS[i].dest+'")>';
+				newContent += 'class="clsImg" onclick="imageClick(\''+dataJS[i].dest+'\')">';
 				newContent += '</img>';
 			}
 		}
@@ -146,9 +146,9 @@ var getHTMLListFileNameJS = function(getListFileNameJS) {
 	var newContent = ""
 	var listFiles = getListFileNameJS();
 	for (i=0; i < listFiles.length; i++) {
-		newContent += '<button class="roundButton"';
-		newContent += 'onclick=generateHttpRequest("'+listFiles[i]+'","'+listFiles[i]+'",';
-		newContent += '"listJson","'+Config.path+'",getURL,getDataJS)>';
+		newContent += '<button class="roundButton" ';
+		newContent += 'onclick="generateHttpRequest(\''+listFiles[i]+'\',\''+listFiles[i]+'\',';
+		newContent += '\'listJson\',\''+Config.path+'\',getURL,getDataJS)">';
 		newContent += listFiles[i]+'</button>';
 	}
 	return newContent;
