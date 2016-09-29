@@ -13,10 +13,6 @@ var callServer = function(url, callback) {
 	ajax.send();
 };
 
-var listUrl = function() {
-
-};
-
 var App = {
 	listFileServer: function(){
 		var listFile=[];
@@ -27,12 +23,12 @@ var App = {
 		}
 		return listFile;
 	},
-	init: function(){
+   init: function(){
 		var listFiles = this.listFileServer();
 		var url = Config.path + listFiles[0];
-		callServer(url,
-				   function(data) {
-					alert(data["0"].title);
-					});
+		callServer(url, function(data) {
+					       alert(data["0"].title);
+					   }
+                  );
 	}
 };
