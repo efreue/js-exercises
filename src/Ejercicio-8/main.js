@@ -25,7 +25,7 @@ var Css = {
 	}
 };
 
-var App = {
+var Json = {
 	getListFileNameJson: function(){
 		var listFile = [];
 		var file = "";
@@ -44,7 +44,10 @@ var App = {
 			listTitle.push(data[i].title);
 		}
 		return listTitle;
-	},
+	}
+};
+
+var Html = {
 	createButtonHtml: function(data) {
 		var listButtons = [];
 		for(i = 0; i < data.length; i++) {
@@ -60,13 +63,16 @@ var App = {
 		for(i = 0; i < data.length; i++) {
 			document.getElementById("listJson").appendChild(data[i]);
 		}
-	},
-   init: function(){
-		var listFiles = this.getListFileNameJson();
-		var url = App.getUrl(Config.path, listFiles[0]);
+	}
+};
+
+var App = {
+	   init: function(){
+		var listFiles = Json.getListFileNameJson();
+		var url = Json.getUrl(Config.path, listFiles[0]);
 		httpRequest(url, function(data) {
-			App.showDataInDiv1(
-				App.createButtonHtml(App.getTitleData(data)));
+			.showDataInDiv1(
+				Html.createButtonHtml(Json.getTitleData(data)));
 		});
 	}
 };
