@@ -63,16 +63,22 @@ var Html = {
 		for(i = 0; i < data.length; i++) {
 			document.getElementById("listJson").appendChild(data[i]);
 		}
+	},
+	selectedFirstButtonDiv1: function() {
+		var className = "Buttonselected";
+		var buttonSel = document.getElementById("listJson").getElementsByClassName("roundButton")[0];
+		Css.add(buttonSel,className);
 	}
 };
 
 var App = {
-	   init: function(){
+	init: function() {
 		var listFiles = Json.getListFileNameJson();
 		var url = Json.getUrl(Config.path, listFiles[0]);
 		httpRequest(url, function(data) {
-			.showDataInDiv1(
+			Html.showDataInDiv1(
 				Html.createButtonHtml(Json.getTitleData(data)));
+			Html.selectedFirstButtonDiv1();
 		});
 	}
 };
