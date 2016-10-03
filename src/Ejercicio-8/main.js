@@ -1,5 +1,8 @@
 var Config = {
-	path: "./data/"
+	path: "./data/",
+    parentDiv1: "listJson",
+    parentDiv2: "containJson",
+    parentDiv3: "imgJson"
 };
 
 var httpRequest = function(url, callback) {
@@ -59,16 +62,19 @@ var Html = {
 		}
 		return listButtons;
 	},
-	showDataInDiv1: function(data) {
+	showDataInDiv: function(parentDiv, data) {
 		for(i = 0; i < data.length; i++) {
-			document.getElementById("listJson").appendChild(data[i]);
+			document.getElementById(parentDiv).appendChild(data[i]);
 		}
 	},
-	selectedFirstButtonDiv1: function() {
-		var className = "Buttonselected";
-		var buttonSel = document.getElementById("listJson").getElementsByClassName("roundButton")[0];
-		Css.add(buttonSel,className);
-	}
+    hiddeStatus: function(parentDiv, className) {
+        var node = document.getElementById(parentDiv).getElementsByClassName("styleText")[0];
+        if(node) {
+            if(!Css.contains(node, className)) {
+                Css.add(node, className);
+            }
+        }
+    }
 };
 
 var App = {
@@ -76,9 +82,10 @@ var App = {
 		var listFiles = Json.getListFileNameJson();
 		var url = Json.getUrl(Config.path, listFiles[0]);
 		httpRequest(url, function(data) {
-			Html.showDataInDiv1(
-				Html.createButtonHtml(Json.getTitleData(data)));
-			Html.selectedFirstButtonDiv1();
+			Html.hiddeStatus(Config.parentDiv1,"textHidden");
+            Html.showDataInDiv(Config.parentDiv1,
+				Html.createButtonHtml(Json.getTitleData(data))
+            );
 		});
 	}
 };
