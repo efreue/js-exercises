@@ -102,7 +102,7 @@ var Html = {
 };
 
 var ManagerStateHttp = {
-	createStatus: function(parentDiv) {
+	showStatus: function(parentDiv) {
 		var element = document.getElementById(parentDiv);
 		var child = document.createElement("p");
 		var txt = document.createTextNode("Loading...");
@@ -137,7 +137,7 @@ var Div = {
 		if (elementSelected != null)
 			fileJson = elementSelected;
 		var url = Json.getUrl(Config.path, fileJson);
-		ManagerStateHttp.createStatus(Config.parentDiv1);
+		ManagerStateHttp.showStatus(Config.parentDiv1);
 		httpRequest(url, function(data) {
 			if (elementSelected != null) {
 				Div.managerData(Json.getTitleData(data, elementSelected), Json.getListTitleData(data));
@@ -151,6 +151,5 @@ var Div = {
 var App = {
 	init: function() {
 		Div.obtaingData(Config.parentDiv1,null);
-
 	}
 };
