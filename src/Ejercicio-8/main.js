@@ -88,7 +88,17 @@ var Html = {
 				Css.add(listbuttons[i],className);
 			}
 		}
-	}
+	}/*,
+	addOnClick: function(parentDiv) {
+		var listButtons = [];
+		if (parentDiv === Config.parentDiv1 || parentDiv === Config.parentDiv2)
+			listButtons = document.getElementById(parentDiv).getElementsByClassName("roundButton");
+		for (i = 0; i < listButtons.length; i++) {
+			listButtons[i].onclick = function(this) {
+				Div.obtaingData(parentDiv, this);
+			}
+		}
+	}*/
 };
 
 var ManagerStateHttp = {
@@ -119,6 +129,7 @@ var Div = {
 		Div.clearData(Config.parentDiv1);
 		Div.showData(Config.parentDiv1,	Html.createButtonHtml(data));
 		Html.selectedButton(Config.parentDiv1, elementSelected[0]);
+		//Html.addOnClick(Config.parentDiv1);
 	},
 	obtaingData: function(parentDiv, elementSelected) {
 		var listFiles = Json.getListFileNameJson();
@@ -140,5 +151,6 @@ var Div = {
 var App = {
 	init: function() {
 		Div.obtaingData(Config.parentDiv1,null);
+
 	}
 };
