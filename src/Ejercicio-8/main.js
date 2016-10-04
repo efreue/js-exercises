@@ -47,6 +47,12 @@ var Json = {
 			listTitle.push(data[i].title);
 		}
 		return listTitle;
+	},
+	getFirstTitleData: function(data) {
+		var firstTitle = [];
+		var i = 0;
+		firstTitle.push(data[i].title);
+		return firstTitle;
 	}
 };
 
@@ -62,30 +68,59 @@ var Html = {
 		}
 		return listButtons;
 	},
-	showDataInDiv: function(parentDiv, data) {
+	selectedButton: function(parentDiv, buttonSel) {
+		var className = "Buttonselected";
+		var listbuttons = document.getElementById(parentDiv).getElementsByClassName("roundButton");
+		var lastButtonSel = document.getElementById(parentDiv).getElementsByClassName(className)[0];
+		if (lastButtonSel && Css.contains(lastButtonSel, className)) {
+			Css.del(lastButtonSel,className);
+		}
+		for(i=0; i < listbuttons.length; i++) {
+			if(listbuttons[i].textContent === buttonSel) {
+				Css.add(listbuttons[i],className);
+			}
+		}
+	}
+};
+
+var ManagerStateHttp = {
+	createStatus: function(parentDiv) {
+		var element = document.getElementById(parentDiv);
+		var child = document.createElement("p");
+		var txt = document.createTextNode("Loading...");
+		child.id = "l1";
+		child.className = "styleText";
+		child.appendChild(txt);
+		element.appendChild(child);
+	}
+};
+
+var Div = {
+	showData: function (parentDiv, data) {
 		for(i = 0; i < data.length; i++) {
 			document.getElementById(parentDiv).appendChild(data[i]);
 		}
 	},
-    hiddeStatus: function(parentDiv, className) {
-        var node = document.getElementById(parentDiv).getElementsByClassName("styleText")[0];
-        if(node) {
-            if(!Css.contains(node, className)) {
-                Css.add(node, className);
-            }
-        }
-    }
+	clearData: function(parentDiv) {
+		var div = document.getElementById(parentDiv);
+		while (div.firstChild) {
+			div.removeChild(div.firstChild);
+		}
+	},
+	managerData: function(elementSelected, data){
+		Div.clearData(Config.parentDiv1);
+		Div.showData(Config.parentDiv1,	Html.createButtonHtml(data));
+		Html.selectedButton(Config.parentDiv1, elementSelected[0]);
+	}
 };
 
 var App = {
 	init: function() {
 		var listFiles = Json.getListFileNameJson();
 		var url = Json.getUrl(Config.path, listFiles[0]);
+		ManagerStateHttp.createStatus(Config.parentDiv1);
 		httpRequest(url, function(data) {
-			Html.hiddeStatus(Config.parentDiv1,"textHidden");
-            Html.showDataInDiv(Config.parentDiv1,
-				Html.createButtonHtml(Json.getTitleData(data))
-            );
+			Div.managerData(Json.getFirstTitleData(data), Json.getTitleData(data));
 		});
 	}
 };
