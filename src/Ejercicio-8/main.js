@@ -41,7 +41,7 @@ var Json = {
 	getUrl: function(path, fileName) {
 		return path + fileName;
 	},
-	getTitleData: function(data) {
+	getListTitleData: function(data) {
 		var listTitle = [];
 		for(var i = 0; i < data.length; i++) {
 			listTitle.push(data[i].title);
@@ -53,6 +53,14 @@ var Json = {
 		var i = 0;
 		firstTitle.push(data[i].title);
 		return firstTitle;
+	},
+	getTitleData: function(data, titleFind) {
+		var titleData = [];
+		for(var i = 0; i < data.length; i++) {
+			if(titleData[i].textContent === titleFind)
+				titleData.push(data[i].title);
+		}
+		return titleData;
 	}
 };
 
@@ -107,20 +115,30 @@ var Div = {
 			div.removeChild(div.firstChild);
 		}
 	},
-	managerData: function(elementSelected, data){
+	managerData: function(elementSelected, data) {
 		Div.clearData(Config.parentDiv1);
 		Div.showData(Config.parentDiv1,	Html.createButtonHtml(data));
 		Html.selectedButton(Config.parentDiv1, elementSelected[0]);
+	},
+	obtaingData: function(parentDiv, elementSelected) {
+		var listFiles = Json.getListFileNameJson();
+		var fileJson = listFiles[0];
+		if (elementSelected != null)
+			fileJson = elementSelected;
+		var url = Json.getUrl(Config.path, fileJson);
+		ManagerStateHttp.createStatus(Config.parentDiv1);
+		httpRequest(url, function(data) {
+			if (elementSelected != null) {
+				Div.managerData(Json.getTitleData(data, elementSelected), Json.getListTitleData(data));
+			} else {
+				Div.managerData(Json.getFirstTitleData(data), Json.getListTitleData(data));
+			}
+		});
 	}
 };
 
 var App = {
 	init: function() {
-		var listFiles = Json.getListFileNameJson();
-		var url = Json.getUrl(Config.path, listFiles[0]);
-		ManagerStateHttp.createStatus(Config.parentDiv1);
-		httpRequest(url, function(data) {
-			Div.managerData(Json.getFirstTitleData(data), Json.getTitleData(data));
-		});
+		Div.obtaingData(Config.parentDiv1,null);
 	}
 };
