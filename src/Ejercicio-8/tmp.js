@@ -12,7 +12,7 @@ var callAfterOneMinute = function(callback) {
     }, 60000);
 };
 
-
+alert("emi");
 
 document.onclick = function() {
 
