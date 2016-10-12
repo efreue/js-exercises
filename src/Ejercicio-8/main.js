@@ -1,8 +1,5 @@
 var Config = {
-	path: "./data/",
-    parentDiv1: "listJson",
-    parentDiv2: "containJson",
-    parentDiv3: "imgJson"
+	path: "./data/"
 };
 
 var Json = {
@@ -78,6 +75,14 @@ var Html = {
 		}
 		return listButtons;
 	},
+    createImg: function(showInDiv, data) {
+        var listImg = [];
+        var element = document.createElement("img");
+        element.setAttribute('src', data.img);
+        Css.add(element,"clsImg");
+        listImg.push(element);
+        return listImg;
+    },
     selectedButton: function(showInDiv, buttonSel) {
 		var className = "Buttonselected";
 		var listbuttons = document.getElementById(showInDiv).getElementsByClassName("roundButton");
@@ -107,6 +112,15 @@ var ManagerDivs = {
 	}
 };
 
+var Div3 = {
+    name: "imgJson",
+    initialize: function(elementSelected) {
+        ManagerDivs.clearData(Div3.name);
+        ManagerDivs.showData(Div3.name, Html.createImg("div3", elementSelected));
+    }
+};
+
+
 var Div2 = {
     name: "containJson",
     initialize: function(elementSelected) {
@@ -116,6 +130,7 @@ var Div2 = {
             ManagerDivs.clearData(Div2.name);
             ManagerDivs.showData(Div2.name, Html.createButton("div2", data));
             Html.selectedButton(Div2.name, data[0].title);
+            Div3.initialize(data[0]);
         })
     }
 };
