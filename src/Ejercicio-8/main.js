@@ -44,7 +44,6 @@ var ManagerStateHttp = {
 		element.appendChild(child);
 	}
 };
-
 var Css = {
 	add: function(node, className) {
     	node.className += " " + className;
@@ -57,34 +56,16 @@ var Css = {
 	}
 };
 
-var Html = {
-	createButton: function(showInDiv, data) {
-		var listButtons = [];
-		for(i = 0; i < data.length; i++) {
-			var element = document.createElement("button");
-            var textBtn = "";
-            if (showInDiv === "div1") {
-                textBtn = document.createTextNode(data[i]);
-            }
-            else if (showInDiv === "div2") {
-                textBtn = document.createTextNode(data[i].title);
-            }
-            Css.add(element,"roundButton");
-            element.appendChild(textBtn);
-            listButtons.push(element);
-		}
-		return listButtons;
-	},
-    createImg: function(showInDiv, data) {
-        var listImg = [];
-        var element = document.createElement("img");
-        element.setAttribute('src', data.img);
-        Css.add(element,"clsImg");
-        listImg.push(element);
-        return listImg;
+var Button = {
+    add: function(nameBtn) {
+        var element = document.createElement("button");
+        var textBtn = document.createTextNode(nameBtn);
+        Css.add(element,"roundButton");
+        element.appendChild(textBtn);
+        return element;
     },
-    selectedButton: function(showInDiv, buttonSel) {
-		var className = "Buttonselected";
+    selected: function(showInDiv, buttonSel) {
+        var className = "Buttonselected";
 		var listbuttons = document.getElementById(showInDiv).getElementsByClassName("roundButton");
 		var lastButtonSel = document.getElementById(showInDiv).getElementsByClassName(className)[0];
 		if (lastButtonSel && Css.contains(lastButtonSel, className)) {
@@ -95,57 +76,57 @@ var Html = {
 				Css.add(listbuttons[i],className);
 			}
 		}
-	}
+    }
 };
 
 var ManagerDivs = {
-    showData: function (parentDiv, listElement) {
-		for(i = 0; i < listElement.length; i++) {
-			document.getElementById(parentDiv).appendChild(listElement[i]);
-		}
+    showData: function (parentDiv, element) {
+		document.getElementById(parentDiv).appendChild(element);
 	},
 	clearData: function(parentDiv) {
 		var div = document.getElementById(parentDiv);
 		while (div.firstChild) {
 			div.removeChild(div.firstChild);
 		}
-	}
-};
-
-var Div3 = {
-    name: "imgJson",
-    initialize: function(elementSelected) {
-        ManagerDivs.clearData(Div3.name);
-        ManagerDivs.showData(Div3.name, Html.createImg("div3", elementSelected));
-    }
-};
-
-
-var Div2 = {
-    name: "containJson",
-    initialize: function(elementSelected) {
-        var url = Json.getUrl(Config.path, elementSelected);
-		ManagerStateHttp.showStatus(Div2.name);
-        httpRequest(url, function(data, elementSelected) {
-            ManagerDivs.clearData(Div2.name);
-            ManagerDivs.showData(Div2.name, Html.createButton("div2", data));
-            Html.selectedButton(Div2.name, data[0].title);
-            Div3.initialize(data[0]);
+	},
+    obtainDataToOtherDiv: function(divOrigin, nameBtnOrigin, divDest) {
+        var url = Json.getUrl(Config.path, Div1.getNameBtnSelected());
+        ManagerStateHttp.showStatus(divDest);
+        httpRequest(url, function(data, nameBtnOrigin) {
+            alert(data[0].title);
         })
     }
 };
 
-
 var Div1 = {
     name: "listJson",
+    nameBtnSelected: "",
+    getNameBtnSelected: function() {
+        return Div1.nameBtnSelected;
+    },
+    setNameBtnSelected: function(btn) {
+        Div1.nameBtnSelected = btn;
+    },
+    addButton: function(nameBtn) {
+        return Button.add(nameBtn);
+    },
+    selectedButton: function(div, nameBtn) {
+        Button.selected(div, nameBtn);
+        Div1.setNameBtnSelected(nameBtn);
+    },
+    listButton: function(div, data) {
+        for(var i = 0; i< data.length; i++) {
+            ManagerDivs.showData(Div1.name, Div1.addButton(data[i]));
+        }
+    },
     initialize: function() {
         var listFiles = Json.getListFileNameJson();
 		var fileJson = listFiles[0];
 		ManagerStateHttp.showStatus(Div1.name);
         ManagerDivs.clearData(Div1.name);
-        ManagerDivs.showData(Div1.name, Html.createButton("div1", listFiles));
-        Html.selectedButton(Div1.name, fileJson);
-        Div2.initialize(fileJson);
+        Div1.listButton(Div1.nae, listFiles);
+        Div1.selectedButton(Div1.name, fileJson);
+        ManagerDivs.obtainDataToOtherDiv(Div1.name, fileJson, "containJson");
     }
 };
 
