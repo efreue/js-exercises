@@ -2,7 +2,8 @@ var Config = {
 	path: "./data/",
     div1: "listJson",
     div2: "containJson",
-    div3: "imgJson"
+    div3: "imgJson",
+    initial: 0
 };
 
 var HttpRequest = function(url, callback) {
@@ -100,7 +101,12 @@ var Button = {
                 HttpRequest(ManagerData.getUrl(Config.path, nameBtn), function(data, nameBtnOrigin) {
                     ManagerData.setData(data);
                     ManagerContainer.clearData(Config.div2);
+                    ManagerContainer.clearData(Config.div3);
                     ManagerContainer.listButton(Config.div2, ManagerData.getTitleData(data));
+                    if(Config.initial == 0) {
+                        Button.add(Config.div2, ManagerData.dataFile[0].title).onclick();
+                    }
+                    Config.initial = 1;
                 });
             }
             if(div === Config.div2) {
@@ -120,6 +126,10 @@ var Image = {
         var listImg = [];
         var element = document.createElement("img");
         element.setAttribute('src', data[0]);
+        element.onclick = function() {
+            //window.location.href = data[1];
+            window.open(data[1]);
+        };
         Css.add(element,"clsImg");
         listImg.push(element);
         return listImg[0];
@@ -151,5 +161,6 @@ var App = {
         ManagerContainer.clearData(Config.div1);
         ManagerContainer.listButton(Config.div1, listFiles);
         Button.selected(Config.div1, listFiles[0]);
+        Button.add(Config.div1, listFiles[0]).onclick();
 	}
 };
