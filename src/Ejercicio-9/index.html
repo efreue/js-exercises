@@ -4,16 +4,20 @@
 	<title>Ejercicio 8</title>
 	<script language="javascript" src="main.js"></script>
     <link rel="stylesheet" href="main.css">
-</head>
-<body onload="App.init();">
     <script type="text/javascript" src="handlebars-v4.0.5.js"></script>
-    <script id="entry-template" type="text/x-handlebars-template">
+</head>
+<body>
+    <div class="container">
+    </div>
+    <script id="templatePersona" type="text/x-handlebars-template">
         <div class="entry">
-            <h1>{{title}}</h1>
+            <h1>{{nombre}}</h1>
             <div class="body">
-                {{body}}
+                {{apellido}}
+                {{correo}}
             </div>
         </div>
     </script>
+
 </body>
 </html>
