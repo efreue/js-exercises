@@ -1,25 +1,9 @@
 var Config = {
-	path: "./data/"
-};
-
-var Json = {
-    getListFileNameJson: function() {
-        var listFile = [];
-        var file = "";
-        for(var i=1; i <= 30; i++) {
-            file = "data-" + i + ".json";
-            listFile.push(file);
-        }
-        return listFile;
-    },
-    getUrl: function(path, fileName) {
-		return path + fileName;
-	},
-    obtaingData: function(url) {
-		httpRequest(url, function(data) {
-			return data;
-		});
-	}
+	path: "./data/",
+	div1: "listJson",
+	div2: "containJson",
+	div3: "imgJson",
+	initial: 0
 };
 
 var httpRequest = function(url, callback) {
@@ -27,10 +11,22 @@ var httpRequest = function(url, callback) {
 	ajax.onload = function() {
 		if(this.status == 200) {
 			callback(JSON.parse(ajax.responseText));
-		};
+		}
 	};
 	ajax.open("GET", url, true);
 	ajax.send();
+};
+
+var Css = {
+	add: function(node, className) {
+		node.className += " " + className;
+	},
+	del: function(node, className) {
+		node.className = node.className.replace(className, "");
+	},
+	contains: function(node, className) {
+		return node.className.search(className) != -1;
+	}
 };
 
 var ManagerStateHttp = {
@@ -44,43 +40,104 @@ var ManagerStateHttp = {
 		element.appendChild(child);
 	}
 };
-var Css = {
-	add: function(node, className) {
-    	node.className += " " + className;
+
+var ManagerData = {
+	dataFile: null,
+	getListFileName: function() {
+		var listFile = [];
+		var file = "";
+		for(var i = 1; i <= 30; i++) {
+			file = "data-" + i + ".json";
+			listFile.push(file);
+		}
+		return listFile;
 	},
-	del: function(node, className) {
-    	node.className = node.className.replace(className, "");
+	getUrl: function(path, fileName) {
+		return path + fileName;
 	},
-	contains: function(node, className) {
-    	return node.className.search(className) != -1;
+	getTitleData: function(data) {
+		var listTitle = [];
+		for(var i = 0; i < data.length; i++) {
+			listTitle.push(data[i].title);
+		}
+		return listTitle;
+	},
+	setData: function(data) {
+		ManagerData.dataFile = data;
+	},
+	getImgData: function(btnTitleSel) {
+		var dataImg = [];
+		for (var i = 0; i < ManagerData.dataFile.length; i++) {
+			if (btnTitleSel === ManagerData.dataFile[i].title) {
+				dataImg.push(ManagerData.dataFile[i].img);
+				dataImg.push(ManagerData.dataFile[i].dest);
+			}
+		}
+		return dataImg;
 	}
 };
 
 var Button = {
-    add: function(nameBtn) {
-        var element = document.createElement("button");
-        var textBtn = document.createTextNode(nameBtn);
-        Css.add(element,"roundButton");
-        element.appendChild(textBtn);
-        return element;
-    },
-    selected: function(showInDiv, buttonSel) {
-        var className = "Buttonselected";
+	selected: function(showInDiv, buttonSel) {
+		var className = "Buttonselected";
 		var listbuttons = document.getElementById(showInDiv).getElementsByClassName("roundButton");
 		var lastButtonSel = document.getElementById(showInDiv).getElementsByClassName(className)[0];
 		if (lastButtonSel && Css.contains(lastButtonSel, className)) {
-			Css.del(lastButtonSel,className);
+			Css.del(lastButtonSel, className);
 		}
-		for(i=0; i < listbuttons.length; i++) {
+		for(var i = 0; i < listbuttons.length; i++) {
 			if(listbuttons[i].textContent === buttonSel) {
-				Css.add(listbuttons[i],className);
+				Css.add(listbuttons[i], className);
 			}
 		}
-    }
+	},
+	add: function(div, nameBtn) {
+		var btn = document.createElement("button");
+		var textBtn = document.createTextNode(nameBtn);
+		Css.add(btn, "roundButton");
+		btn.onclick = function() {
+			Button.selected(div, nameBtn);
+			if(div === Config.div1) {
+				httpRequest(ManagerData.getUrl(Config.path, nameBtn), function(data, nameBtnOrigin) {
+					ManagerData.setData(data);
+					ManagerContainer.clearData(Config.div2);
+					ManagerContainer.clearData(Config.div3);
+					ManagerContainer.listButton(Config.div2, ManagerData.getTitleData(data));
+					if(Config.initial == 0) {
+						Button.add(Config.div2, ManagerData.dataFile[0].title).onclick();
+					}
+					Config.initial = 1;
+				});
+			}
+			if(div === Config.div2) {
+				ManagerContainer.clearData(Config.div3);
+				ManagerContainer.showData(Config.div3, Image.add(Config.div3, nameBtn));
+				//alert(ManagerData.dataFile[0].img);
+			}
+		};
+		btn.appendChild(textBtn);
+		return btn;
+	}
 };
 
-var ManagerDivs = {
-    showData: function (parentDiv, element) {
+var Image = {
+	add: function(div, nameBtnSelected) {
+		var data = ManagerData.getImgData(nameBtnSelected);
+		var listImg = [];
+		var element = document.createElement("img");
+		element.setAttribute('src', data[0]);
+		element.onclick = function() {
+			//window.location.href = data[1];
+			window.open(data[1]);
+		};
+		Css.add(element, "clsImg");
+		listImg.push(element);
+		return listImg[0];
+	}
+};
+
+var ManagerContainer = {
+	showData: function(parentDiv, element) {
 		document.getElementById(parentDiv).appendChild(element);
 	},
 	clearData: function(parentDiv) {
@@ -89,52 +146,20 @@ var ManagerDivs = {
 			div.removeChild(div.firstChild);
 		}
 	},
-    obtainDataToOtherDiv: function(divOrigin, nameBtnOrigin, divDest) {
-        var url = Json.getUrl(Config.path, Div1.getNameBtnSelected());
-        ManagerStateHttp.showStatus(divDest);
-        httpRequest(url, function(data, nameBtnOrigin) {
-            alert(data[0].title);
-        })
-    }
+	listButton: function(div, data) {
+		for(var i = 0; i < data.length; i++) {
+			ManagerContainer.showData(div, Button.add(div, data[i]));
+		}
+	}
 };
-
-var Div1 = {
-    name: "listJson",
-    nameBtnSelected: "",
-    getNameBtnSelected: function() {
-        return Div1.nameBtnSelected;
-    },
-    setNameBtnSelected: function(btn) {
-        Div1.nameBtnSelected = btn;
-    },
-    addButton: function(nameBtn) {
-        return Button.add(nameBtn);
-    },
-    selectedButton: function(div, nameBtn) {
-        Button.selected(div, nameBtn);
-        Div1.setNameBtnSelected(nameBtn);
-    },
-    listButton: function(div, data) {
-        for(var i = 0; i< data.length; i++) {
-            ManagerDivs.showData(Div1.name, Div1.addButton(data[i]));
-        }
-    },
-    initialize: function() {
-        var listFiles = Json.getListFileNameJson();
-		var fileJson = listFiles[0];
-		ManagerStateHttp.showStatus(Div1.name);
-        ManagerDivs.clearData(Div1.name);
-        Div1.listButton(Div1.nae, listFiles);
-        Div1.selectedButton(Div1.name, fileJson);
-        ManagerDivs.obtainDataToOtherDiv(Div1.name, fileJson, "containJson");
-    }
-};
-
-
 
 var App = {
 	init: function() {
-		Div1.initialize();
-
+		var listFiles = ManagerData.getListFileName();
+		ManagerStateHttp.showStatus(Config.div1);
+		ManagerContainer.clearData(Config.div1);
+		ManagerContainer.listButton(Config.div1, listFiles);
+		Button.selected(Config.div1, listFiles[0]);
+		Button.add(Config.div1, listFiles[0]).onclick();
 	}
 };
