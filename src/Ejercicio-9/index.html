@@ -3,21 +3,22 @@
 <head>
 	<title>Ejercicio 9</title>
     <link rel="stylesheet" href="main.css">
-    <script type="text/javascript" src="handlebars-v4.0.5.js"></script>
 </head>
 <body>
-    <script language="javascript" src="main.js"></script>
-    <div class="container">
+    <h1>List of Persons</h1>
+    <div id="personList">
     </div>
-    <script id="templatePersona" type="text/x-handlebars-template">
-        <div class="entry">
-            <h1>{{nombre}}</h1>
-            <div class="body">
-                {{apellido}}
-                {{correo}}
-            </div>
-        </div>
-    </script>
 
+    <!--HANDLEBARS TEMPLATE-->
+    <script id="personsTemplate" type="text/x-handlebars-template">
+        <ul>
+            {{#persons}}
+                <li class="person">{{firstName}} {{lastName}} tiene el correo: {{email}}</li>
+            {{/persons}}
+        </ul>
+    </script>
+    <!--REQUIRE HANDELBARS-->
+    <script type="text/javascript" src="handlebars-v4.0.5.js"></script>
+    <script type="text/javascript" src="JS/main.js"></script>
 </body>
 </html>
