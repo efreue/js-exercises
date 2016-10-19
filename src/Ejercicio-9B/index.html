@@ -1,0 +1,19 @@
+<!doctype>
+<html>
+<head>
+	<title>Ejercicio 9B</title>
+	<link rel="stylesheet" href="main.css">
+</head>
+<body>
+	<div id="listJson" class="container scrollVertical"></div>
+	<!--HANDLEBARS TEMPLATE-->
+    <script id="personsTemplate" type="text/x-handlebars-template">
+        {{#views}}
+            <div class="dataView">{{fileName}}</div>
+        {{/views}}
+    </script>
+    <!--REQUIRE HANDELBARS-->
+    <script type="text/javascript" src="handlebars-v4.0.5.js"></script>
+    <script type="text/javascript" src="main2.js"></script>
+</body>
+</html>
