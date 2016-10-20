@@ -112,7 +112,6 @@ var Button = {
 			if(div === Config.div2) {
 				ManagerContainer.clearData(Config.div3);
 				ManagerContainer.showData(Config.div3, Image.add(Config.div3, nameBtn));
-				//alert(ManagerData.dataFile[0].img);
 			}
 		};
 		btn.appendChild(textBtn);
@@ -123,7 +122,6 @@ var Button = {
 var Image = {
 	add: function(div, nameBtnSelected) {
 		var data = ManagerData.getImgData(nameBtnSelected);
-		var listImg = [];
 		var element = document.createElement("img");
 		element.setAttribute('src', data[0]);
 		element.onclick = function() {
@@ -131,8 +129,7 @@ var Image = {
 			window.open(data[1]);
 		};
 		Css.add(element, "clsImg");
-		listImg.push(element);
-		return listImg[0];
+		return element;
 	}
 };
 
