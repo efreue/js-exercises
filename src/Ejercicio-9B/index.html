@@ -5,10 +5,10 @@
 	<link rel="stylesheet" href="main.css">
     <script type="text/javascript" src="main2.js"></script>
 </head>
-<body>
+<body onload="App.init()">
 	<div id="listJson" class="container scrollVertical"></div>
 	<!--HANDLEBARS TEMPLATE-->
-    <script id="personsTemplate" type="text/x-handlebars-template">
+    <script id="viewsTemplate" type="text/x-handlebars-template">
         {{#views}}
             <div class="dataView">{{fileName}}</div>
         {{/views}}
