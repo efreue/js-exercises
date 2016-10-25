@@ -5,13 +5,13 @@
 	<link rel="stylesheet" href="main.css">
     <script type="text/javascript" src="main2.js"></script>
 </head>
-<body onload="App.init()">
+<body onload="generateTemplate()">
 	<div id="listJson" class="container scrollVertical"></div>
 	<!--HANDLEBARS TEMPLATE-->
     <script id="viewsTemplate" type="text/x-handlebars-template">
-        {{#views}}
-            <div class="dataView">{{fileName}}</div>
-        {{/views}}
+        {{#each this}}
+            <input type="button" class="roundButton">{{this}}<br>
+        {{/each}}
     </script>
     <!--REQUIRE HANDELBARS-->
     <script type="text/javascript" src="handlebars-v4.0.5.js"></script>
