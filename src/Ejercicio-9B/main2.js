@@ -82,9 +82,6 @@ var ContentManager = {
     listTitles: function(data) {
 		Views.titleView.clear();
 		alert(data.length);
-        /*for(var i = 0; i < data.length; i++) {
-			Views.showTitle(data[i], ContentManager.showImage);
-		}*/
 	}
 };
 
