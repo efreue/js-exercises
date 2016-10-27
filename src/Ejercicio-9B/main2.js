@@ -1,5 +1,16 @@
+var httpRequest = function(url, callback) {
+	var ajax = new XMLHttpRequest();
+	ajax.onload = function() {
+		if(this.status == 200) {
+			callback(JSON.parse(ajax.responseText));
+		}
+	};
+	ajax.open("GET", url, true);
+	ajax.send();
+};
+
 var getUrl = function(fileName) {
-	return './data/' + fileName;
+	return './data/' + fileName.textContent;
 };
 
 var getFileNames = function() {
@@ -24,11 +35,62 @@ var Css = {
 	}
 };
 
-var generateTemplate = function() {
-    var randomList= getFileNames();
-    var source= "{{#each this}}<button type='button' class='roundButton'>{{this}}</button><br>{{/each}}";
-    var template= Handlebars.compile(source);
-    //console.log(template(randomList));
-    var output = template(randomList);
-    document.getElementById("listJson").innerHTML += output;
+
+var View = function(id) {
+	var element = document.getElementById(id);
+	this.clear = function() {
+		element.innerHTML = '';
+	};
+};
+
+var Views = {
+	dataView: null,
+	titleView: null,
+	imageView: null,
+
+	createViews: function() {
+		Views.dataView = new View('listJson');
+		Views.titleView = new View('containJson');
+		Views.imageView = new View('imgJson');
+	},
+    showDataItem: function(fileName, callback) {
+		Views.dataView.addButton(fileName, function() {
+			callback(fileName);
+		});
+	},
+    addOnclickItem: function(fileName, callback) {
+        fileName.onclick = callback;
+    }
+};
+
+var ContentManager = {
+	listData: function() {
+		var fileNames = getFileNames();
+        var source= "{{#each this}}<button type='button' class='roundButton'>{{this}}</button><br>{{/each}}"
+        var template= Handlebars.compile(source);
+        var output = template(fileNames);
+        document.getElementById("listJson").innerHTML += output;
+        var listBtn = document.querySelectorAll(".roundButton");
+        for(var i = 0; i < listBtn.length; i++) {
+            Views.addOnclickItem(listBtn[i], function(fileName) {
+				httpRequest(getUrl(fileName), function(data) {
+					ContentManager.listTitles(data);
+				});
+			});
+		}
+	},
+    listTitles: function(data) {
+		Views.titleView.clear();
+		alert(data.length);
+        /*for(var i = 0; i < data.length; i++) {
+			Views.showTitle(data[i], ContentManager.showImage);
+		}*/
+	}
+};
+
+var App = {
+	init: function() {
+		Views.createViews();
+		ContentManager.listData();
+	}
 };
