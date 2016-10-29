@@ -88,7 +88,8 @@ var ContentManager = {
 		for(var i = 0; i < fileNames.length; i++) {
 			Views.showDataItem(fileNames[i], function(fileName) {
 				httpRequest(getUrl(fileName), function(data) {
-					ContentManager.listTitles(data);
+					ContentManager.
+listTitles(data);
 				});
 			});
 		}

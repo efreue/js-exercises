@@ -10,7 +10,7 @@ var httpRequest = function(url, callback) {
 };
 
 var getUrl = function(fileName) {
-	return './data/' + fileName.textContent;
+	return './data/' + fileName;
 };
 
 var getFileNames = function() {
@@ -38,7 +38,15 @@ var Css = {
 
 var View = function(id) {
 	var element = document.getElementById(id);
-	this.clear = function() {
+
+    this.addButton = function(fileNames) {
+        var source= "{{#each this}}<button type='button' class='roundButton'>{{this}}</button><br>{{/each}}"
+        var template= Handlebars.compile(source);
+        var output = template(fileNames);
+        element.innerHTML += output;
+    };
+
+    this.clear = function() {
 		element.innerHTML = '';
 	};
 };
@@ -53,35 +61,26 @@ var Views = {
 		Views.titleView = new View('containJson');
 		Views.imageView = new View('imgJson');
 	},
-    showDataItem: function(fileName, callback) {
-		Views.dataView.addButton(fileName, function() {
-			callback(fileName);
-		});
-	},
-    addOnclickItem: function(fileName, callback) {
-        fileName.onclick = callback;
+
+    showDataItem: function(fileName) {
+		Views.dataView.addButton(fileName);
+
     }
 };
 
 var ContentManager = {
 	listData: function() {
 		var fileNames = getFileNames();
-        var source= "{{#each this}}<button type='button' class='roundButton'>{{this}}</button><br>{{/each}}"
-        var template= Handlebars.compile(source);
-        var output = template(fileNames);
-        document.getElementById("listJson").innerHTML += output;
+        var fileName = '';
+        Views.showDataItem(fileNames);
         var listBtn = document.querySelectorAll(".roundButton");
         for(var i = 0; i < listBtn.length; i++) {
-            Views.addOnclickItem(listBtn[i], function(fileName) {
-				httpRequest(getUrl(fileName), function(data) {
-					ContentManager.listTitles(data);
-				});
-			});
-		}
-	},
-    listTitles: function(data) {
-		Views.titleView.clear();
-		alert(data.length);
+            listBtn[i].onclick = function() {
+                httpRequest(getUrl(this.textContent), function(data) {
+                        alert(data.length);
+                });
+            };
+        }
 	}
 };
 
