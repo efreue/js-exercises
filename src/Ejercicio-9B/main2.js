@@ -45,6 +45,12 @@ var View = function(id) {
         var output = template(fileNames);
         element.innerHTML += output;
     };
+    this.addContentButton = function(dataTeam) {
+        var source= "<div class='team'>{{#each this}}{{this}}<br>{{/each}}</div>"
+        var template= Handlebars.compile(source);
+        var output = template(dataTeam);
+        element.innerHTML += output;
+    };
 
     this.clear = function() {
 		element.innerHTML = '';
@@ -65,7 +71,13 @@ var Views = {
     showDataItem: function(fileName) {
 		Views.dataView.addButton(fileName);
 
-    }
+    },
+
+    showTitleAndContent: function(dataItem) {
+        Views.titleView.addContentButton(dataItem);
+        //alert(dataItem.title);
+		//Views.titleView.addButton(dataItem.title);
+	}
 };
 
 var ContentManager = {
@@ -77,11 +89,18 @@ var ContentManager = {
         for(var i = 0; i < listBtn.length; i++) {
             listBtn[i].onclick = function() {
                 httpRequest(getUrl(this.textContent), function(data) {
-                        alert(data.length);
+                        ContentManager.listTitlesAndContent(data);
                 });
             };
         }
-	}
+	},
+
+    listTitlesAndContent: function(data) {
+        Views.titleView.clear();
+        for(var i = 0; i < data.length; i++) {
+            Views.showTitleAndContent(data[i]);
+        }
+    }
 };
 
 var App = {

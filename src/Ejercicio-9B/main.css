@@ -45,3 +45,15 @@
 .textHidden {
 	visibility: hidden;
 }
+
+.team {
+	width: 230px;
+	height: 130px;
+    background: beige;
+    margin-top: 40px;
+	margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+	border: 1px solid #A7A7A7;
+	border-radius: 8px;
+}
