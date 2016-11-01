@@ -46,7 +46,17 @@ var View = function(id) {
         element.innerHTML += output;
     };
     this.addContentButton = function(dataTeam) {
-        var source= "<div class='team'>{{#each this}}{{this}}<br>{{/each}}</div>"
+        /*
+        var soccer = '{Equipo: [{';
+                soccer += 'title: "' +dataTeam.title+'",';
+                soccer += 'Fundacion: "' + dataTeam.Fundación + '",';
+                soccer += 'Ubicacion: "' + dataTeam.Ubicación + '",';
+                soccer += 'img: "' + dataTeam.img + '",';
+                soccer += 'dest: "' + dataTeam.dest + '"';
+                soccer += '}]}';
+        var source= "<div class='team'>Club Atletico {{#each this}}{{this}}<br>{{/each}}</div>"
+        */
+        var source= "<div class='team'>Club Atletico {{#each this}}{{this}}<br>{{/each}}</div>"
         var template= Handlebars.compile(source);
         var output = template(dataTeam);
         element.innerHTML += output;
@@ -89,7 +99,7 @@ var ContentManager = {
         for(var i = 0; i < listBtn.length; i++) {
             listBtn[i].onclick = function() {
                 httpRequest(getUrl(this.textContent), function(data) {
-                        ContentManager.listTitlesAndContent(data);
+                    ContentManager.listTitlesAndContent(data);
                 });
             };
         }
