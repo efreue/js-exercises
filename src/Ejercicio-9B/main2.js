@@ -46,7 +46,7 @@ var View = function(id) {
         element.innerHTML += output;
     };
     this.addContentButton = function(dataTeam) {
-        var source= "<div class='team'>{{#each this}}{{this}}<br>{{/each}}</div>"
+        var source= "<div class='team'>{{#each this}}{{title}}<br>{{/each}}</div>"
         var template= Handlebars.compile(source);
         var output = template(dataTeam);
         element.innerHTML += output;
@@ -97,9 +97,8 @@ var ContentManager = {
 
     listTitlesAndContent: function(data) {
         Views.titleView.clear();
-        for(var i = 0; i < data.length; i++) {
-            Views.showTitleAndContent(data[i]);
-        }
+        Views.showTitleAndContent(data);
+
     }
 };
 
