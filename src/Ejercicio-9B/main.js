@@ -2,7 +2,7 @@ var httpRequest = function(url, callback) {
 	var ajax = new XMLHttpRequest();
 	ajax.onload = function() {
 		if(this.status == 200) {
-			callback(JSON.parse(ajax.responseText));
+			callback(ajax.responseText);
 		}
 	};
 	ajax.open("GET", url, true);
@@ -46,6 +46,10 @@ var View = function(id) {
         element.innerHTML += output;
     };
     this.addContentButton = function(dataTeam) {
+        httpRequest('Templates/list-btn.hbs', function(data) {
+                    data = JSON.parse(data);
+                    ContentManager.listTitlesAndContent(data);
+                });
         var source= "<div class='team'>{{#each this}}{{title}}<br>{{/each}}</div>"
         var template= Handlebars.compile(source);
         var output = template(dataTeam);
@@ -89,6 +93,7 @@ var ContentManager = {
         for(var i = 0; i < listBtn.length; i++) {
             listBtn[i].onclick = function() {
                 httpRequest(getUrl(this.textContent), function(data) {
+                    data = JSON.parse(data);
                     ContentManager.listTitlesAndContent(data);
                 });
             };
