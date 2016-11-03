@@ -9,16 +9,33 @@ var httpRequest = function(url, callback) {
 	ajax.send();
 };
 
-var getUrl = function(fileName) {
-	return './data/' + fileName;
+var getUrl = function(files, idFind) {
+	var url = "";
+	for(var i=0; i < files.length; i++) {
+		if(i = idFind) {
+			url = files[i].url;
+		}
+	}
+	return url;
+};
+
+var file = function(nameFile, urlFile){
+    this.name = nameFile;
+    this.url = urlFile;
 };
 
 var getFileNames = function() {
 	var listFile = [];
-	var file = "";
-	for(var i = 1; i <= 30; i++) {
-		file = "data-" + i + ".json";
-		listFile.push(file);
+	var fileName = "";
+    var fileTitle = "";
+    var fileTitle = "";
+
+    for(var i = 1; i <= 30; i++) {
+		fileName = "data-" + i + ".json";
+        fileTitle = "data " + i
+        fileUrl = './data/' + fileName;
+        var objFile = new file(fileTitle, getUrl(fileName));
+        listFile.push(objFile);
 	}
 	return listFile;
 };
@@ -48,8 +65,9 @@ var View = function(id) {
 
                     var listBtn = document.querySelectorAll(".roundButton");
                     for(var i = 0; i < listBtn.length; i++) {
-                        listBtn[i].onclick = function() {
-                            httpRequest(getUrl(this.textContent), function(data) {
+                        var url = fileNames[i].url;
+                        listBtn[i].onclick = function(url) {
+                            httpRequest(url, function(data) {
                                 data = JSON.parse(data);
                                 ContentManager.listTitlesAndContent(data);
                             });
@@ -94,7 +112,6 @@ var Views = {
 var ContentManager = {
 	listData: function() {
 		var fileNames = getFileNames();
-        var fileName = '';
         Views.showDataItem(fileNames);
 	},
 
