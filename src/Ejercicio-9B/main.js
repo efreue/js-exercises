@@ -40,21 +40,29 @@ var View = function(id) {
 	var element = document.getElementById(id);
 
     this.addButton = function(fileNames) {
-        var source= "{{#each this}}<button type='button' class='roundButton'>{{this}}</button><br>{{/each}}"
-        var template= Handlebars.compile(source);
-        var output = template(fileNames);
-        element.innerHTML += output;
-    };
-    this.addContentButton = function(dataTeam) {
         httpRequest('Templates/list-btn.hbs', function(data) {
-                    data = JSON.parse(data);
-                    ContentManager.listTitlesAndContent(data);
-                });
-        var source= "<div class='team'>{{#each this}}{{title}}<br>{{/each}}</div>"
-        var template= Handlebars.compile(source);
-        var output = template(dataTeam);
-        element.innerHTML += output;
-    };
+                    var template= Handlebars.compile(data);
+                    var output = template(fileNames);
+                    element.innerHTML += output;
+
+                    var listBtn = document.querySelectorAll(".roundButton");
+                    for(var i = 0; i < listBtn.length; i++) {
+                        listBtn[i].onclick = function() {
+                            httpRequest(getUrl(this.textContent), function(data) {
+                                data = JSON.parse(data);
+                                ContentManager.listTitlesAndContent(data);
+                            });
+                        };
+                    }
+        });
+    },
+    this.addContentButton = function(dataTeam) {
+        httpRequest('Templates/list-team.hbs', function(data) {
+                    var template= Handlebars.compile(data);
+                    var output = template(dataTeam);
+                    element.innerHTML += output;
+        });
+    },
 
     this.clear = function() {
 		element.innerHTML = '';
@@ -89,15 +97,6 @@ var ContentManager = {
 		var fileNames = getFileNames();
         var fileName = '';
         Views.showDataItem(fileNames);
-        var listBtn = document.querySelectorAll(".roundButton");
-        for(var i = 0; i < listBtn.length; i++) {
-            listBtn[i].onclick = function() {
-                httpRequest(getUrl(this.textContent), function(data) {
-                    data = JSON.parse(data);
-                    ContentManager.listTitlesAndContent(data);
-                });
-            };
-        }
 	},
 
     listTitlesAndContent: function(data) {
