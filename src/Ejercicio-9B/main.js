@@ -23,6 +23,7 @@ var getFileNames = function() {
 	return listFile;
 };
 
+
 var Css = {
 	add: function(node, className) {
 		node.className += " " + className;
@@ -82,14 +83,12 @@ var Views = {
 
     showDataItem: function(fileName) {
 		Views.dataView.addButton(fileName);
-
     },
 
     showTitleAndContent: function(dataItem) {
         Views.titleView.addContentButton(dataItem);
-        //alert(dataItem.title);
-		//Views.titleView.addButton(dataItem.title);
-	}
+	},
+
 };
 
 var ContentManager = {
