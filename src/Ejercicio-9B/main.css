@@ -18,7 +18,8 @@
 	border: 1px solid #3399CC;
     text-transform: uppercase;
     text-align: left;
-	font: 14px arial;
+    position:relative;
+    font: 14px arial;
 }
 .scrollVertical {
 	overflow-y: scroll;

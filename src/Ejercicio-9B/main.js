@@ -9,19 +9,17 @@ var httpRequest = function(url, callback) {
 	ajax.send();
 };
 
-var getUrl = function(files, idFind) {
-	var url = "";
-	for(var i=0; i < files.length; i++) {
-		if(i = idFind) {
-			url = files[i].url;
-		}
-	}
-	return url;
-};
-
-var file = function(nameFile, urlFile){
+var file = function(nameFile, urlFile) {
     this.name = nameFile;
     this.url = urlFile;
+};
+
+var getUrl = function(listFiles, titleFile) {
+    for(var i = 0; i < listFiles.length; i++) {
+        if(listFiles[i].name == titleFile.toLowerCase()) {
+            return listFiles[i].url;
+        }
+    }
 };
 
 var getFileNames = function() {
@@ -34,12 +32,11 @@ var getFileNames = function() {
 		fileName = "data-" + i + ".json";
         fileTitle = "data " + i
         fileUrl = './data/' + fileName;
-        var objFile = new file(fileTitle, getUrl(fileName));
+        var objFile = new file(fileTitle, fileUrl);
         listFile.push(objFile);
 	}
 	return listFile;
 };
-
 
 var Css = {
 	add: function(node, className) {
@@ -53,20 +50,19 @@ var Css = {
 	}
 };
 
-
 var View = function(id) {
 	var element = document.getElementById(id);
 
     this.addButton = function(fileNames) {
         httpRequest('Templates/list-btn.hbs', function(data) {
-                    var template= Handlebars.compile(data);
+                    var template = Handlebars.compile(data);
                     var output = template(fileNames);
                     element.innerHTML += output;
 
                     var listBtn = document.querySelectorAll(".roundButton");
                     for(var i = 0; i < listBtn.length; i++) {
-                        var url = fileNames[i].url;
-                        listBtn[i].onclick = function(url) {
+                        listBtn[i].onclick = function() {
+                            var url = getUrl(fileNames, this.innerText);
                             httpRequest(url, function(data) {
                                 data = JSON.parse(data);
                                 ContentManager.listTitlesAndContent(data);
@@ -75,17 +71,20 @@ var View = function(id) {
                     }
         });
     },
+
     this.addContentButton = function(dataTeam) {
         httpRequest('Templates/list-team.hbs', function(data) {
-                    var template= Handlebars.compile(data);
+                    var template = Handlebars.compile(data);
                     var output = template(dataTeam);
                     element.innerHTML += output;
+
+                    var listBtn = document.querySelectorAll(".roundButton");
         });
     },
 
     this.clear = function() {
 		element.innerHTML = '';
-	};
+	}
 };
 
 var Views = {
@@ -96,7 +95,6 @@ var Views = {
 	createViews: function() {
 		Views.dataView = new View('listJson');
 		Views.titleView = new View('containJson');
-		Views.imageView = new View('imgJson');
 	},
 
     showDataItem: function(fileName) {
@@ -105,8 +103,7 @@ var Views = {
 
     showTitleAndContent: function(dataItem) {
         Views.titleView.addContentButton(dataItem);
-	},
-
+	}
 };
 
 var ContentManager = {
