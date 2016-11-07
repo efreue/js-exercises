@@ -69,22 +69,22 @@ var View = function(id) {
 
     this.addButton = function(fileNames) {
         httpRequest('Templates/list-btn.hbs', function(data) {
-                    var template = Handlebars.compile(data);
-                    var output = template(fileNames);
-                    element.innerHTML += output;
+            var template = Handlebars.compile(data);
+            var output = template(fileNames);
+            element.innerHTML += output;
 
-                    var listBtn = document.querySelectorAll(".roundButton");
-                    for(var i = 0; i < listBtn.length; i++) {
-                        listBtn[i].onclick = function() {
-                            var url = getUrl(fileNames, this.innerText);
-                            selectedButton(element.id, this)
+            var listBtn = document.querySelectorAll(".roundButton");
+            for(var i = 0; i < listBtn.length; i++) {
+                listBtn[i].onclick = function() {
+                    var url = getUrl(fileNames, this.innerText);
+                    selectedButton(element.id, this)
 
-                            httpRequest(url, function(data) {
-                                data = JSON.parse(data);
-                                ContentManager.listTitlesAndContent(data);
-                            });
-                        };
-                    }
+                    httpRequest(url, function(data) {
+                        data = JSON.parse(data);
+                        ContentManager.listTitlesAndContent(data);
+                    });
+                };
+            }
         });
     },
 
