@@ -50,6 +50,20 @@ var Css = {
 	}
 };
 
+var selectedButton = function(showInDiv, buttonSel) {
+    var className = "Buttonselected";
+    var listbuttons = document.getElementById(showInDiv).getElementsByClassName("roundButton");
+    var lastButtonSel = document.getElementById(showInDiv).getElementsByClassName(className)[0];
+    if (lastButtonSel && Css.contains(lastButtonSel, className)) {
+        Css.del(lastButtonSel, className);
+    }
+    for(var i = 0; i < listbuttons.length; i++) {
+        if(listbuttons[i].textContent === buttonSel.innerHTML) {
+            Css.add(listbuttons[i], className);
+        }
+    }
+};
+
 var View = function(id) {
 	var element = document.getElementById(id);
 
@@ -63,6 +77,8 @@ var View = function(id) {
                     for(var i = 0; i < listBtn.length; i++) {
                         listBtn[i].onclick = function() {
                             var url = getUrl(fileNames, this.innerText);
+                            selectedButton(element.id, this)
+
                             httpRequest(url, function(data) {
                                 data = JSON.parse(data);
                                 ContentManager.listTitlesAndContent(data);

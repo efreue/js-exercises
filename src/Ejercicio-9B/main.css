@@ -30,6 +30,13 @@
 .scrollVertical {
 	overflow-y: scroll;
 }
+.Buttonselected {
+    width: 230px;
+    height: 70px;
+    border-style:inset;
+    background-color: #CAE4FF;
+}
+
 .team {
 	width: 250px;
 	height: 162px;
