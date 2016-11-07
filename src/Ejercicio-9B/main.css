@@ -32,13 +32,45 @@
 }
 .team {
 	width: 250px;
-	height: 130px;
-    background: beige;
-    margin-top: 11px;
-	margin-right: 20px;
+	height: 162px;
+    background: #ccf1b7;
+    margin-right: 20px;
     margin-left: 10px;
     margin-bottom: 26px;
 	border: 1px solid #A7A7A7;
 	border-radius: 13px;
+}
+.headerTeam {
+    width: 250px;
+	height: 35px;
+    background: white;
+    margin-top: 0px;
+    border-top-left-radius: 13px;
+    border-top-right-radius: 13px;
+    padding-left: 2.3em;
     padding-top: 0.3em;
+    display: table-cell;
+    border-bottom: 1px solid black;
+}
+.bodyContentTeam {
+    width: 208px;
+	height: 86px;
+    background: #ccf1b7;
+    padding-left: 1.3em;
+    padding-bottom: 0,3em;
+}
+.contentTeam {
+    width: 200px;
+	height: 18px;
+    background: #9bc9e6;
+    padding-top: 0.3em;
+    display: table-cell;
+    border: 1px solid gray;
+    padding-left: 1.3em;
+    margin-left: 20px;
+}
+.linkTeam {
+    width: 200px;
+	height: 18px;
+    padding-left: 8.4em;
 }
