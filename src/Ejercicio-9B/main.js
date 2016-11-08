@@ -108,13 +108,19 @@ var Views = {
 	titleView: null,
 	imageView: null,
 
-	createViews: function() {
+    dataViewAux: null,
+	titleViewAux: null,
+
+    createViews: function() {
 		Views.dataView = new View('listJson');
 		Views.titleView = new View('containJson');
+        Views.dataViewAux = new View('listJsonAux');
+        Views.titleViewAux = new View('containJsonAux');
 	},
 
     showDataItem: function(fileName) {
 		Views.dataView.addButton(fileName);
+        Views.dataViewAux.addButton(fileName);
     },
 
     showTitleAndContent: function(dataItem) {
