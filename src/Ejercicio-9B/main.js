@@ -64,6 +64,7 @@ var selectedButton = function(showInDiv, buttonSel) {
     }
 };
 
+
 var View = function(id) {
 	var element = document.getElementById(id);
 
@@ -73,7 +74,7 @@ var View = function(id) {
             var output = template(fileNames);
             element.innerHTML += output;
 
-            var listBtn = document.querySelectorAll(".roundButton");
+            var listBtn = element.querySelectorAll(".roundButton");
             for(var i = 0; i < listBtn.length; i++) {
                 listBtn[i].onclick = function() {
                     var url = getUrl(fileNames, this.innerText);
@@ -81,20 +82,18 @@ var View = function(id) {
 
                     httpRequest(url, function(data) {
                         data = JSON.parse(data);
-                        ContentManager.listTitlesAndContent(data);
+                        ContentManager.listTitlesAndContent(data, element);
                     });
                 };
             }
         });
     },
 
-    this.addContentButton = function(dataTeam) {
-        httpRequest('Templates/list-team.hbs', function(data) {
+    this.addContentButton = function(UrlTemplate, dataTeam) {
+        httpRequest(UrlTemplate, function(data) {
                     var template = Handlebars.compile(data);
                     var output = template(dataTeam);
                     element.innerHTML += output;
-
-                    var listBtn = document.querySelectorAll(".roundButton");
         });
     },
 
@@ -123,8 +122,16 @@ var Views = {
         Views.dataViewAux.addButton(fileName);
     },
 
-    showTitleAndContent: function(dataItem) {
-        Views.titleView.addContentButton(dataItem);
+    showTitleAndContent: function(dataItem, element) {
+        if (element.id ==  'listJson') {
+            Views.titleView.clear();
+            Views.titleView.addContentButton('Templates/list-team.hbs', dataItem);
+        }
+
+        if (element.id ==  'listJsonAux') {
+            Views.titleViewAux.clear();
+            Views.titleViewAux.addContentButton('Templates/list-teamAux.hbs', dataItem);
+        }
 	}
 };
 
@@ -134,13 +141,10 @@ var ContentManager = {
         Views.showDataItem(fileNames);
 	},
 
-    listTitlesAndContent: function(data) {
-        Views.titleView.clear();
-        Views.showTitleAndContent(data);
-
+    listTitlesAndContent: function(data, element) {
+        Views.showTitleAndContent(data, element);
     }
 };
-
 var App = {
 	init: function() {
 		Views.createViews();
