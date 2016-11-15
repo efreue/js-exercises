@@ -68,83 +68,72 @@ var selectedButton = function(showInDiv, buttonSel) {
 var View = function(id) {
 	var element = document.getElementById(id);
 
-    this.addButton = function(fileNames) {
-        httpRequest('Templates/list-btn.hbs', function(data) {
-            var template = Handlebars.compile(data);
-            var output = template(fileNames);
-            element.innerHTML += output;
-
-            var listBtn = element.querySelectorAll(".roundButton");
-            for(var i = 0; i < listBtn.length; i++) {
-                listBtn[i].onclick = function() {
-                    var url = getUrl(fileNames, this.innerText);
-                    selectedButton(element.id, this)
-
-                    httpRequest(url, function(data) {
-                        data = JSON.parse(data);
-                        ContentManager.listTitlesAndContent(data, element);
-                    });
-                };
-            }
-        });
+	this.addButton = function(fileNames, callback, urlTemplate, callback2) {
+        element.innerHTML = callback;
+        var listBtn = element.querySelectorAll(".roundButton");
+        for(var i = 0; i < listBtn.length; i++) {
+            listBtn[i].onclick = function() {
+                var url = getUrl(fileNames, this.innerText);
+                selectedButton(element.id, this);
+                callback2;
+            };
+        };
     },
 
-    this.addContentButton = function(UrlTemplate, dataTeam) {
-        httpRequest(UrlTemplate, function(data) {
-                    var template = Handlebars.compile(data);
-                    var output = template(dataTeam);
-                    element.innerHTML += output;
-        });
-    },
-
-    this.clear = function() {
-		element.innerHTML = '';
-	}
+    this.addContentButton = function(dataItem, callback){
+        element.innerHTML =  callback;
+    }
 };
 
 var Views = {
 	dataView: null,
 	titleView: null,
 	imageView: null,
-
     dataViewAux: null,
 	titleViewAux: null,
 
     createViews: function() {
 		Views.dataView = new View('listJson');
 		Views.titleView = new View('containJson');
+        Views.imageView = new View('imgJson');
         Views.dataViewAux = new View('listJsonAux');
         Views.titleViewAux = new View('containJsonAux');
 	},
-
-    showDataItem: function(fileName) {
-		Views.dataView.addButton(fileName);
-        Views.dataViewAux.addButton(fileName);
-    },
-
-    showTitleAndContent: function(dataItem, element) {
-        if (element.id ==  'listJson') {
-            Views.titleView.clear();
-            Views.titleView.addContentButton('Templates/list-team.hbs', dataItem);
-        }
-
-        if (element.id ==  'listJsonAux') {
-            Views.titleViewAux.clear();
-            Views.titleViewAux.addContentButton('Templates/list-teamAux.hbs', dataItem);
-        }
-	}
+    showDataItem: function(fileNames, callback, urlTemplate) {
+		Views.dataView.addButton( fileNames,
+                                  callback,
+                                 urlTemplate,
+                                 httpRequest(urlTemplate, function(data) {
+                                    data = JSON.parse(data);
+                                    ContentManager.listTitlesAndContent(data, urlTemplate);
+                                })
+        );
+        //Views.dataViewAux.addButton(fileNames, callback, 'Templates/list-teamAux.hbs');
+	},
+    showTitleAndContent: function(dataItem, callback) {
+        Views.titleView.addContentButton(dataItem, callback);
+    }
 };
 
 var ContentManager = {
 	listData: function() {
 		var fileNames = getFileNames();
-        Views.showDataItem(fileNames);
+        httpRequest('Templates/list-btn.hbs', function(data) {
+            var template = Handlebars.compile(data);
+            var output = template(fileNames);
+            Views.showDataItem(fileNames, output, 'Templates/list-team.hbs');
+        });
 	},
-
-    listTitlesAndContent: function(data, element) {
-        Views.showTitleAndContent(data, element);
+    listTitlesAndContent: function(dataItem, urlTemplate) {
+        httpRequest(urlTemplate, function(data) {
+                   var template = Handlebars.compile(data);
+                   var output = template(dataItem);
+                   Views.showTitleAndContent(data, output);
+        });
     }
 };
+
+
 var App = {
 	init: function() {
 		Views.createViews();
