@@ -72,15 +72,17 @@ var View = function(id, templateUrl) {
         httpRequest(templateUrl, function(data) {
             var template = Handlebars.compile(data);
             element.innerHTML = template(dataItem);
-            var listBtn = element.querySelectorAll(".roundButton");
-            for(var i = 0; i < listBtn.length; i++) {
-                listBtn[i].onclick = function() {
-                    selectedButton(element.id, this);
-                    callback;
-                };
-            };
+            element.onclick = callback;
+        });
+    },
+
+    this.addContentButton = function(dataItem) {
+        httpRequest(templateUrl, function(data) {
+            var template = Handlebars.compile(data);
+            element.innerHTML = template(dataItem);
         });
     }
+
 };
 
 var Views = {
@@ -101,34 +103,25 @@ var Views = {
     showDataItem: function(dataItem) {
 		Views.dataView.addButton(
             dataItem,
-            httpRequest(
-                getUrl(dataItem, this.innerText),
-                function(data) {
-                    data = JSON.parse(data);
-                    ContentManager.listTitlesAndContent(data);
-                }
-            )
-        );
-    },
-
-    showTitleAndContent: function(dataItem) {
-        alert(dataItem.length);
+            function() {
+                var listBtn =  document.getElementById("listJson").getElementsByClassName("roundButton");
+                for(var i = 0; i < listBtn.length; i++) {
+                    httpRequest(
+                        getUrl(dataItem, listBtn[i].innerText),
+                        function(data) {
+                            //selectedButton('listJson', listBtn[i]);
+                            Views.titleView.addContentButton(JSON.parse(data));
+                    });
+                };
+        });
     }
-};
 
-var ContentManager = {
-	listData: function() {
-        Views.showDataItem(getFileNames());
-	},
-    listTitlesAndContent: function(dataItem) {
-        Views.showTitleAndContent(dataItem);
-    }
 };
 
 
 var App = {
 	init: function() {
 		Views.createViews();
-		ContentManager.listData();
+		Views.showDataItem(getFileNames());
 	}
 };
