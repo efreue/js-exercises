@@ -72,7 +72,10 @@ var View = function(id, templateUrl) {
         httpRequest(templateUrl, function(data) {
             var template = Handlebars.compile(data);
             element.innerHTML = template(dataItem);
-            element.onclick = callback;
+            var listBtn = element.getElementsByClassName("roundButton");
+            for(var i = 0; i < listBtn.length; i++) {
+                listBtn[i].onclick = callback;
+            }
         });
     },
 
@@ -104,16 +107,26 @@ var Views = {
 		Views.dataView.addButton(
             dataItem,
             function() {
-                var listBtn =  document.getElementById("listJson").getElementsByClassName("roundButton");
-                for(var i = 0; i < listBtn.length; i++) {
-                    httpRequest(
-                        getUrl(dataItem, listBtn[i].innerText),
-                        function(data) {
-                            //selectedButton('listJson', listBtn[i]);
-                            Views.titleView.addContentButton(JSON.parse(data));
-                    });
-                };
-        });
+                selectedButton('listJson', this);
+                httpRequest(
+                    getUrl(dataItem, this.innerText),
+                    function(data) {
+                        Views.titleView.addContentButton(JSON.parse(data));
+                })
+            }
+        );
+
+        Views.dataViewAux.addButton(
+            dataItem,
+            function() {
+                selectedButton('listJsonAux', this);
+                httpRequest(
+                    getUrl(dataItem, this.innerText),
+                    function(data) {
+                        Views.titleViewAux.addContentButton(JSON.parse(data));
+                })
+            }
+        );
     }
 
 };
