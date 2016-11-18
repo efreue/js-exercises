@@ -98,7 +98,7 @@ var Views = {
     createViews: function() {
 		Views.dataView = new View('listJson', 'Templates/list-btn.hbs');
 		Views.titleView = new View('containJson', 'Templates/list-team.hbs');
-        //Views.imageView = new View('imgJson');
+        Views.imageView = new View('imgJson', 'Templates/list-team.hbs');
         Views.dataViewAux = new View('listJsonAux', 'Templates/list-btn.hbs');
         Views.titleViewAux = new View('containJsonAux', 'Templates/list-team-aux.hbs');
 	},
