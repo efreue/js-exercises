@@ -75,6 +75,7 @@ var View = function(id, templateUrl) {
             var listBtn = element.getElementsByClassName("roundButton");
             for(var i = 0; i < listBtn.length; i++) {
                 listBtn[i].onclick = callback;
+
             }
         });
     },
@@ -83,9 +84,21 @@ var View = function(id, templateUrl) {
         httpRequest(templateUrl, function(data) {
             var template = Handlebars.compile(data);
             element.innerHTML = template(dataItem);
+            //agrego evento onclick al link que muestra imagen
+            var linkImg = element.getElementsByClassName("linkTeam");
+            for(var i = 0; i < linkImg.length; i++) {
+                linkImg[i].onclick = function(){
+                    var url = this.firstElementChild.attributes[1].value;
+                    var img = document.createElement('img');
+                    img.src = url;
+                    Css.add(img, "clsImg");
+                    var divImg = document.getElementById("imgJson");
+                    divImg.innerHTML='';
+                    divImg.appendChild(img);
+                }
+            };
         });
     }
-
 };
 
 var Views = {
@@ -111,7 +124,7 @@ var Views = {
                 httpRequest(
                     getUrl(dataItem, this.innerText),
                     function(data) {
-                        Views.titleView.addContentButton(JSON.parse(data));
+                        Views.titleView.addContentButton(JSON.parse(data))
                 })
             }
         );
