@@ -98,7 +98,11 @@ var View = function(id, templateUrl) {
                 }
             };
         });
-    }
+    },
+
+    this.clear = function() {
+		element.innerHTML = '';
+	};
 };
 
 var Views = {
@@ -124,6 +128,8 @@ var Views = {
                 httpRequest(
                     getUrl(dataItem, this.innerText),
                     function(data) {
+                        Views.titleView.clear();
+                        Views.imageView.clear();
                         Views.titleView.addContentButton(JSON.parse(data))
                 })
             }
