@@ -80,7 +80,7 @@ var View = function(id, templateUrl) {
         });
     },
 
-    this.addContentButton = function(dataItem) {
+    this.addContentButton = function(dataItem, callback) {
         httpRequest(templateUrl, function(data) {
             var template = Handlebars.compile(data);
             element.innerHTML = template(dataItem);
@@ -89,15 +89,17 @@ var View = function(id, templateUrl) {
             for(var i = 0; i < linkImg.length; i++) {
                 linkImg[i].onclick = function(){
                     var url = this.firstElementChild.attributes[1].value;
-                    var img = document.createElement('img');
-                    img.src = url;
-                    Css.add(img, "clsImg");
-                    var divImg = document.getElementById("imgJson");
-                    divImg.innerHTML='';
-                    divImg.appendChild(img);
+                    callback(url);
                 }
             };
         });
+    },
+    this.addImage = function(url) {
+        var img = document.createElement('img');
+        img.src = url;
+        Css.add(img, "clsImg");
+        element.innerHTML='';
+        element.appendChild(img);
     },
 
     this.clear = function() {
@@ -130,7 +132,12 @@ var Views = {
                     function(data) {
                         Views.titleView.clear();
                         Views.imageView.clear();
-                        Views.titleView.addContentButton(JSON.parse(data))
+                        Views.titleView.addContentButton(
+                            JSON.parse(data),
+                            function(url) {
+                                Views.imageView.addImage(url);
+                            }
+                        )
                 })
             }
         );
