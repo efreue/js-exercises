@@ -64,7 +64,6 @@ var selectedButton = function(showInDiv, buttonSel) {
     }
 };
 
-
 var View = function(id, templateUrl) {
 	var element = document.getElementById(id);
 
@@ -75,7 +74,6 @@ var View = function(id, templateUrl) {
             var listBtn = element.getElementsByClassName("roundButton");
             for(var i = 0; i < listBtn.length; i++) {
                 listBtn[i].onclick = callback;
-
             }
         });
     },
@@ -101,7 +99,6 @@ var View = function(id, templateUrl) {
         element.innerHTML='';
         element.appendChild(img);
     },
-
     this.clear = function() {
 		element.innerHTML = '';
 	};
@@ -141,7 +138,6 @@ var Views = {
                 })
             }
         );
-
         Views.dataViewAux.addButton(
             dataItem,
             function() {
@@ -154,7 +150,6 @@ var Views = {
             }
         );
     }
-
 };
 
 
