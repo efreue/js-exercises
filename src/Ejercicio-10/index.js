@@ -19,22 +19,18 @@ var Views = {
 		Views.dataView = new View('listcars', 'Template/list-car.hbs');
     },
     showDataItem: function(dataItem) {
-        alert(dataItem);
+        alert(dataItem[0].car_model);
     }
 }
 
 var App = {
 	init: function() {
-		Views.createViews();
-        Views.showDataItem(
-            function()
-            {
-                var url = "https://gist.githubusercontent.com/z4y4ts/7170953/raw/7a2b09105b69de8673c4c3acd2b256b83a171dcf/cars.json";
-                httpRequest(
-                    url,
-                    function(data) {
-                        JSON.parse(data);
-                })
-            })
+		httpRequest(
+            "https://gist.githubusercontent.com/z4y4ts/7170953/raw/7a2b09105b69de8673c4c3acd2b256b83a171dcf/cars.json",
+            function(data) {
+                Views.createViews();
+                Views.showDataItem(JSON.parse(data));
+        })
+
 	}
 };
