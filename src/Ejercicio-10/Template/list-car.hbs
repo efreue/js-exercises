@@ -1,3 +1,15 @@
-{{#each this}}
+<table class="tblCar">
+    <tr>
+        <th>car_model</th>
+        <th>driver_name</th>
+        <th>plate_id</th>
+    </tr>
+    {{#each this}}
+        <tr>
+            <th>{{car_model}}</th>
+            <th>{{driver_name}}</th>
+            <th>{{plate_id}}</th>
+        </tr>
+    {{/each}}
 
-{{/each}}
+</table>

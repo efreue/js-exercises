@@ -11,6 +11,12 @@ var httpRequest = function(url, callback) {
 
 var View = function(id, templateUrl) {
 	var element = document.getElementById(id);
+    this.addTable = function(dataItem) {
+        httpRequest(templateUrl, function(data) {
+            var template = Handlebars.compile(data);
+            element.innerHTML = template(dataItem);
+        });
+    }
 };
 
 var Views = {
@@ -19,7 +25,8 @@ var Views = {
 		Views.dataView = new View('listcars', 'Template/list-car.hbs');
     },
     showDataItem: function(dataItem) {
-        alert(dataItem[0].car_model);
+        Views.dataView.addTable(dataItem);
+        //alert(dataItem[0].car_model);
     }
 }
 
