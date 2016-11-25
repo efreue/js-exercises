@@ -46,37 +46,14 @@ var View = function(id, templateUrl) {
             var tableCol = document.getElementById("cars");
              var tableCol = document.getElementById("cars");
             var tableTh = tableCol.firstElementChild.getElementsByClassName("colTbl");
-            for(var j=0; j < tableTh.length; j++) {
+            /*for(var j=0; j < tableTh.length; j++) {
                 tableTh[j].onclick = function() {
                     for(var i = 0; i < tableCol.rows.length; i++){
                 		element.sort_table('cars', i, 1);
                 	};
                 }
-             };
+             };*/
         });
-    },
-    this.sort_table = function(tbody, col, asc) {
-        var rows = tbody.rows,
-        i, j, cells, clen;
-        rlen = rows.length,
-        arr = new Array();
-        // fill the array with values from the table
-        for (i = 0; i < rlen; i++) {
-            cells = rows[i].cells;
-            clen = cells.length;
-            arr[i] = new Array();
-            for (j = 0; j < clen; j++) {
-                arr[i][j] = cells[j].innerHTML;
-            }
-        }
-        // sort the array by the specified column number (col) and order (asc)
-        arr.sort(function (a, b) {
-            return (a[col] == b[col]) ? 0 : ((a[col] > b[col]) ? asc : -1 * asc);
-        });
-        // replace existing rows with new rows created from the sorted array
-        for (i = 0; i < rlen; i++) {
-            rows[i].innerHTML = "<td>" + arr[i].join("</td><td>") + "</td>";
-        }
     }
 };
 
