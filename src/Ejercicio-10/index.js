@@ -43,16 +43,7 @@ var View = function(id, templateUrl) {
             var template = Handlebars.compile(data);
             element.innerHTML = template(dataItem);
             //agrego evento onclick a las celdas de la primer fila
-            var tableCol = document.getElementById("cars");
-             var tableCol = document.getElementById("cars");
-            var tableTh = tableCol.firstElementChild.getElementsByClassName("colTbl");
-            /*for(var j=0; j < tableTh.length; j++) {
-                tableTh[j].onclick = function() {
-                    for(var i = 0; i < tableCol.rows.length; i++){
-                		element.sort_table('cars', i, 1);
-                	};
-                }
-             };*/
+
         });
     }
 };
@@ -63,7 +54,20 @@ var Views = {
 		Views.dataView = new View('listcars', 'Template/list-car.hbs');
     },
     showDataItem: function(dataItem) {
-        Views.dataView.addTable(dataItem);
+        Views.dataView.addTable(
+            dataItem.sort(function(item1, item2) {
+                var Item1 = item1.driver_name.toUpperCase(); // ignore upper and lowercase
+                var Item2 = item2.driver_name.toUpperCase(); // ignore upper and lowercase
+                if (Item1 < Item2) {
+                    return -1;
+                }
+                if (Item1 > Item2) {
+                    return 1;
+                }
+                // names must be equal
+                return 0;
+            })
+        );
         //alert(dataItem[0].car_model);
     }
 }

@@ -18,7 +18,8 @@ tr {
     text-align: left;
 }
 
-td {
+
+th, td {
     border-bottom: 1px solid pink;
     font-family:Verdana, Arial, Helvetica, sans-serif;
     font-size: 14px;
@@ -29,7 +30,7 @@ td {
 }
 
 
-.tblCar tr:first-child td {
+.tblCar tr:first-child th {
     vertical-align: top;
     text-align: center;
     border-bottom: 1px solid pink;
