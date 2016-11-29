@@ -9,18 +9,6 @@ var httpRequest = function(url, callback) {
 	ajax.send();
 };
 
-var Css = {
-	add: function(node, className) {
-		node.className += " " + className;
-	},
-	del: function(node, className) {
-		node.className = node.className.replace(className, "");
-	},
-	contains: function(node, className) {
-		return node.className.search(className) != -1;
-	}
-};
-
 var selectedColumn = function(showInDiv, ColSel) {
     var tableCol = document.getElementById(showInDiv).getElementsByClassName("colTbl");
 
