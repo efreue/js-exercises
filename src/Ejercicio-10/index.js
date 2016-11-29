@@ -21,20 +21,20 @@ var Css = {
 	}
 };
 
-
 var selectedColumn = function(showInDiv, ColSel) {
-    var className = "ColSelected";
-    var tableCol = document.getElementById(showInDiv).getElementsByClassName("tblCar");
-    var lastColSel = document.getElementById(showInDiv).getElementsByClassName(className)[0];
-    if (lastColSel && Css.contains(lastColSel, className)) {
-        Css.del(lastColSel, className);
-    }
+    var tableCol = document.getElementById(showInDiv).getElementsByClassName("colTbl");
+
     for(var i = 0; i < tableCol.length; i++) {
-        if(tableCol[i].textContent === ColSel.innerHTML) {
-            Css.add(tableCol[i], className);
+        if(tableCol[i].innerHTML === ColSel) {
+            tableCol[i].innerHTML += " #";
+        }
+        else {
+            var colN = tableCol[i].innerHTML.replace("#","");
+            tableCol[i].innerHTML = colN;
         }
     }
 };
+
 
 var View = function(id, templateUrl) {
 	var element = document.getElementById(id);
@@ -43,9 +43,21 @@ var View = function(id, templateUrl) {
             var template = Handlebars.compile(data);
             element.innerHTML = template(dataItem);
             //agrego evento onclick a las celdas de la primer fila
-
+            var tblHd = element.getElementsByClassName("colTbl");
+            for(var i = 0; i < tblHd.length; i++) {
+                tblHd[i].onclick = function() {
+                    var col = this.innerHTML;
+                    col.replace(" #","");
+                    selectedColumn('listcars', col);
+                    httpRequest(
+                        "https://gist.githubusercontent.com/z4y4ts/7170953/raw/7a2b09105b69de8673c4c3acd2b256b83a171dcf/cars.json",
+                        function(data) {
+                            Views.showDataItem(JSON.parse(data), col)
+                    })
+                };
+            }
         });
-    }
+    };
 };
 
 var Views = {
@@ -53,11 +65,24 @@ var Views = {
 	createViews: function() {
 		Views.dataView = new View('listcars', 'Template/list-car.hbs');
     },
-    showDataItem: function(dataItem) {
+    showDataItem: function(dataItem, col) {
         Views.dataView.addTable(
             dataItem.sort(function(item1, item2) {
-                var Item1 = item1.driver_name.toUpperCase(); // ignore upper and lowercase
-                var Item2 = item2.driver_name.toUpperCase(); // ignore upper and lowercase
+                var Item1 = null;
+                var Item2 = null;
+                if (col == "Car Model") {
+                    Item1 = item1.car_model.toUpperCase(); // ignore upper and lowercase
+                    Item2 = item2.car_model.toUpperCase(); // ignore upper and lowercase
+                }
+                if (col == "Driver Name" ) {
+                    Item1 = item1.driver_name.toUpperCase(); // ignore upper and lowercase
+                    Item2 = item2.driver_name.toUpperCase(); // ignore upper and lowercase
+                }
+
+                if (col == "Plate Id") {
+                    Item1 = item1.plate_id.toUpperCase(); // ignore upper and lowercase
+                    Item2 = item2.plate_id.toUpperCase(); // ignore upper and lowercase
+                }
                 if (Item1 < Item2) {
                     return -1;
                 }
@@ -68,7 +93,6 @@ var Views = {
                 return 0;
             })
         );
-        //alert(dataItem[0].car_model);
     }
 }
 
@@ -82,6 +106,5 @@ var App = {
                     JSON.parse(data)
                 );
         })
-
 	}
 };
