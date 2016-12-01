@@ -1,0 +1,50 @@
+.container {
+    width: 80%;
+    height: 440px;
+    padding-top: 20;
+    padding-left: 20;
+
+}
+
+.tblCar{
+    padding: 5px;
+    width: 98%;
+    height: 500px;
+    overflow: scroll;
+    text-align: left;
+    border: 0;
+}
+tr {
+    text-align: left;
+}
+
+
+th, td {
+    border-bottom: 1px solid pink;
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+.scrollVertical {
+	overflow-y: scroll;
+}
+
+
+.tblCar tr:first-child th {
+    vertical-align: top;
+    text-align: center;
+    border-bottom: 1px solid pink;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    color:pink;
+}
+
+.tblCar tr:last-child td {
+    text-align: left;
+    border-bottom: 0;
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+
+}
+

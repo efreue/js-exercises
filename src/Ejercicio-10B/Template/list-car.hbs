@@ -1,0 +1,15 @@
+<table id= "cars" class="tblCar">
+    <tr>
+        <th class="colTbl">Car Model</th>
+        <th class="colTbl">Driver Name</th>
+        <th class="colTbl">Plate Id</th>
+    </tr>
+    {{#each this}}
+        <tr>
+            <td>{{car_model}}</td>
+            <td>{{driver_name}}</td>
+            <td>{{plate_id}}</td>
+        </tr>
+    {{/each}}
+
+</table>
