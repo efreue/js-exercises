@@ -24,7 +24,7 @@ var Views = {
 		Views.dataView = new View('listcars', 'Template/list-car.hbs');
     },
     sortBy: function(dataItem, colName) {
-        dataItem.sort(
+       return dataItem.sort(
             function(a, b) {
                 if(a[colName].toUpperCase() < b[colName].toUpperCase()) {
                     return -1;
@@ -37,26 +37,28 @@ var Views = {
             }
         );
     },
-    getData: function(colNameSel) {
+    getColUse: function(colNameSel) {
+        var atrib;
+        if (colNameSel == "Car Model") {
+            atrib = "car_model";
+        }
+        if (colNameSel == "Driver Name" ) {
+            atrib = "driver_name";
+        }
+        if (colNameSel == "Plate Id") {
+            atrib = "plate_id";
+        }
+        return atrib;
+    },
+    getData: function(colNameSel, callback) {
         httpRequest(
             "https://gist.githubusercontent.com/z4y4ts/7170953/raw/7a2b09105b69de8673c4c3acd2b256b83a171dcf/cars.json",
             function(data) {
-                Views.dataView.showData(
+                var colN = Views.getColUse(colNameSel);
+                callback(
                     Views.sortBy(
-                        data,
-                        function(colNameSel) {
-                            var atrib;
-                            if (colNameSel == "Car Model") {
-                                atrib = "car_model";
-                            }
-                            if (colNameSel == "Driver Name" ) {
-                                atrib = "driver_name";
-                            }
-                            if (colNameSel == "Plate Id") {
-                                atrib = "plate_id";
-                            }
-                            return atrib;
-                        }
+                        JSON.parse(data),
+                        colN
                     )
                 );
             }
@@ -67,6 +69,6 @@ var Views = {
 var App = {
 	init: function() {
         Views.createViews();
-        Views.getData("Driver Name");
+        Views.getData("Driver Name", Views.dataView.showData);
 	}
 };
