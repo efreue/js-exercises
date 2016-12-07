@@ -13,8 +13,18 @@ var httpRequest = function(url, callback) {
 var View = function(id, templateUrl) {
 	var element = document.getElementById(id);
     this.showData = function(dataItem) {
-        var template = Handlebars.compile(dataItem);
-        element.innerHTML = template(JSON.parse(dataItem));
+        httpRequest(templateUrl, function(dataTemplateString) {
+            var template = Handlebars.compile(dataTemplateString);
+            element.innerHTML = template(dataItem);
+            //agrego evento onclick a las celdas de la primer fila
+            var tblHd = element.getElementsByClassName("colTbl");
+            for(var i = 0; i < tblHd.length; i++) {
+                tblHd[i].onclick = function() {
+                    var col = this.innerHTML;
+                    Views.getData(col, Views.dataView.showData);
+                };
+            }
+        });
     }
 };
 
