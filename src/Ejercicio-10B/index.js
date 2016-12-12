@@ -76,7 +76,7 @@ var Views = {
                     return 1;
                 }
                 return 0;
-            };
+            }
         );
     },
     getColUse: function(colNameSel) {
