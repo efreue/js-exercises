@@ -1,5 +1,5 @@
 .container {
-    width: 80%;
+    width: 70%;
     height: 440px;
     padding-top: 20;
     padding-left: 20;
@@ -13,7 +13,9 @@
     overflow: scroll;
     text-align: left;
     border: 0;
+    border-spacing: 10px;
 }
+
 
 .hiddenSelCol {
     visibility: hidden;
@@ -50,6 +52,5 @@ th, td {
     border-bottom: 0;
     font-family:Verdana, Arial, Helvetica, sans-serif;
     font-size: 14px;
-
 }
 
