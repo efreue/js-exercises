@@ -37,7 +37,7 @@ th, td {
 }
 
 
-.tblCar tr:first-child th {
+.colTbl {
     vertical-align: top;
     text-align: center;
     border-bottom: 1px solid pink;
