@@ -9,19 +9,52 @@ var httpRequest = function(url, callback) {
 	ajax.send();
 };
 
+var selectedColumn = function(showInDiv, colSel) {
+    var className = "hiddenSelCol";
+    var tableCols = document.getElementById(showInDiv).getElementsByClassName("colSel");
+    var lastColSel = document.getElementById(showInDiv).getElementsByClassName(className)[0];
+    if (lastColSel && Css.contains(lastColSel, className)) {
+        Css.del(lastColSel, className);
+    }
+    for(var i = 0; i < tableCols.length; i++) {
+        if(tableCols[i].id === colSel) {
+            Css.del(tableCols[i], className);
+        }
+        else {
+            Css.add(tableCols[i], className);
+        }
+
+    }
+};
+
+
+var Css = {
+	add: function(node, className) {
+		node.className += " " + className;
+	},
+	del: function(node, className) {
+		node.className = node.className.replace(className, "");
+	},
+	contains: function(node, className) {
+		return node.className.search(className) != -1;
+	}
+};
+
 
 var View = function(id, templateUrl) {
 	var element = document.getElementById(id);
-    this.showData = function(dataItem) {
+    this.showData = function(dataItem, colNameSel) {
         httpRequest(templateUrl, function(dataTemplateString) {
             var template = Handlebars.compile(dataTemplateString);
             element.innerHTML = template(dataItem);
+            var colId = Views.getColId('listcars',colNameSel);
+            selectedColumn('listcars', colId)
             //agrego evento onclick a las celdas de la primer fila
             var tblHd = element.getElementsByClassName("colTbl");
             for(var i = 0; i < tblHd.length; i++) {
                 tblHd[i].onclick = function() {
-                    var col = this.innerHTML;
-                    Views.getData(col, Views.dataView.showData);
+                    var colNameSel = this.innerText.trimRight();
+                    Views.getData(colNameSel, Views.dataView.showData);
                 };
             }
         });
@@ -60,6 +93,16 @@ var Views = {
         }
         return atrib;
     },
+    getColId: function(showInDiv, colNameSel) {
+        var colId;
+        var tableCols = document.getElementById(showInDiv).getElementsByClassName("colTbl");
+        for(var i = 0; i < tableCols.length; i++) {
+            if(tableCols[i].innerText.trimRight() === colNameSel) {
+                colId = tableCols[i].id;
+            }
+        }
+        return colId;
+    },
     getData: function(colNameSel, callback) {
         httpRequest(
             "https://gist.githubusercontent.com/z4y4ts/7170953/raw/7a2b09105b69de8673c4c3acd2b256b83a171dcf/cars.json",
@@ -69,7 +112,8 @@ var Views = {
                     Views.sortBy(
                         JSON.parse(data),
                         colN
-                    )
+                    ),
+                    colNameSel
                 );
             }
         )
