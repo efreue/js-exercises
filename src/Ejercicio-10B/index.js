@@ -56,9 +56,9 @@ var View = function(id, templateUrl) {
                     var colNameSel = this.innerText.trimRight();
                     Views.getData(colNameSel, Views.dataView.showData);
                 };
-            }
+            };
         });
-    }
+    };
 };
 
 var Views = {
@@ -72,12 +72,11 @@ var Views = {
                 if(a[colName].toUpperCase() < b[colName].toUpperCase()) {
                     return -1;
                 }
-
                 if(a[colName].toUpperCase() > b[colName].toUpperCase()) {
                     return 1;
                 }
                 return 0;
-            }
+            };
         );
     },
     getColUse: function(colNameSel) {
