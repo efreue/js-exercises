@@ -45,6 +45,7 @@ th, td {
     font-size: 14px;
     font-weight: bold;
     color:pink;
+    width:30px;
 }
 
 .tblCar tr:last-child td {
@@ -54,3 +55,11 @@ th, td {
     font-size: 14px;
 }
 
+.colSel {
+    float:right;
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    color:black;
+    width:10px;
+}
