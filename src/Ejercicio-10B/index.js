@@ -9,21 +9,20 @@ var httpRequest = function(url, callback) {
 	ajax.send();
 };
 
-var selectedColumn = function(showInDiv, colSel) {
-    var className = "hiddenSelCol";
-    var tableCols = document.getElementById(showInDiv).getElementsByClassName("colSel");
-    var lastColSel = document.getElementById(showInDiv).getElementsByClassName(className)[0];
-    if (lastColSel && Css.contains(lastColSel, className)) {
-        Css.del(lastColSel, className);
+var selectedTitleColumn = function(divId, idTitleColumnSelected) {
+    var className = "hidden-column";
+    var allTitleColumns = document.getElementById(divId).getElementsByClassName("selected-column");
+    var lastTitleColumnSelected = document.getElementById(divId).getElementsByClassName(className)[0];
+    if (lastTitleColumnSelected && Css.contains(lastTitleColumnSelected, className)) {
+        Css.del(lastTitleColumnSelected, className);
     }
-    for(var i = 0; i < tableCols.length; i++) {
-        if(tableCols[i].id === colSel) {
-            Css.del(tableCols[i], className);
+    for(var i = 0; i < allTitleColumns.length; i++) {
+        if(allTitleColumns[i].id === idTitleColumnSelected) {
+            Css.del(allTitleColumns[i], className);
         }
         else {
-            Css.add(tableCols[i], className);
+            Css.add(allTitleColumns[i], className);
         }
-
     }
 };
 
@@ -40,23 +39,22 @@ var Css = {
 	}
 };
 
-
-var View = function(id, templateUrl) {
-	var element = document.getElementById(id);
-    this.showData = function(dataItem, colNameSel) {
+var View = function(mainDivId, templateUrl) {
+	var element = document.getElementById(mainDivId);
+    this.showData = function(dataSorted, titleColumnSelected) {
         httpRequest(templateUrl, function(dataTemplateString) {
             var template = Handlebars.compile(dataTemplateString);
-            element.innerHTML = template(dataItem);
-            var colId = Views.getColId('listcars',colNameSel);
-            selectedColumn('listcars', colId)
+            element.innerHTML = template(dataSorted);
+            var idTitleColumnSelected = Views.getIdTitleColumnSelected('listcars',titleColumnSelected);
+            selectedTitleColumn('listcars', idTitleColumnSelected);
             //agrego evento onclick a las celdas de la primer fila
-            var tblHd = element.getElementsByClassName("colTbl");
-            for(var i = 0; i < tblHd.length; i++) {
-                tblHd[i].onclick = function() {
-                    var colNameSel = this.innerText.trimRight();
-                    Views.getData(colNameSel, Views.dataView.showData);
+            var allTitlesColumns = element.getElementsByClassName("title-column-table");
+            for(var i = 0; i < allTitlesColumns.length; i++) {
+                allTitlesColumns[i].onclick = function() {
+                    var titleColumnSelected = this.innerText.trimRight();
+                    Views.getData(titleColumnSelected, Views.dataView.showData);
                 };
-            };
+            }
         });
     };
 };
@@ -66,58 +64,58 @@ var Views = {
 	createViews: function() {
 		Views.dataView = new View('listcars', 'Template/list-car.hbs');
     },
-    sortBy: function(dataItem, colName) {
-       return dataItem.sort(
+    sortBy: function(data, nameColumnSelected) {
+       return data.sort(
             function(a, b) {
-                if(a[colName].toUpperCase() < b[colName].toUpperCase()) {
+                if(a[nameColumnSelected].toUpperCase() < b[nameColumnSelected].toUpperCase()) {
                     return -1;
                 }
-                if(a[colName].toUpperCase() > b[colName].toUpperCase()) {
+                if(a[nameColumnSelected].toUpperCase() > b[nameColumnSelected].toUpperCase()) {
                     return 1;
                 }
                 return 0;
             }
         );
     },
-    getColUse: function(colNameSel) {
-        var atrib;
-        if (colNameSel == "Car Model") {
-            atrib = "car_model";
+    getNameRealColumnSelected: function(titleColumnSelected) {
+        var nameRealColumn;
+        if (titleColumnSelected == "Car Model") {
+            nameRealColumn = "car_model";
         }
-        if (colNameSel == "Driver Name" ) {
-            atrib = "driver_name";
+        if (titleColumnSelected == "Driver Name" ) {
+            nameRealColumn = "driver_name";
         }
-        if (colNameSel == "Plate Id") {
-            atrib = "plate_id";
+        if (titleColumnSelected == "Plate Id") {
+            nameRealColumn = "plate_id";
         }
-        return atrib;
+        return nameRealColumn;
     },
-    getColId: function(showInDiv, colNameSel) {
-        var colId;
-        var tableCols = document.getElementById(showInDiv).getElementsByClassName("colTbl");
-        for(var i = 0; i < tableCols.length; i++) {
-            if(tableCols[i].innerText.trimRight() === colNameSel) {
-                colId = tableCols[i].id;
+    getIdTitleColumnSelected: function(divId, titleColumnSelected) {
+        var idTitleColumn;
+        var allTitleColumns = document.getElementById(divId).getElementsByClassName("title-column-table");
+        for(var i = 0; i < allTitleColumns.length; i++) {
+            if(allTitleColumns[i].innerText.trimRight() === titleColumnSelected) {
+                idTitleColumn = allTitleColumns[i].id;
             }
         }
-        return colId;
+        return idTitleColumn;
     },
-    getData: function(colNameSel, callback) {
+    getData: function(titleColumnSelected, callback) {
         httpRequest(
             "https://gist.githubusercontent.com/z4y4ts/7170953/raw/7a2b09105b69de8673c4c3acd2b256b83a171dcf/cars.json",
             function(data) {
-                var colN = Views.getColUse(colNameSel);
+                var nameRealColumnSelected = Views.getNameRealColumnSelected(titleColumnSelected);
                 callback(
                     Views.sortBy(
                         JSON.parse(data),
-                        colN
+                        nameRealColumnSelected
                     ),
-                    colNameSel
+                    titleColumnSelected
                 );
             }
-        )
+        );
     }
-}
+};
 
 var App = {
 	init: function() {
