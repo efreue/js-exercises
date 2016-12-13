@@ -9,19 +9,19 @@ var httpRequest = function(url, callback) {
 	ajax.send();
 };
 
-var selectedTitleColumn = function(divId, idTitleColumnSelected) {
+var selectColumnTitle = function(divId, selectedColumnId) {
     var className = "hidden-column";
-    var allTitleColumns = document.getElementById(divId).getElementsByClassName("selected-column");
-    var lastTitleColumnSelected = document.getElementById(divId).getElementsByClassName(className)[0];
-    if (lastTitleColumnSelected && Css.contains(lastTitleColumnSelected, className)) {
-        Css.del(lastTitleColumnSelected, className);
+    var listColumn = document.getElementById(divId).getElementsByClassName("selected-column");
+    var lastSelectedColumn = document.getElementById(divId).getElementsByClassName(className)[0];
+    if (lastSelectedColumn && Css.contains(lastSelectedColumn, className)) {
+        Css.del(lastSelectedColumn, className);
     }
-    for(var i = 0; i < allTitleColumns.length; i++) {
-        if(allTitleColumns[i].id === idTitleColumnSelected) {
-            Css.del(allTitleColumns[i], className);
+    for(var i = 0; i < listColumn.length; i++) {
+        if(listColumn[i].id === selectedColumnId) {
+            Css.del(listColumn[i], className);
         }
         else {
-            Css.add(allTitleColumns[i], className);
+            Css.add(listColumn[i], className);
         }
     }
 };
@@ -41,18 +41,18 @@ var Css = {
 
 var View = function(mainDivId, templateUrl) {
 	var element = document.getElementById(mainDivId);
-    this.showData = function(dataSorted, titleColumnSelected) {
+    this.showData = function(dataSorted, selectedColumnTitle) {
         httpRequest(templateUrl, function(dataTemplateString) {
             var template = Handlebars.compile(dataTemplateString);
             element.innerHTML = template(dataSorted);
-            var idTitleColumnSelected = Views.getIdTitleColumnSelected('listcars',titleColumnSelected);
-            selectedTitleColumn('listcars', idTitleColumnSelected);
+            var selectedColumnId = Views.getColumnId('listcars', selectedColumnTitle);
+            selectColumnTitle('listcars', selectedColumnId);
             //agrego evento onclick a las celdas de la primer fila
-            var allTitlesColumns = element.getElementsByClassName("title-column-table");
-            for(var i = 0; i < allTitlesColumns.length; i++) {
-                allTitlesColumns[i].onclick = function() {
-                    var titleColumnSelected = this.innerText.trimRight();
-                    Views.getData(titleColumnSelected, Views.dataView.showData);
+            var listColumn = element.getElementsByClassName("title-column-table");
+            for(var i = 0; i < listColumn.length; i++) {
+                listColumn[i].onclick = function() {
+                    var selectedColumnTitle = this.innerText.trimRight();
+                    Views.getData(selectedColumnTitle, Views.dataView.showData);
                 };
             }
         });
@@ -77,40 +77,40 @@ var Views = {
             }
         );
     },
-    getNameRealColumnSelected: function(titleColumnSelected) {
+    getSelectedColumn: function(selectedColumnTitle) {
         var nameRealColumn;
-        if (titleColumnSelected == "Car Model") {
+        if (selectedColumnTitle == "Car Model") {
             nameRealColumn = "car_model";
         }
-        if (titleColumnSelected == "Driver Name" ) {
+        if (selectedColumnTitle == "Driver Name" ) {
             nameRealColumn = "driver_name";
         }
-        if (titleColumnSelected == "Plate Id") {
+        if (selectedColumnTitle == "Plate Id") {
             nameRealColumn = "plate_id";
         }
         return nameRealColumn;
     },
-    getIdTitleColumnSelected: function(divId, titleColumnSelected) {
+    getColumnId: function(divId, selectedColumnTitle) {
         var idTitleColumn;
-        var allTitleColumns = document.getElementById(divId).getElementsByClassName("title-column-table");
-        for(var i = 0; i < allTitleColumns.length; i++) {
-            if(allTitleColumns[i].innerText.trimRight() === titleColumnSelected) {
-                idTitleColumn = allTitleColumns[i].id;
+        var listColumn = document.getElementById(divId).getElementsByClassName("title-column-table");
+        for(var i = 0; i < listColumn.length; i++) {
+            if(listColumn[i].innerText.trimRight() === selectedColumnTitle) {
+                idTitleColumn = listColumn[i].id;
             }
         }
         return idTitleColumn;
     },
-    getData: function(titleColumnSelected, callback) {
+    getData: function(selectedColumnTitle, callback) {
         httpRequest(
             "https://gist.githubusercontent.com/z4y4ts/7170953/raw/7a2b09105b69de8673c4c3acd2b256b83a171dcf/cars.json",
             function(data) {
-                var nameRealColumnSelected = Views.getNameRealColumnSelected(titleColumnSelected);
+                var columnName = Views.getSelectedColumn(selectedColumnTitle);
                 callback(
                     Views.sortBy(
                         JSON.parse(data),
-                        nameRealColumnSelected
+                        columnName
                     ),
-                    titleColumnSelected
+                    selectedColumnTitle
                 );
             }
         );
