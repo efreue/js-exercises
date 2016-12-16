@@ -12,44 +12,16 @@
             <h2>Hello, <span data-bind = 'text: fullName'> </span>!</h2>
         </div>
 
-        <h3>HTML controls</h3>
         <table>
-            <tr>
-                <td class="label">Text value (updates on change):</td>
-                <td><input data-bind="value: stringValue" /></td>
-            </tr>
-            <tr>
-                <td class="label">Text value (updates on keystroke):</td>
-                <td><input data-bind='value: stringValue, valueUpdate: "afterkeydown"' /></td>
-            </tr>
-            <tr>
-                <td class="label">Text value (multi-line):</td>
-                <td><textarea data-bind="value: stringValue"> </textarea></td>
-            </tr>
-            <tr>
-                <td class="label">Password:</td>
-                <td><input type="password" data-bind="value: passwordValue" /></td>
-            </tr>
-            <tr>
-                <td class="label">Checkbox:</td>
-                <td><input type="checkbox" data-bind="checked: booleanValue" /></td>
-            </tr>
-            <tr>
-                <td class="label">Drop-down list:</td>
-                <td><select data-bind="options: optionValues, value: selectedOptionValue"></select></td>
-            </tr>
-            <tr>
-                <td class="label">Multi-select drop-down list:</td>
-                <td><select multiple="multiple" data-bind="options: optionValues, selectedOptions: multipleSelectedOptionValues"></select></td>
-            </tr>
-            <tr>
-                <td class="label">Radio buttons:</td>
-                <td>
-                    <label><input type="radio" value="Alpha" data-bind="checked: radioSelectedOptionValue" />Alpha</label>
-                    <label><input type="radio" value="Beta" data-bind="checked: radioSelectedOptionValue" />Beta</label>
-                    <label><input type="radio" value="Gamma" data-bind="checked: radioSelectedOptionValue" />Gamma</label>
-                </td>
-            </tr>
+            <thead>
+                <tr><th>First name</th><th>Last name</th></tr>
+            </thead>
+            <tbody data-bind="foreach: people">
+                <tr>
+                    <td data-bind="text: firstName"></td>
+                    <td data-bind="text: lastName"></td>
+                </tr>
+            </tbody>
         </table>
     </body>
 </html>
