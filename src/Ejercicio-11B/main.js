@@ -11,19 +11,16 @@ var viewModel = function(first, last, people) {
 
 //se define que se ejecuta cuando se carga la pagina
 var init = function() {
-    var nodes = document.body.getElementsByClassName('FullNameExample');
-    if(nodes) {
-        ko.applyBindings(new viewModel(
-            "Emiliano",
-            "Freue",
-            {
-                people: [
-                    { firstName: 'Bert', lastName: 'Bertington' },
-                    { firstName: 'Charles', lastName: 'Charlesforth' },
-                    { firstName: 'Denise', lastName: 'Dentiste' }
-                ]
-            }));
-    }
+    ko.applyBindings(new viewModel(
+        "Emiliano",
+        "Freue",
+        {
+            people: [
+                { firstName: 'Bert', lastName: 'Bertington' },
+                { firstName: 'Charles', lastName: 'Charlesforth' },
+                { firstName: 'Denise', lastName: 'Dentiste' }
+            ]
+        }));
 };
 
 window.onload = init;
