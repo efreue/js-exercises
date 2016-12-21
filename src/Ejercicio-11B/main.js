@@ -14,13 +14,12 @@ var init = function() {
     ko.applyBindings(new viewModel(
         "Emiliano",
         "Freue",
-        {
-            people: [
+        [
                 { firstName: 'Bert', lastName: 'Bertington' },
                 { firstName: 'Charles', lastName: 'Charlesforth' },
                 { firstName: 'Denise', lastName: 'Dentiste' }
-            ]
-        }));
+        ]
+    ));
 };
 
 window.onload = init;
