@@ -6,7 +6,7 @@ var viewModel = function(first, last, people) {
         return this.firstName() + " " + this.lastName();
     }, this);
 
-    this.people = ko.observable(people);
+    this.people = ko.observableArray(people);
 };
 
 //se define que se ejecuta cuando se carga la pagina
@@ -15,7 +15,7 @@ var init = function() {
         "Emiliano",
         "Freue",
         [
-                { firstName: 'Bert', lastName: 'Bertington' },
+                { firstName: 'Emi', lastName: 'Bertington' },
                 { firstName: 'Charles', lastName: 'Charlesforth' },
                 { firstName: 'Denise', lastName: 'Dentiste' }
         ]
