@@ -22,6 +22,22 @@
                 </tr>
             </tbody>
         </table>
+
+        <table id= "cars" class="table-cars">
+            <thead>
+                <tr><th id="1" class="title-column-table">Car Model<p id = "1" class="selected-column hidden-column">#</p></th>
+                    <th id="2" class="title-column-table">Driver Name<p id = "2" class="selected-column hidden-column">#</p></th>
+                    <th id="3" class="title-column-table">Plate Id<p id = "3" class="selected-column hidden-column">#</p></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: cars">
+                <tr>
+                    <td data-bind="text: car_model"></td>
+                    <td data-bind="text: driver_name"></td>
+                    <td data-bind="text: plate_id"></td>
+                </tr>
+            </tbody>
+        </table>
     </body>
 </html>
 
