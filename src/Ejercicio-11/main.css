@@ -1,0 +1,60 @@
+.container {
+    width: 70%;
+    height: 440px;
+    padding-top: 20;
+    padding-left: 20;
+}
+
+.table-cars{
+    padding: 5px;
+    width: 98%;
+    height: 500px;
+    overflow: scroll;
+    text-align: left;
+    border: 0;
+    border-spacing: 10px;
+}
+
+.hidden-column {
+    visibility: hidden;
+}
+
+tr {
+    text-align: left;
+}
+
+th, td {
+    border-bottom: 1px solid pink;
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+.scroll-vertical {
+	overflow-y: scroll;
+}
+
+.title-column-table {
+    vertical-align: top;
+    text-align: center;
+    border-bottom: 1px solid pink;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    color:pink;
+    width:30px;
+}
+
+.table-cars tr:last-child td {
+    text-align: left;
+    border-bottom: 0;
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+.selected-column {
+    margin: 0px;
+    padding: 0px;
+    color: silver;
+    display: inline;
+    padding-left: 10px;
+}
