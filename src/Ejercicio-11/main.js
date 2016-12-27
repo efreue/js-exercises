@@ -9,14 +9,21 @@ var httpRequest = function(url, callback) {
 	ajax.send();
 };
 
-var viewModel = function(listCars) {
-    this.cars = ko.observableArray(listCars);
+var Css = {
+	add: function(node, className) {
+		node.className += " " + className;
+	},
+	del: function(node, className) {
+		node.className = node.className.replace(className, "");
+	},
+	contains: function(node, className) {
+		return node.className.search(className) != -1;
+	}
 };
 
-
 var selectColumnTitle = function(divId, selectedColumnId) {
-    var className = "hidden-column";
-    var listColumn = document.getElementById(divId).getElementsByClassName("selected-column");
+    var className =  "hidden-column";
+    var listColumn = document.getElementById(divId).getElementsByClassName(className);
     var lastSelectedColumn = document.getElementById(divId).getElementsByClassName(className)[0];
     if (lastSelectedColumn && Css.contains(lastSelectedColumn, className)) {
         Css.del(lastSelectedColumn, className);
@@ -31,47 +38,27 @@ var selectColumnTitle = function(divId, selectedColumnId) {
     }
 };
 
-
-var Css = {
-	add: function(node, className) {
-		node.className += " " + className;
-	},
-	del: function(node, className) {
-		node.className = node.className.replace(className, "");
-	},
-	contains: function(node, className) {
-		return node.className.search(className) != -1;
-	}
+var viewModel = function(listCars) {
+    this.cars = ko.observableArray(listCars);
 };
 
 var View = function(mainDivId) {
-	var element = document.getElementById(mainDivId);
+    var element = document.getElementById(mainDivId);
     this.showData = function(dataSorted, selectedColumnTitle) {
-        httpRequest("https://gist.githubusercontent.com/z4y4ts/7170953/raw/7a2b09105b69de8673c4c3acd2b256b83a171dcf/cars.json",
+        httpRequest(
+            "https://gist.githubusercontent.com/z4y4ts/7170953/raw/7a2b09105b69de8673c4c3acd2b256b83a171dcf/cars.json",
             function(data) {
-                ko.applyBindings(new viewModel(
-                    dataSorted
-                ))
-                var selectedColumnId = Views.getColumnId('listcars', selectedColumnTitle);
-                selectColumnTitle('listcars', selectedColumnId);
-                //agrego evento onclick a las celdas de la primer fila
-                var listColumn = element.getElementsByClassName("title-column-table");
-                for(var i = 0; i < listColumn.length; i++) {
-                    listColumn[i].onclick = function() {
-                        var selectedColumnTitle = this.innerText.trimRight();
-                        Views.getData(selectedColumnTitle, Views.dataView.showData);
-                    };
-                }
+                ko.applyBindings(new viewModel(dataSorted));
+                var selectedColumnId = Views.getColumnId(mainDivId, selectedColumnTitle);
             }
-        );
-    };
+        )
+    }
 };
-
 
 var Views = {
     dataView: null,
-	createViews: function() {
-		Views.dataView = new View('listcars');
+    createViews: function() {
+        Views.dataView = new View('listCars');
     },
     sortBy: function(data, nameColumnSelected) {
        return data.sort(
@@ -126,8 +113,6 @@ var Views = {
     }
 };
 
-
-//se define que se ejecuta cuando se carga la pagina
 var App = {
 	init: function() {
         Views.createViews();
@@ -136,5 +121,4 @@ var App = {
 };
 
 window.onload = App.init;
-
 
