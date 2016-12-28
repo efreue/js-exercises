@@ -11,9 +11,9 @@
             <table id="idTblCars" class="table-cars">
                 <thead>
                     <tr>
-                        <th id = "1" class="title-column-table" data-bind="click:sortTableByColumn1">Car Model<p class="selected-column hidden-column">#</p></th>
-                        <th id = "2" class="title-column-table" data-bind="click:sortTableByColumn2">Driver Name<p class="selected-column hidden-column">#</p></th>
-                        <th id = "3" class="title-column-table">Plate Id<p class="selected-column hidden-column">#</p></th>
+                        <th class="title-column-table" data-bind="click:sortDataByCarModel">Car Model<p id="0" class="selected-column hidden-column">#</p></th>
+                        <th class="title-column-table" data-bind="click:sortDataByDriverName">Driver Name<p id="1" class="selected-column hidden-column">#</p></th>
+                        <th class="title-column-table"  data-bind="click:sortDataByPlateId">Plate Id<p id="2" class="selected-column hidden-column">#</p></th>
                     </tr>
                 </thead>
                 <tbody data-bind="foreach: cars">

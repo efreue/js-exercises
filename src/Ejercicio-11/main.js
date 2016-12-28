@@ -9,13 +9,59 @@ var httpRequest = function(url, callback) {
 	ajax.send();
 };
 
+var Css = {
+	add: function(node, className) {
+		node.className += " " + className;
+	},
+	del: function(node, className) {
+		node.className = node.className.replace(className, "");
+	},
+	contains: function(node, className) {
+		return node.className.search(className) != -1;
+	}
+};
+
+
+var selectColumn = function(selectedColumnId) {
+    var className = "hidden-column";
+    var listColumn = document.getElementsByClassName("selected-column");
+    var lastSelectedColumn = document.getElementsByClassName(className)[0];
+    if (lastSelectedColumn && Css.contains(lastSelectedColumn, className)) {
+        Css.del(lastSelectedColumn, className);
+    }
+    for(var i = 0; i < listColumn.length; i++) {
+        if(listColumn[i].id === selectedColumnId) {
+            Css.del(listColumn[i], className);
+        }
+        else {
+            Css.add(listColumn[i], className);
+        }
+    }
+};
+
+
 var viewModel = function(listCars) {
     this.cars = ko.observableArray(listCars);
-    this.sortTableByColumn1 = function() {
-        this.cars.reverse();
+    this.sortDataByCarModel = function() {
+        this.cars.sort(
+            function(left, right) {
+                return left.car_model == right.car_model ? 0 : (left.car_model < right.car_model ? -1 : 1)
+        });
+        selectColumn('0');
     };
-    this.sortTableByColumn2 = function() {
-        console.log('sort 2');
+    this.sortDataByDriverName = function() {
+        this.cars.sort(
+            function(left, right) {
+                return left.driver_name == right.driver_name ? 0 : (left.driver_name < right.driver_name ? -1 : 1)
+        });
+        selectColumn('1');
+    };
+    this.sortDataByPlateId = function() {
+        this.cars.sort(
+            function(left, right) {
+                return left.plate_id == right.plate_id ? 0 : (left.plate_id < right.plate_id ? -1 : 1)
+        });
+        selectColumn('2');
     };
 };
 
@@ -25,13 +71,13 @@ var App = {
         httpRequest(
             "https://gist.githubusercontent.com/z4y4ts/7170953/raw/7a2b09105b69de8673c4c3acd2b256b83a171dcf/cars.json",
             function(data) {
-                model = new viewModel(JSON.parse(data));
+                var listCars = JSON.parse(data);
+                model = new viewModel(listCars);
+                model.sortDataByDriverName(listCars);
                 ko.applyBindings(model);
             }
         );
-        //Views.createViews();
-        //sortTableByColumn2();
-	}
+    }
 };
 
 window.onload = App.init;
