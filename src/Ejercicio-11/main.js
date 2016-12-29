@@ -25,16 +25,13 @@ var Css = {
 var selectColumn = function(selectedColumnId) {
     var className = "hidden-column";
     var listColumn = document.getElementsByClassName("selected-column");
-    var lastSelectedColumn = document.getElementsByClassName(className)[0];
-    if (lastSelectedColumn && Css.contains(lastSelectedColumn, className)) {
-        Css.del(lastSelectedColumn, className);
-    }
     for(var i = 0; i < listColumn.length; i++) {
         if(listColumn[i].id === selectedColumnId) {
             Css.del(listColumn[i], className);
         }
         else {
-            Css.add(listColumn[i], className);
+            if (!Css.contains(listColumn[i], className))
+                Css.add(listColumn[i], className);
         }
     }
 };
