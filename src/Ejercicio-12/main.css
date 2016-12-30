@@ -1,6 +1,6 @@
 .ball {
-    width: 54px;
-    height: 58px;
+    width: 55px;
+    height: 60px;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
     border-radius: 100%;
@@ -38,10 +38,10 @@
 
 .container-board-col0 {
     width:40px;
-    border:3px solid white;
+    border:2px solid white;
 }
 
 .container-board-row {
     width:40px;
-    border:3px solid white;
+    border:2px solid white;
 }
