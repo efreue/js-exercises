@@ -1,18 +1,47 @@
 .ball {
-    width: 60px;
-    height: 60px;
+    width: 54px;
+    height: 58px;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
-    border-radius: 50%;
-    position:absolute;
+    border-radius: 100%;
+    position: absolute;
+    top:94px;
+    left:111;
+    border: 2px solid;
+    border-color: white;
 }
 
 .red {
     background-color:#F43E3E;
-    border-style:solid ;
-    border-color:white
+
 }
 
 .container-roulette {
     background-color: #108413;
+    padding-bottom: 80px;
+    padding-left: 30px;
+    padding-top: 80px;
+    padding-right: 10px;
+    width: 900px;
+    border-top-left-radius: 55px;
+    border-bottom-left-radius: 55px;
+    border-top-right-radius: 55px;
+    border-bottom-right-radius: 55px;
+}
+
+.container-board {
+    width:890px;
+    border:0;
+    width:880px;
+    height: 220px;
+}
+
+.container-board-col0 {
+    width:40px;
+    border:3px solid white;
+}
+
+.container-board-row {
+    width:40px;
+    border:3px solid white;
 }
