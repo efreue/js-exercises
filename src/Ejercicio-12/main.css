@@ -1,0 +1,18 @@
+.ball {
+    width: 60px;
+    height: 60px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    position:absolute;
+}
+
+.red {
+    background-color:#F43E3E;
+    border-style:solid ;
+    border-color:white
+}
+
+.container-roulette {
+    background-color: #108413;
+}
