@@ -5,15 +5,24 @@
     -webkit-border-radius: 50%;
     border-radius: 100%;
     position: absolute;
-    top:93px;
-    left:111;
     border: 2px solid;
     border-color: white;
 }
 
 .red {
     background-color:#F43E3E;
+}
 
+.top-first-row {
+    top:93px;
+}
+
+.top-second-row {
+    top:166px;
+}
+
+.top-third-row {
+    top:239px;
 }
 
 .container-roulette {
@@ -30,7 +39,6 @@
 }
 
 .container-board {
-    width:890px;
     border:0;
     width:880px;
     height: 220px;
@@ -38,10 +46,10 @@
 
 .container-board-col0 {
     width:40px;
-    border:3px solid yellow;
+    border:3px solid white;
 }
 
 .container-board-row {
     width:40px;
-    border:3px solid red;
+    border:3px solid white;
 }
