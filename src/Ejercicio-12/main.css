@@ -1,28 +1,38 @@
-.ball {
+.num-white {
+    color:white;
+    font-size:30px;
+    font-family:Verdana;
+}
+
+.horizontal-centered-text {
+    align-content: center;
+    vertical-align: middle;
+    line-height: 50px;
+}
+
+.prueba {
+    -webkit-transform: rotate(-90deg);
+    border:0;
+}
+
+.circle {
     width: 55px;
-    height: 60px;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
+    height: 55px;
+    -moz-border-radius: 55%;
+    -webkit-border-radius: 55%;
     border-radius: 100%;
-    position: absolute;
     border: 2px solid;
     border-color: white;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
 }
 
 .red {
     background-color:#F43E3E;
 }
 
-.top-first-row {
-    top:93px;
-}
-
-.top-second-row {
-    top:166px;
-}
-
-.top-third-row {
-    top:239px;
+.black {
+    background-color:#000000;
 }
 
 .container-roulette {
