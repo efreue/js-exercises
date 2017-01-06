@@ -13,6 +13,7 @@
 .prueba {
     -webkit-transform: rotate(-90deg);
     border:0;
+    text-align: center;
 }
 
 .circle {
@@ -25,6 +26,7 @@
     border-color: white;
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
+    text-align: center;
 }
 
 .red {

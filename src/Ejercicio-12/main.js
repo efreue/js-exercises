@@ -76,51 +76,51 @@ var App = {
         var divContent = document.createElement('div');
         var table = document.createElement('table');
         var row = document.createElement('tr');
-        var th = document.createElement('th');
+        var td = document.createElement('td');
         var p = document.createElement('p');
-        th.setAttribute('rowspan', 3);
-        th.className = "container-board-col0";
+        td.setAttribute('rowspan', 3);
+        td.className = "container-board-col0";
         p.textContent = '0';
         Css.add(p, 'num-white');
         Css.add(p, 'prueba');
-        th.appendChild(p);
-        row.appendChild(th);
+        td.appendChild(p);
+        row.appendChild(td);
         var numInFirstRow = 0;
         for(var i = 0; i <= 11; i++) {
             numInFirstRow += 3;
-            var nodeTh = document.createElement('th');
-            nodeTh.className = "container-board-row";
+            var nodetd = document.createElement('td');
+            nodetd.className = "container-board-row";
 
             var newCircleInFirstRow = App.createCircle(numInFirstRow, getCircleColor(numInFirstRow, 1));
-            nodeTh.appendChild(newCircleInFirstRow);
-            row.appendChild(nodeTh);
+            nodetd.appendChild(newCircleInFirstRow);
+            row.appendChild(nodetd);
         }
         table.appendChild(row);
         var numInSecondRow = 0;
-        var numInThirdRow = 0;
+        var numIntdirdRow = 0;
         for(var r = 0; r <= 1; r++ ) {
             var nodeTr = document.createElement('tr');
 
             for(var h = 0; h <= 11; h++) {
-                var nodeTrTh = document.createElement('th');
-                nodeTrTh.className = "container-board-row";
+                var nodeTrtd = document.createElement('td');
+                nodeTrtd.className = "container-board-row";
                 if(r === 0) {
                     if(numInSecondRow === 0)
                         numInSecondRow = 2;
                     else
                         numInSecondRow += 3;
                     var newCircleInSecondRow = App.createCircle(numInSecondRow, getCircleColor(numInSecondRow, 2));
-                    nodeTrTh.appendChild(newCircleInSecondRow);
+                    nodeTrtd.appendChild(newCircleInSecondRow);
                 }
                 else {
-                    if(numInThirdRow === 0)
-                        numInThirdRow = 1;
+                    if(numIntdirdRow === 0)
+                        numIntdirdRow = 1;
                     else
-                        numInThirdRow += 3;
-                    var newCircleInThirdRow = App.createCircle(numInThirdRow, getCircleColor(numInThirdRow, 3));
-                    nodeTrTh.appendChild(newCircleInThirdRow);
+                        numIntdirdRow += 3;
+                    var newCircleIntdirdRow = App.createCircle(numIntdirdRow, getCircleColor(numIntdirdRow, 3));
+                    nodeTrtd.appendChild(newCircleIntdirdRow);
                 }
-                nodeTr.appendChild(nodeTrTh);
+                nodeTr.appendChild(nodeTrtd);
             }
             table.appendChild(nodeTr);
         }
