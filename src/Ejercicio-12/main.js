@@ -101,6 +101,11 @@ var loadCell = function(numCell) {
 var loadRow = function(NumberRow, NumberCells) {
     var tableRow = getRow();
     var cellValue = 0;
+    if (NumberRow == 0) {
+        tableRow.appendChild(
+            loadCell(cellValue)
+        )
+    }
     for(var i = 0; i <= NumberCells; i++ ) {
         if (NumberRow == 0) {
             cellValue += 3;
@@ -127,7 +132,6 @@ var loadRow = function(NumberRow, NumberCells) {
             loadCell(cellValue)
         );
     }
-
     return tableRow;
 }
 
