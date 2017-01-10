@@ -31,6 +31,9 @@
     color:white;
     font-size:30px;
     font-family:Verdana;
+    align-content: center;
+	vertical-align: middle;
+    line-height: 50px;
 }
 
 .container-board {
