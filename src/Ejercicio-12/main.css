@@ -11,6 +11,10 @@
     text-align: center;
 }
 
+.border-disappear {
+    border: 0;
+}
+
 .red {
     background-color:#F43E3E;
 }
