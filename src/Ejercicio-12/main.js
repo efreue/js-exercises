@@ -56,21 +56,25 @@ var getCell = function(number, callback) {
 var getRow = function() {
     var row = getObject('tr');
 
-    row.className = "container-board";
-    row.className = "green";
+    row.className = "border-disappear";
 
     return row;
 };
 
 var getTable = function() {
     var table = getObject('table');
+
     table.className = "container-board";
+    table.className = "green";
+
     return table;
-}
+};
 
 var getRuletteContent = function() {
     var divContent = getObject('div');
+
     divContent.className = "container-roulette";
+
     return divContent;
 };
 
@@ -82,7 +86,7 @@ var createCell = function(numCell) {
     return getCell (
         numCell,
         getCircle(numCell, getColorForNumber)
-    )
+    );
 };
 
 var createRow = function(NumberRow, numberCells) {
@@ -93,7 +97,7 @@ var createRow = function(NumberRow, numberCells) {
     if (NumberRow == 0 ) {
         tableRow.appendChild(
             createCell(cellValue)
-        )
+        );
         cellValue = 3;
     }
     else if (NumberRow == 1) {
@@ -109,6 +113,7 @@ var createRow = function(NumberRow, numberCells) {
         );
         cellValue += increase;
     }
+
     return tableRow;
 }
 
