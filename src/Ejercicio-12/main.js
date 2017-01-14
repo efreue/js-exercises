@@ -1,134 +1,103 @@
-getColorForNumber = function(number) {
-    var color = '';
-    if(number == 0) {
-        color = 'green';
-    }
-    else if(number % 2 == 0) {
-        if((number <= 10) || (number >= 20 && number <= 28)) {
-            color = 'black';
-        }
-        else {
-            color = 'red';
-        }
-    }
-    else if ((number <= 9) || (number >= 19 && number <= 27)) {
-        color = 'red';
-    }
-    else {
-		color = 'black';
-	}
+var start = function() {
+    var divContent = createElement('div');
+    var table = createElement('table');
 
+    divContent.className = "container-roulette";
+    table.className = "container-board green";
+
+    for (var i = 0; i <= 2; i++) {
+        table.appendChild(
+            createRow(3-i, 11)
+        );
+    }
+    divContent.appendChild(table);
+    showElement(divContent);
+};
+
+var createRow = function(numberRow, numberCells) {
+    var tr = createElement('tr');
+    var value = 3 - numberRow;
+
+    tr.className = "border-disappear";
+
+    if (value == 0) {
+        tr.appendChild(
+            createCell(value)
+        );
+    }
+
+    for(var i = 0; i <= numberCells; i++ ) {
+        tr.appendChild(
+            createCell(numberRow)
+        );
+        numberRow += 3;
+    }
+    return tr;
+}
+
+var createCell = function(numCell) {
+    var td = createElement('td');
+
+    td.className = "container-board";
+
+    if (numCell == 0) {
+        td.setAttribute('rowspan', 3);
+    }
+    td.appendChild(getCircle(numCell));
+    return td;
+};
+
+var getColor = function(num) {
+    var color = '';
+    switch(num) {
+        case 0:
+            color = 'green';
+            break;
+        case 1:
+        case 3:
+        case 5:
+        case 7:
+        case 9:
+        case 12:
+        case 14:
+        case 16:
+        case 18:
+        case 19:
+        case 21:
+        case 23:
+        case 25:
+        case 32:
+        case 27:
+        case 30:
+        case 34:
+        case 36:
+            color = 'red';
+            break;
+        default:
+            color = 'black';
+            break;
+    }
     return color;
 };
 
-var getObject = function(name) {
+var createElement = function(name) {
     return document.createElement(name);
 };
 
-var getCircle = function(number, callback) {
-    var circle = getObject('div');
+var getCircle = function(number) {
+    var circle = createElement('div');
 
-    circle.className = "shape";
-    circle.className += " " + callback(number);
-    circle.className += " num-white";
-    circle.className += " horizontal-centered-text";
+    circle.className = "shape num-white horizontal-centered-text " + getColor(number);
     circle.textContent = number;
 
     if(number == 0) {
         circle.className += " border-disappear";
     }
-
     return circle;
-};
-
-var getCell = function(number, callback) {
-    var tableCell = getObject('td');
-
-    if (number == 0) {
-        tableCell.setAttribute('rowspan', 3);
-    }
-    tableCell.className = "container-board";
-    tableCell.appendChild(callback);
-
-    return tableCell;
-};
-
-var getRow = function() {
-    var row = getObject('tr');
-
-    row.className = "border-disappear";
-
-    return row;
-};
-
-var getTable = function() {
-    var table = getObject('table');
-
-    table.className = "container-board";
-    table.className = "green";
-
-    return table;
-};
-
-var getRuletteContent = function() {
-    var divContent = getObject('div');
-
-    divContent.className = "container-roulette";
-
-    return divContent;
 };
 
 var showElement = function(element) {
     document.body.appendChild(element);
-};
-
-var createCell = function(numCell) {
-    return getCell (
-        numCell,
-        getCircle(numCell, getColorForNumber)
-    );
-};
-
-var createRow = function(NumberRow, numberCells) {
-    var tableRow = getRow();
-    var increase = 3;
-    var cellValue = 0;
-
-    if (NumberRow == 0 ) {
-        tableRow.appendChild(
-            createCell(cellValue)
-        );
-        cellValue = 3;
-    }
-    else if (NumberRow == 1) {
-        cellValue = 2;
-    }
-    else {
-        cellValue = 1;
-    }
-
-    for(var i = 0; i <= numberCells; i++ ) {
-        tableRow.appendChild(
-            createCell(cellValue)
-        );
-        cellValue += increase;
-    }
-
-    return tableRow;
-}
-
-var start = function() {
-    var ruletteContent = getRuletteContent();
-    var table = getTable();
-
-    for (var i = 0; i <= 2; i++) {
-        table.appendChild(
-            createRow(i, 11)
-        );
-    }
-
-    ruletteContent.appendChild(table);
-    showElement(ruletteContent);
 };
 
 window.addEventListener("load", start);
