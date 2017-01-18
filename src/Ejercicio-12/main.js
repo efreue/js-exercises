@@ -1,12 +1,11 @@
 var createRow = function(numberRow, numberCells) {
     var tr = createElement('tr');
-    var value = 3 - numberRow;
 
     tr.className = "border-disappear";
 
-    if (value == 0) {
+    if (numberRow == 3) {
         tr.appendChild(
-            createCell(value)
+            createCell(0)
         );
     }
 
