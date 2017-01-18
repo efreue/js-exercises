@@ -1,19 +1,3 @@
-var start = function() {
-    var divContent = createElement('div');
-    var table = createElement('table');
-
-    divContent.className = "container-roulette";
-    table.className = "container-board green";
-
-    for (var i = 0; i <= 2; i++) {
-        table.appendChild(
-            createRow(3-i, 11)
-        );
-    }
-    divContent.appendChild(table);
-    showElement(divContent);
-};
-
 var createRow = function(numberRow, numberCells) {
     var tr = createElement('tr');
     var value = 3 - numberRow;
@@ -96,8 +80,21 @@ var getCircle = function(number) {
     return circle;
 };
 
-var showElement = function(element) {
-    document.body.appendChild(element);
-};
+window.addEventListener(
+    "load",
+    function() {
+        var divContent = createElement('div');
+        var table = createElement('table');
 
-window.addEventListener("load", start);
+        divContent.className = "container-roulette";
+        table.className = "green";
+
+        for (var i = 0; i <= 2; i++) {
+            table.appendChild(
+                createRow(3 - i, 11)
+            );
+        }
+        divContent.appendChild(table);
+        document.body.appendChild(divContent);
+    }
+);
