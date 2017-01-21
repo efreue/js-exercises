@@ -1,13 +1,19 @@
-var createRow = function(numberRow, numberCells) {
-    var tr = createElement('tr');
+var createElement = function(name) {
+    return document.createElement(name);
+};
 
-    tr.className = "border-disappear";
-
-    if (numberRow == 3) {
-        tr.appendChild(
-            createCell(0)
-        );
+var createCell = function(numCell) {
+    var td = createElement('td');
+    if (numCell == 0) {
+        td.setAttribute('rowspan', 4);
     }
+    td.className = "container-board";
+    td.appendChild(getCircle(numCell));
+    return td;
+};
+
+var createColourRow = function(numberRow, numberCells) {
+    var tr = createElement('tr');
 
     for(var i = 0; i <= numberCells; i++ ) {
         tr.appendChild(
@@ -16,18 +22,14 @@ var createRow = function(numberRow, numberCells) {
         numberRow += 3;
     }
     return tr;
-}
+};
 
-var createCell = function(numCell) {
-    var td = createElement('td');
-
-    td.className = "container-board";
-
-    if (numCell == 0) {
-        td.setAttribute('rowspan', 3);
-    }
-    td.appendChild(getCircle(numCell));
-    return td;
+var createZeroRow = function() {
+    var tr = createElement('tr');
+    tr.appendChild(
+        createCell(0)
+    );
+    return tr;
 };
 
 var getColor = function(num) {
@@ -63,10 +65,6 @@ var getColor = function(num) {
     return color;
 };
 
-var createElement = function(name) {
-    return document.createElement(name);
-};
-
 var getCircle = function(number) {
     var circle = createElement('div');
 
@@ -86,11 +84,11 @@ window.addEventListener(
         var table = createElement('table');
 
         divContent.className = "container-roulette";
-        table.className = "green";
+        table.appendChild(createZeroRow());
 
-        for (var i = 0; i <= 2; i++) {
+        for (var i = 3; i >= 1; i--) {
             table.appendChild(
-                createRow(3 - i, 11)
+                createColourRow(i, 11)
             );
         }
         divContent.appendChild(table);
