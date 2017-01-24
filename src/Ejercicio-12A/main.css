@@ -1,0 +1,28 @@
+#div {
+    border: 2px solid;;
+    width: 610px;
+    height: 610px;
+    background-color:chocolate;
+
+}
+
+#table {
+    border: 2px solid;;
+    width: 310px;
+    height: 310px;
+    background-color: aqua;
+}
+
+.row {
+    border: 2px solid;;
+    width: 200px;
+    height: 100px;
+    background-color: blueviolet;
+}
+
+.celd{
+    border: 2px solid;;
+    width: 50px;
+    height: 50px;
+    background-color: gold;
+}

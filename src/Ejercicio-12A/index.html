@@ -1,0 +1,44 @@
+<!DOCTYPE>
+<html>
+    <title>Ejercicio 12A</title>
+    <link rel="stylesheet" href="main.css">
+    <script type="text/javascript" src="main.js"></script>
+</html>
+<body>
+    <div id="div" onMouseMove="positionMouse('div', event)" onMouseOut="dimensionElement('div')">
+        <table id="table"  onMouseMove="positionMouse('table', event)" onMouseOut="dimensionElement('table')">
+            <tr id="row3" class="row" onMouseMove="positionMouse('row3', event)" onMouseOut="dimensionElement('row3')">
+                <td class="celd" rowspan="3"></td>
+                <td class="celd"></td>
+                <td class="celd"></td>
+                <td class="celd"></td>
+                <tr id="row2" class="row" onMouseMove="positionMouse('row2', event)" onMouseOut="dimensionElement('row2')">
+                    <td class="celd"></td>
+                    <td class="celd"></td>
+                    <td class="celd"></td>
+                </tr>
+                <tr id="row1" class="row" onMouseMove="positionMouse('row1', event)" onMouseOut="dimensionElement('row1')">
+                    <td class="celd"></td>
+                    <td class="celd"></td>
+                    <td class="celd"></td>
+                </tr>
+            </tr>
+        </table>
+        <br>
+        <label>DivX:</label> <input type="text" id="DivX">
+        <label>DivY:</label> <input type="text" id="DivY">
+         <br>
+        <label>TableX:</label> <input type="text" id="TableX">
+        <label>TableY:</label> <input type="text" id="TableY">
+        <br>
+        <label>RowX3:</label> <input type="text" id="RowX3">
+        <label>RowY3:</label> <input type="text" id="RowY3">
+        <br>
+        <label>RowX2:</label> <input type="text" id="RowX2">
+        <label>RowY2:</label> <input type="text" id="RowY2">
+        <br>
+        <label>RowX1:</label> <input type="text" id="RowX1">
+        <label>RowY1:</label> <input type="text" id="RowY1">
+
+    </div>
+</body>

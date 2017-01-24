@@ -1,0 +1,57 @@
+var positionMouse = function(element, event) {
+    var x = event.clientX;
+    var y = event.clientY;
+
+    if(element === 'div') {
+        document.getElementById('DivX').value = x;
+        document.getElementById('DivY').value = y;
+    }
+
+    if(element === 'table') {
+        document.getElementById('TableX').value = x;
+        document.getElementById('TableY').value = y;
+    }
+
+    if(element === 'row3') {
+        document.getElementById('RowX3').value = x;
+        document.getElementById('RowY3').value = y;
+    }
+
+    if(element === 'row2') {
+        document.getElementById('RowX2').value = x;
+        document.getElementById('RowY2').value = y;
+    }
+
+    if(element === 'row1') {
+        document.getElementById('RowX1').value = x;
+        document.getElementById('RowY1').value = y;
+    }
+
+};
+
+var dimensionElement = function(element) {
+    if(element === 'div') {
+        document.getElementById('DivX').value = document.getElementById(element).offsetWidth;
+        document.getElementById('DivY').value = document.getElementById(element).offsetHeight;
+    }
+
+    if(element === 'table') {
+        document.getElementById('TableX').value = document.getElementById(element).offsetWidth;
+        document.getElementById('TableY').value = document.getElementById(element).offsetHeight;
+    }
+
+    if(element === 'row3') {
+        document.getElementById('RowX3').value = document.getElementById(element).offsetWidth;
+        document.getElementById('RowY3').value = document.getElementById(element).offsetHeight;
+    }
+
+    if(element === 'row2') {
+        document.getElementById('RowX2').value = document.getElementById(element).offsetWidth;
+        document.getElementById('RowY2').value = document.getElementById(element).offsetHeight;
+    }
+
+     if(element === 'row1') {
+        document.getElementById('RowX1').value = document.getElementById(element).offsetWidth;
+        document.getElementById('RowY1').value = document.getElementById(element).offsetHeight;
+    }
+}
