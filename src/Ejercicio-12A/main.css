@@ -3,14 +3,18 @@
     width: 610px;
     height: 610px;
     background-color:chocolate;
-
+    z-index: 1;
 }
 
+
 #table {
+    position:relative;
+    top:10;
     border: 2px solid;;
     width: 310px;
     height: 310px;
     background-color: aqua;
+    z-index: 2;
 }
 
 .row {
@@ -25,4 +29,11 @@
     width: 50px;
     height: 50px;
     background-color: gold;
+}
+
+#ficha {
+    position: absolute;
+    left: 630px;
+    width:50px;
+    z-index: 3;
 }

@@ -4,20 +4,21 @@
     <link rel="stylesheet" href="main.css">
     <script type="text/javascript" src="main.js"></script>
 </html>
-<body>
-    <div id="div" onMouseMove="positionMouse('div', event)" onMouseOut="dimensionElement('div')">
-        <table id="table"  onMouseMove="positionMouse('table', event)" onMouseOut="dimensionElement('table')">
-            <tr id="row3" class="row" onMouseMove="positionMouse('row3', event)" onMouseOut="dimensionElement('row3')">
+<body onclick="changePositionFicha(event)">
+    <img id="ficha" src="ficha.jpeg"/>
+    <div id="div" onMouseMove="positionMouse('div', event);" onMouseOut="cleanLowerHierarchy('div')">
+        <table id="table"  onMouseMove="positionMouse('table', event)" onMouseOut="cleanLowerHierarchy(table')">
+            <tr id="row3" class="row" onMouseMove="positionMouse('row3', event)" onMouseOut="cleanLowerHierarchy(row3')">
                 <td class="celd" rowspan="3"></td>
                 <td class="celd"></td>
                 <td class="celd"></td>
                 <td class="celd"></td>
-                <tr id="row2" class="row" onMouseMove="positionMouse('row2', event)" onMouseOut="dimensionElement('row2')">
+                <tr id="row2" class="row" onMouseMove="positionMouse('row2', event)" onMouseOut="cleanLowerHierarchy(row2')">
                     <td class="celd"></td>
                     <td class="celd"></td>
                     <td class="celd"></td>
                 </tr>
-                <tr id="row1" class="row" onMouseMove="positionMouse('row1', event)" onMouseOut="dimensionElement('row1')">
+                <tr id="row1" class="row" onMouseMove="positionMouse('row1', event)" onMouseOut="cleanLowerHierarchy(row3')">
                     <td class="celd"></td>
                     <td class="celd"></td>
                     <td class="celd"></td>
@@ -27,7 +28,7 @@
         <br>
         <label>DivX:</label> <input type="text" id="DivX">
         <label>DivY:</label> <input type="text" id="DivY">
-         <br>
+        <br>
         <label>TableX:</label> <input type="text" id="TableX">
         <label>TableY:</label> <input type="text" id="TableY">
         <br>
