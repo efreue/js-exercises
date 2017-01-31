@@ -4,8 +4,7 @@
     <link rel="stylesheet" href="main.css">
     <script type="text/javascript" src="main.js"></script>
 </html>
-<body onclick="changePositionFicha(event)">
-    <img id="ficha" src="ficha.jpeg"/>
+<body onload="addBall();">
     <div id="div" onMouseMove="positionMouse('div', event);" onMouseOut="cleanLowerHierarchy('div')">
         <table id="table"  onMouseMove="positionMouse('table', event)" onMouseOut="cleanLowerHierarchy(table')">
             <tr id="row3" class="row" onMouseMove="positionMouse('row3', event)" onMouseOut="cleanLowerHierarchy(row3')">

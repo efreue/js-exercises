@@ -31,9 +31,21 @@
     background-color: gold;
 }
 
-#ficha {
+.red {
+    background-color:#F43E3E;
+}
+
+.shape {
     position: absolute;
-    left: 630px;
-    width:50px;
-    z-index: 3;
+    width: 25px;
+    height: 25px;
+    -moz-border-radius: 25%;
+    -webkit-border-radius: 25%;
+    border-radius: 100%;
+    border: 2px solid;
+    border-color: white;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    text-align: center;
+    z-index: 4;
 }
