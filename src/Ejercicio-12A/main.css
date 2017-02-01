@@ -31,8 +31,33 @@
     background-color: gold;
 }
 
+.transparent{
+     opacity: 0.2;
+}
+
+.hidden {
+    display: none;
+}
+
 .red {
-    background-color:#F43E3E;
+    background-color:#F43E3E; /*1*/
+}
+
+.violet {
+    background-color:blueviolet;/*2*/
+}
+
+
+.green {
+    background-color:chartreuse; /*3*/
+}
+
+.orange {
+    background-color:darkorange /*4*/
+}
+
+.blue {
+    background-color: blue; /*6*/
 }
 
 .shape {
