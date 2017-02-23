@@ -2,10 +2,10 @@ var createElement = function(name) {
     return document.createElement(name);
 };
 
-var positionMouse = function(element) {
+var positionMouse = function(element, e) {
 var x = document.getElementById(element).offsetLeft;
-    var y = document.getElementById(element).offsetTop;
-    console.log("x = " + x + " y = " + y);
+var y = document.getElementById(element).offsetTop;
+    console.log("x = " + x + " y = " + y + " ScreenX =" + e.screenX + " screenY =" + e.screenY + " clientX =" + e.clientX + " clientY = " + e.clientY);
 
 };
 
@@ -17,8 +17,8 @@ var createCell = function(numCell) {
     td.className = "container-board";
     td.appendChild(getCircle(numCell));
     td.id = numCell;
-    td.onmousemove = function(){
-        positionMouse(this.id);
+    td.onmousemove = function(e){
+        positionMouse(this.id, e);
     };
     return td;
 };
