@@ -9,6 +9,25 @@ var y = document.getElementById(element).offsetTop;
 
 };
 
+var rangeTdSelected = function(startLeft, endLeft, startTop, endTop) {
+    this.startLeft = startLeft;
+    this.endLeft = endLeft;
+    this.startTop = startTop;
+    this.endTop = endTop;
+}
+
+var generateTableAux = function(tdWidth, tdHeight, cols, rows) {
+    var halfTdWidth = tdWidth * 0.5;
+    var quarterTdWidth = tdWidth * 0.25;
+    var halfTdHeigth = tdHeight * 0.5;
+
+    var colsNew = (cols * 2) - 3;
+    var rowsNew = (rows * 2);
+    var minTdLeft = tdWidth + quarterTdWidth;
+    var minTdTop = tdHeight * 0.25;
+    console.log('minTdLeft = ' + minTdLeft + ' minTdTop = ' + minTdTop);
+}
+
 var createCell = function(numCell) {
     var td = createElement('td');
     if (numCell == 0) {
@@ -17,7 +36,7 @@ var createCell = function(numCell) {
     td.className = "container-board";
     td.appendChild(getCircle(numCell));
     td.id = numCell;
-    td.onmousemove = function(e){
+    td.onclick = function(e){
         positionMouse(this.id, e);
     };
     return td;
@@ -103,6 +122,7 @@ window.addEventListener(
             );
         }
         divContent.appendChild(table);
+        generateTableAux(50, 100, 13, 3);
         document.body.appendChild(divContent);
     }
 );
