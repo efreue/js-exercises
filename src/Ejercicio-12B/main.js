@@ -3,9 +3,9 @@ var createElement = function(name) {
 };
 
 var positionMouse = function(element, e) {
-var x = document.getElementById(element).offsetLeft;
-var y = document.getElementById(element).offsetTop;
-    console.log("x = " + x + " y = " + y + " ScreenX =" + e.screenX + " screenY =" + e.screenY + " clientX =" + e.clientX + " clientY = " + e.clientY);
+    var x = e.clientX - 40;
+    var y = e.clientY - 90;
+    //    console.log("x = " + x + " y = " + y);
 
 };
 
@@ -25,7 +25,15 @@ var generateTableAux = function(tdWidth, tdHeight, cols, rows) {
     var rowsNew = (rows * 2);
     var minTdLeft = tdWidth + quarterTdWidth;
     var minTdTop = tdHeight * 0.25;
-    console.log('minTdLeft = ' + minTdLeft + ' minTdTop = ' + minTdTop);
+    //console.log('minTdLeft = ' + minTdLeft + ' minTdTop = ' + minTdTop + ' colsNew = ' + colsNew + ' rowsNew = ' + rowsNew);
+    var TotCell = (colsNew * rowsNew) - 1;
+    var startL = 0;
+    var startT = 0;
+    /*
+    for(var i = 0; i <= TotCell; i++) {
+        if
+    }
+    */
 }
 
 var createCell = function(numCell) {
