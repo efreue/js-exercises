@@ -5,7 +5,7 @@ var createElement = function(name) {
 var positionMouse = function(element, e) {
     var x = e.clientX - 40;
     var y = e.clientY - 90;
-    //    console.log("x = " + x + " y = " + y);
+        console.log(" y = " + y + "x = " + x);
 
 };
 
@@ -15,7 +15,11 @@ var rangeTdSelected = function(startLeft, endLeft, startTop, endTop) {
     this.startTop = startTop;
     this.endTop = endTop;
 }
-
+/*
+var tableCell = {
+    addRow:
+}
+*/
 var generateTableAux = function(tdWidth, tdHeight, cols, rows) {
     var halfTdWidth = tdWidth * 0.5;
     var quarterTdWidth = tdWidth * 0.25;
@@ -25,15 +29,42 @@ var generateTableAux = function(tdWidth, tdHeight, cols, rows) {
     var rowsNew = (rows * 2);
     var minTdLeft = tdWidth + quarterTdWidth;
     var minTdTop = tdHeight * 0.25;
-    //console.log('minTdLeft = ' + minTdLeft + ' minTdTop = ' + minTdTop + ' colsNew = ' + colsNew + ' rowsNew = ' + rowsNew);
-    var TotCell = (colsNew * rowsNew) - 1;
+    console.log('minTdLeft = ' + minTdLeft + ' minTdTop = ' + minTdTop + ' colsNew = ' + colsNew + ' rowsNew = ' + rowsNew);
     var startL = 0;
-    var startT = 0;
-    /*
-    for(var i = 0; i <= TotCell; i++) {
-        if
+    var endL = 0;
+    var startH = 0;
+    var endH = 0;
+    var numCell = 0;
+    for(var i = 0; i <= rowsNew - 1; i++) {
+        if(startH == 0) {
+            startH = minTdTop;
+            endH = (startH + halfTdHeigth) - 0.01;
+        } else {
+            startH += halfTdHeigth;
+            endH = (startH + halfTdHeigth);
+            if(i < rowsNew - 1) {
+                endH -= 0.01;
+            }
+        }
+        for(var j = 0; j <= colsNew - 1; j++) {
+            if(startL == 0) {
+                startL = minTdLeft;
+                endL = (startL + halfTdWidth);
+            } else {
+                startL += halfTdWidth;
+                endL = (startL + halfTdWidth);
+            }
+            if(j < colsNew - 1) {
+                endL -= 0.01;
+            }
+            //agregar objeto
+            console.log('celda = ' + numCell  + ' startH = ' + startH + ' endH = ' + endH + ' startL = ' + startL + ' endL = ' + endL);
+            //var tbl = new rangeTdSelected(startH, endH, startL, endL);
+            numCell += 1;
+        }
+        startL = 0;
     }
-    */
+
 }
 
 var createCell = function(numCell) {
