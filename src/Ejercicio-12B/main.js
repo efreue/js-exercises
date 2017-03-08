@@ -2,9 +2,10 @@ var createElement = function(name) {
     return document.createElement(name);
 };
 
-var positionMouse = function(element, e) {
-    var x = e.clientX - 40;
-    var y = e.clientY - 90;
+var getMousePosition = function(e) {
+    var table = document.getElementsByTagName('table')[0];
+    var x = e.clientX - table.offsetLeft - 2;
+    var y = e.clientY - table.offsetTop -2;
         console.log(" y = " + y + "x = " + x);
 
 };
@@ -21,14 +22,14 @@ var tableCell = {
 }
 */
 var generateTableAux = function(tdWidth, tdHeight, cols, rows) {
-    var halfTdWidth = tdWidth * 0.5;
-    var quarterTdWidth = tdWidth * 0.25;
-    var halfTdHeigth = tdHeight * 0.5;
+    var halfTdWidth =  parseInt(tdWidth * 0.5);
+    var quarterTdWidth = parseInt(tdWidth * 0.25);
+    var halfTdHeigth = parseInt(tdHeight * 0.5);
 
     var colsNew = (cols * 2) - 3;
     var rowsNew = (rows * 2);
     var minTdLeft = tdWidth + quarterTdWidth;
-    var minTdTop = tdHeight * 0.25;
+    var minTdTop = parseInt(tdHeight * 0.25);
     console.log('minTdLeft = ' + minTdLeft + ' minTdTop = ' + minTdTop + ' colsNew = ' + colsNew + ' rowsNew = ' + rowsNew);
     var startL = 0;
     var endL = 0;
@@ -38,12 +39,12 @@ var generateTableAux = function(tdWidth, tdHeight, cols, rows) {
     for(var i = 0; i <= rowsNew - 1; i++) {
         if(startH == 0) {
             startH = minTdTop;
-            endH = (startH + halfTdHeigth) - 0.01;
+            endH = (startH + halfTdHeigth) - 1;
         } else {
             startH += halfTdHeigth;
             endH = (startH + halfTdHeigth);
             if(i < rowsNew - 1) {
-                endH -= 0.01;
+                endH -= 1;
             }
         }
         for(var j = 0; j <= colsNew - 1; j++) {
@@ -55,7 +56,7 @@ var generateTableAux = function(tdWidth, tdHeight, cols, rows) {
                 endL = (startL + halfTdWidth);
             }
             if(j < colsNew - 1) {
-                endL -= 0.01;
+                endL -= 1;
             }
             //agregar objeto
             console.log('celda = ' + numCell  + ' startH = ' + startH + ' endH = ' + endH + ' startL = ' + startL + ' endL = ' + endL);
@@ -76,7 +77,7 @@ var createCell = function(numCell) {
     td.appendChild(getCircle(numCell));
     td.id = numCell;
     td.onclick = function(e){
-        positionMouse(this.id, e);
+        getMousePosition(e);
     };
     return td;
 };
@@ -163,5 +164,6 @@ window.addEventListener(
         divContent.appendChild(table);
         generateTableAux(50, 100, 13, 3);
         document.body.appendChild(divContent);
+
     }
 );
