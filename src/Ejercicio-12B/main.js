@@ -10,17 +10,13 @@ var getMousePosition = function(e) {
 
 };
 
-var rangeTdSelected = function(startLeft, endLeft, startTop, endTop) {
+var selectedRangeCell = function(startLeft, endLeft, startTop, endTop) {
     this.startLeft = startLeft;
     this.endLeft = endLeft;
     this.startTop = startTop;
     this.endTop = endTop;
 }
-/*
-var tableCell = {
-    addRow:
-}
-*/
+
 var generateTableAux = function(tdWidth, tdHeight, cols, rows) {
     var halfTdWidth =  parseInt(tdWidth * 0.5);
     var quarterTdWidth = parseInt(tdWidth * 0.25);
@@ -30,12 +26,13 @@ var generateTableAux = function(tdWidth, tdHeight, cols, rows) {
     var rowsNew = (rows * 2);
     var minTdLeft = tdWidth + quarterTdWidth;
     var minTdTop = parseInt(tdHeight * 0.25);
-    console.log('minTdLeft = ' + minTdLeft + ' minTdTop = ' + minTdTop + ' colsNew = ' + colsNew + ' rowsNew = ' + rowsNew);
+    //console.log('minTdLeft = ' + minTdLeft + ' minTdTop = ' + minTdTop + ' colsNew = ' + colsNew + ' rowsNew = ' + rowsNew);
     var startL = 0;
     var endL = 0;
     var startH = 0;
     var endH = 0;
     var numCell = 0;
+    var tblAux = [];
     for(var i = 0; i <= rowsNew - 1; i++) {
         if(startH == 0) {
             startH = minTdTop;
@@ -59,13 +56,17 @@ var generateTableAux = function(tdWidth, tdHeight, cols, rows) {
                 endL -= 1;
             }
             //agregar objeto
-            console.log('celda = ' + numCell  + ' startH = ' + startH + ' endH = ' + endH + ' startL = ' + startL + ' endL = ' + endL);
+            //console.log('celda = ' + numCell  + ' startH = ' + startH + ' endH = ' + endH + ' startL = ' + startL + ' endL = ' + endL);
+            var row = new selectedRangeCell(startL, endL, startH, endH);
+            tblAux.push(row);
             //var tbl = new rangeTdSelected(startH, endH, startL, endL);
             numCell += 1;
         }
         startL = 0;
     }
 
+    console.log('tblAux = ' + tblAux.length);
+    console.log('celda = 137  startH = ' + tblAux[137].startTop + ' endH = ' + tblAux[137].endTop + ' startL = ' + tblAux[137].startLeft + ' endL = ' + tblAux[137].endLeft);
 }
 
 var createCell = function(numCell) {
