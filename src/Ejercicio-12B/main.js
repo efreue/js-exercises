@@ -1,3 +1,4 @@
+var tableTdAux = [];
 var createElement = function(name) {
     return document.createElement(name);
 };
@@ -6,8 +7,12 @@ var getMousePosition = function(e) {
     var table = document.getElementsByTagName('table')[0];
     var x = e.clientX - table.offsetLeft - 2;
     var y = e.clientY - table.offsetTop -2;
-        console.log(" y = " + y + "x = " + x);
-
+        console.log(" y = " + y + "x = " + x + " totalTbl = " + tableTdAux.length);
+    for(var i = 0; i < tableTdAux.length - 1; i++) {
+        if((y >= tableTdAux[i].startTop && y <= tableTdAux[i].endTop) && (x >= tableTdAux[i].startLeft && x <= tableTdAux[i].endLeft)) {
+            console.log('celda = ' + i + ' startH = ' + tableTdAux[i].startTop + ' endH = ' + tableTdAux[i].endTop + ' startL = ' + tableTdAux[i].startLeft + ' endL = ' + tableTdAux[i].endLeft);
+        }
+    }
 };
 
 var selectedRangeCell = function(startLeft, endLeft, startTop, endTop) {
@@ -65,8 +70,9 @@ var generateTableAux = function(tdWidth, tdHeight, cols, rows) {
         startL = 0;
     }
 
-    console.log('tblAux = ' + tblAux.length);
-    console.log('celda = 137  startH = ' + tblAux[137].startTop + ' endH = ' + tblAux[137].endTop + ' startL = ' + tblAux[137].startLeft + ' endL = ' + tblAux[137].endLeft);
+    /*console.log('tblAux = ' + tblAux.length);
+    console.log('celda = 137  startH = ' + tblAux[137].startTop + ' endH = ' + tblAux[137].endTop + ' startL = ' + tblAux[137].startLeft + ' endL = ' + tblAux[137].endLeft);*/
+    tableTdAux = tblAux;
 }
 
 var createCell = function(numCell) {
