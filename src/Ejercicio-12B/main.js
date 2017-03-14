@@ -5,12 +5,26 @@ var createElement = function(name) {
 
 var getMousePosition = function(e) {
     var table = document.getElementsByTagName('table')[0];
-    var x = e.clientX - table.offsetLeft - 2;
-    var y = e.clientY - table.offsetTop -2;
+    var x = e.clientX - table.offsetLeft;
+    var y = e.clientY - table.offsetTop;
         console.log(" y = " + y + "x = " + x + " totalTbl = " + tableTdAux.length);
+    var chip;
+
+    var chipAux = document.getElementsByClassName('circle');
+    if(chipAux.length > 0) {
+        for(var j=0; j <= chipAux.length - 1; j++) {
+            chipAux[j].style.display='none';
+        }
+    }
+
     for(var i = 0; i < tableTdAux.length - 1; i++) {
         if((y >= tableTdAux[i].startTop && y <= tableTdAux[i].endTop) && (x >= tableTdAux[i].startLeft && x <= tableTdAux[i].endLeft)) {
-            console.log('celda = ' + i + ' startH = ' + tableTdAux[i].startTop + ' endH = ' + tableTdAux[i].endTop + ' startL = ' + tableTdAux[i].startLeft + ' endL = ' + tableTdAux[i].endLeft);
+            console.log('celda = ' + i + ' startH = ' + tableTdAux[i].startTop + ' endH = ' + tableTdAux[i].endTop + ' startL = ' + tableTdAux[i].startLeft + ' endL = ' + tableTdAux[i].endLeft + ' offsetLeft = ' + table.offsetLeft + ' offsetTop = ' + table.offsetTop );
+            chip = getRuletteChip();
+            chip.className="circle"
+            chip.style.left = tableTdAux[i].startLeft + table.offsetLeft;
+            chip.style.top = tableTdAux[i].startTop + table.offsetTop;
+            table.appendChild(chip);
         }
     }
 };
@@ -141,6 +155,12 @@ var getColor = function(num) {
     }
     return color;
 };
+
+var getRuletteChip = function() {
+    var chip = createElement('div');
+    chip.id = 'chipRule';
+    return chip;
+}
 
 var getCircle = function(number) {
     var circle = createElement('div');
