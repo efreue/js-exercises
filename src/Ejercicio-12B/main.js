@@ -17,6 +17,7 @@ var getMousePosition = function(e) {
         }
     }
 
+
     for(var i = 0; i < tableTdAux.length - 1; i++) {
         if((y >= tableTdAux[i].startTop && y <= tableTdAux[i].endTop) && (x >= tableTdAux[i].startLeft && x <= tableTdAux[i].endLeft)) {
             console.log('celda = ' + i + ' startH = ' + tableTdAux[i].startTop + ' endH = ' + tableTdAux[i].endTop + ' startL = ' + tableTdAux[i].startLeft + ' endL = ' + tableTdAux[i].endLeft + ' offsetLeft = ' + table.offsetLeft + ' offsetTop = ' + table.offsetTop );
@@ -75,7 +76,7 @@ var generateTableAux = function(tdWidth, tdHeight, cols, rows) {
                 endL -= 1;
             }
             //agregar objeto
-            //console.log('celda = ' + numCell  + ' startH = ' + startH + ' endH = ' + endH + ' startL = ' + startL + ' endL = ' + endL);
+            console.log('celda = ' + numCell  + ' startH = ' + startH + ' endH = ' + endH + ' startL = ' + startL + ' endL = ' + endL);
             var row = new selectedRangeCell(startL, endL, startH, endH);
             tblAux.push(row);
             //var tbl = new rangeTdSelected(startH, endH, startL, endL);
@@ -189,7 +190,7 @@ window.addEventListener(
             );
         }
         divContent.appendChild(table);
-        generateTableAux(50, 100, 13, 3);
+        generateTableAux(50, 100, 16, 3);
         document.body.appendChild(divContent);
 
     }
