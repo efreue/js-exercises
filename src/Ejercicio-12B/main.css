@@ -11,21 +11,6 @@
     text-align: center;
 }
 
-.circle {
-    width: 55px;
-    height: 55px;
-    -moz-border-radius: 55%;
-    -webkit-border-radius: 55%;
-    border-radius: 100%;
-    border: 2px solid;
-    position:absolute;
-    border-color: mediumvioletred;
-    -webkit-transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);
-    text-align: center;
-}
-
-
 .border-disappear {
     border: 0;
 }
@@ -55,6 +40,12 @@
     width:50px;
     border:3px solid white;
 }
+
+.container-board-aux {
+    width:50px;
+    border:3px solid orange;
+}
+
 
 .container-roulette {
     background-color: #108413;
