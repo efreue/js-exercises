@@ -1,3 +1,5 @@
+var tableTdAux = [];
+
 var createElement = function(name) {
     return document.createElement(name);
 };
@@ -9,6 +11,9 @@ var createCell = function(numCell) {
     }
     td.className = "container-board";
     td.appendChild(getCircle(numCell));
+    td.onclick = function(e){
+        getMousePosition(e);
+    };
     return td;
 };
 
@@ -21,6 +26,32 @@ var createCellAux = function(numCell) {
     return td;
 };
 
+
+var getMousePosition = function(e) {
+    var table = document.getElementsByTagName('table')[0];
+    var x = e.clientX - table.offsetLeft;
+    var y = e.clientY - table.offsetTop;
+        console.log(" y = " + y + " x = " + x + ' table.offsetLeft = ' + table.offsetLeft) //+ " totalTbl = " + tableTdAux.length);
+};
+
+var generateTableAux = function(tdWidth, tdHeight, cols, rows, PostitionTopTable) {
+    var minTdTop = parseInt(tdHeight * 0.25);
+    var minTdWidth = parseInt(tdWidth * 0.25) + parseInt((tdWidth * 0.25)/2);
+    var minTdHeigth = parseInt(tdHeight * 0.5);
+    var colsNew = (cols * 2);
+    var rowsNew = (rows * 2)
+    console.log('minTdWidth = ' + minTdWidth + ' minTdHeigth = ' + minTdHeigth + ' colsNew = ' + colsNew + ' rowsNew = ' + rowsNew + ' PostitionTopTable = ' + PostitionTopTable);
+    var startL = 0;
+    var endL = 0;
+    var startH = 0;
+    var endH = 0;
+    var numCell = 0;
+    for(var i = 0; i <= rowsNew; i++) {
+        if(startH == 0) {
+            startH = (PostitionTopTable + minTdTop) ;
+        }
+    }
+};
 
 var createColourRow = function(numberRow, numberCells) {
     var tr = createElement('tr');
@@ -129,6 +160,9 @@ window.addEventListener(
         tblA.style.position='absolute';
         tblA.style.left = tblA.offsetLeft + 78;
         tblA.style.top = 105;
+        var tablePrin = document.getElementsByTagName('table')[0];
+
+        generateTableAux(65, 65, 11, 3, tablePrin.offsetTop);
     }
 );
 
