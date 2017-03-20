@@ -40,8 +40,8 @@ var createCellAux = function(numCell) {
 
 var getMousePosition = function(e) {
     var table = document.getElementsByTagName('table')[0];
-    var x = e.clientX - table.offsetLeft;
-    var y = e.clientY - table.offsetTop;
+    var x = (e.clientX - table.offsetLeft);
+    var y = (e.clientY - table.offsetTop);
     console.log(' y = ' + y + ' x = ' + x + ' table.offsetLeft = ' + table.offsetLeft +  ' totalTbl = ' + tableTdAux.length);
     var chip;
 
@@ -54,11 +54,14 @@ var getMousePosition = function(e) {
 
     for(var i = 0; i < tableTdAux.length; i++) {
         if((y >= tableTdAux[i].startTop && y <= tableTdAux[i].endTop) && (x >= tableTdAux[i].startLeft && x <= tableTdAux[i].endLeft)) {
-            /*console.log('celda = ' + i + ' startH = ' + tableTdAux[i].startTop + ' endH = ' + tableTdAux[i].endTop + ' startL = ' + tableTdAux[i].startLeft + ' endL = ' + tableTdAux[i].endLeft + ' offsetLeft = ' + table.offsetLeft + ' offsetTop = ' + table.offsetTop );*/
+            /*
+            console.log('celda = ' + i + ' startH = ' + tableTdAux[i].startTop + ' endH = ' + tableTdAux[i].endTop + ' startL = ' + (tableTdAux[i].startLeft + table.offsetLeft) + ' endL = ' + (tableTdAux[i].startTop + table.offsetTop) + ' offsetLeft = ' + table.offsetLeft + ' offsetTop = ' + table.offsetTop + ' y = ' + y + ' x = ' + x );
+            */
             chip = getRuletteChip();
             chip.className="circle"
-            chip.style.left = tableTdAux[i].startLeft + table.offsetLeft;
-            chip.style.top = tableTdAux[i].startTop + table.offsetTop;
+            console.log('final startL = ' + tableTdAux[i].startLeft + ' endL = ' + tableTdAux[i].endLeft);
+            chip.style.left = (tableTdAux[i].startLeft + table.offsetLeft);
+            chip.style.top = (tableTdAux[i].startTop + table.offsetTop) + 5;
             table.appendChild(chip);
         }
     }
@@ -80,7 +83,7 @@ var generateTableAux = function(tdWidth, tdHeight, cols, rows, PostitionTopTable
     var startH = 0;
     var endH = 0;
     var numCell = 0;
-    for(var i = 0; i <= rowsNew - 1 ; i++) {
+    for(var i = 0; i <= rowsNew ; i++) {
         if(startH == 0) {
             startH = (minTdTop) ;
              endH = (startH + minTdHeigth);
@@ -101,6 +104,10 @@ var generateTableAux = function(tdWidth, tdHeight, cols, rows, PostitionTopTable
                 startL += minTdWidth + 1;
                 endL = (startL + minTdWidth);
             }
+            if (j == colsNew) {
+                endL += minTdWidth;
+
+            }
 
             //agregar objeto
             console.log('celda = ' + numCell  + ' startH = ' + startH + ' endH = ' + endH + ' startL = ' + startL + ' endL = ' + endL);
@@ -111,7 +118,8 @@ var generateTableAux = function(tdWidth, tdHeight, cols, rows, PostitionTopTable
         }
         startL = 0;
     }
-     tableTdAux = tblAux;
+    tableTdAux = tblAux;
+
 };
 
 var createColourRow = function(numberRow, numberCells) {
