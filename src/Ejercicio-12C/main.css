@@ -1,0 +1,18 @@
+.container-cell {
+    width:50px;
+    height: 50px;
+    border:3px solid white;
+}
+
+.container-div {
+    background-color: #108413;
+    padding-bottom: 80px;
+    padding-left: 30px;
+    padding-top: 80px;
+    padding-right: 10px;
+    width: 920px;
+    border-top-left-radius: 55px;
+    border-bottom-left-radius: 55px;
+    border-top-right-radius: 55px;
+    border-bottom-right-radius: 55px;
+}
