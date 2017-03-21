@@ -59,6 +59,7 @@
 .container-board-aux {
     width:50px;
     border:3px solid orange;
+    opacity: 0;
 }
 
 
