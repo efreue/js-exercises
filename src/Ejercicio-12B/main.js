@@ -25,17 +25,6 @@ var createCell = function(numCell) {
     return td;
 };
 
-var createCellAux = function(numCell) {
-    var td = createElement('td');
-
-    td.className = "container-board-aux";
-    td.style.width = 25;
-    td.style.height = 32;
-    /*td.onclick = function(e){
-        getMousePosition(e);
-    };*/
-    return td;
-};
 
 
 var getMousePosition = function(e) {
@@ -45,18 +34,24 @@ var getMousePosition = function(e) {
     console.log(' y = ' + y + ' x = ' + x + ' table.offsetLeft = ' + table.offsetLeft +  ' totalTbl = ' + tableTdAux.length);
     var chip;
 
+
     var chipAux = document.getElementsByClassName('circle');
     if(chipAux.length > 0) {
         for(var j=0; j <= chipAux.length - 1; j++) {
             chipAux[j].style.display='none';
         }
     }
+    /*
+    var tblAux = document.getElementById('tblNew');
+    chip = getRuletteChip();
+    chip.className="circle"
+    chip.style.left = x - tblAux.offsetLeft;
+    chip.style.top = y - tblAux.offsetHeight;
+    table.appendChild(chip);
+    */
 
     for(var i = 0; i < tableTdAux.length; i++) {
         if((y >= tableTdAux[i].startTop && y <= tableTdAux[i].endTop) && (x >= tableTdAux[i].startLeft && x <= tableTdAux[i].endLeft)) {
-            /*
-            console.log('celda = ' + i + ' startH = ' + tableTdAux[i].startTop + ' endH = ' + tableTdAux[i].endTop + ' startL = ' + (tableTdAux[i].startLeft + table.offsetLeft) + ' endL = ' + (tableTdAux[i].startTop + table.offsetTop) + ' offsetLeft = ' + table.offsetLeft + ' offsetTop = ' + table.offsetTop + ' y = ' + y + ' x = ' + x );
-            */
             chip = getRuletteChip();
             chip.className="circle"
             console.log('final startL = ' + tableTdAux[i].startLeft + ' endL = ' + tableTdAux[i].endLeft);
@@ -139,10 +134,11 @@ var generateTableEmi = function() {
         tdNew.className = "container-board-aux";
         tdNew.style.width = cellWidth;
         tdNew.style.height = cellHeigth;
-        trNew.appendChild(tdNew);
-        /*td.onclick = function(e){
+        tdNew.onclick = function(e){
             getMousePosition(e);
-        };*/
+        };
+        trNew.appendChild(tdNew);
+
     }
     tblNew.appendChild(trNew);
     return tblNew;
@@ -238,8 +234,6 @@ window.addEventListener(
     function() {
         var divContent = createElement('div');
         var table = createElement('table');
-        var tableAux = createElement('table');
-        tableAux.id = 'tblAux';
         divContent.className = "container-roulette";
         table.appendChild(createZeroRow());
 
@@ -249,24 +243,19 @@ window.addEventListener(
             );
         }
 
-        for (var i = 6; i >= 1; i--) {
-            tableAux.appendChild(
-                createColourRowAux(i, 22)
-            );
-        }
         divContent.appendChild(table);
-        divContent.appendChild(tableAux);
         document.body.appendChild(divContent);
 
-        var tblA = document.getElementById('tblAux');
-        //tblA.style.position='absolute';
-        tblA.style.left = tblA.offsetLeft + 78;
-        tblA.style.top = 105;
         var tablePrin = document.getElementsByTagName('table')[0];
 
-        generateTableAux(65, 65, 11, 3, tablePrin.offsetTop, tablePrin.offsetLeft);
+        generateTableAux(50, 65, 11, 3, tablePrin.offsetTop, tablePrin.offsetLeft);
+
         var tblEmi = generateTableEmi();
         divContent.appendChild(tblEmi);
+        var tblB = document.getElementById('tblNew');
+        //tblB.style.position='absolute';
+        tblB.style.left = tblB.offsetLeft + 78;
+        tblB.style.top = 105;
 
     }
 );
