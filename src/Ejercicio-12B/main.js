@@ -122,6 +122,32 @@ var generateTableAux = function(tdWidth, tdHeight, cols, rows, PostitionTopTable
 
 };
 
+var generateTableEmi = function() {
+    var tblNew =  createElement('table');
+    var trNew = createElement('tr');
+    tblNew.id = 'tblNew';
+    var cellWidth;
+    var cellHeigth;
+    for(var i = 0; i <= tableTdAux.length - 1; i++) {
+        cellWidth = tableTdAux[i].endLeft- tableTdAux[i].startLeft;
+        cellHeigth = tableTdAux[i].endTop -  tableTdAux[i].startTop;
+        if(i > 0 && i%23 == 0){
+            tblNew.appendChild(trNew);
+            var trNew = createElement('tr');
+        }
+        var tdNew = createElement('td');
+        tdNew.className = "container-board-aux";
+        tdNew.style.width = cellWidth;
+        tdNew.style.height = cellHeigth;
+        trNew.appendChild(tdNew);
+        /*td.onclick = function(e){
+            getMousePosition(e);
+        };*/
+    }
+    tblNew.appendChild(trNew);
+    return tblNew;
+}
+
 var createColourRow = function(numberRow, numberCells) {
     var tr = createElement('tr');
 
@@ -239,6 +265,9 @@ window.addEventListener(
         var tablePrin = document.getElementsByTagName('table')[0];
 
         generateTableAux(65, 65, 11, 3, tablePrin.offsetTop, tablePrin.offsetLeft);
+        var tblEmi = generateTableEmi();
+        divContent.appendChild(tblEmi);
+
     }
 );
 
