@@ -83,9 +83,9 @@ var generateTableAux = function(tdWidth, tdHeight, cols, rows, PostitionTopTable
     var startH = 0;
     var endH = 0;
     var numCell = 0;
-    for(var i = 0; i <= rowsNew ; i++) {
+    for(var i = 0; i <= rowsNew - 1; i++) {
         if(startH == 0) {
-            startH = (minTdTop) ;
+            startH = (minTdTop) + 2 ;
              endH = (startH + minTdHeigth);
         }
         else {
@@ -104,10 +104,10 @@ var generateTableAux = function(tdWidth, tdHeight, cols, rows, PostitionTopTable
                 startL += minTdWidth + 1;
                 endL = (startL + minTdWidth);
             }
-            if (j == colsNew) {
+           /* if (j == colsNew) {
                 endL += minTdWidth;
 
-            }
+            }*/
 
             //agregar objeto
             console.log('celda = ' + numCell  + ' startH = ' + startH + ' endH = ' + endH + ' startL = ' + startL + ' endL = ' + endL);
