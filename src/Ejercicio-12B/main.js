@@ -41,25 +41,26 @@ var getMousePosition = function(e) {
             chipAux[j].style.display='none';
         }
     }
-    /*
+
     var tblAux = document.getElementById('tblNew');
     chip = getRuletteChip();
     chip.className="circle"
-    chip.style.left = x - tblAux.offsetLeft;
-    chip.style.top = y - tblAux.offsetHeight;
+    chip.style.left = (e.clientX - tblAux.offsetLeft) + table.offsetLeft ;
+    chip.style.top = (e.clientY - tblAux.offsetTop) +  table.offsetTop;
     table.appendChild(chip);
-    */
 
+    /*
     for(var i = 0; i < tableTdAux.length; i++) {
         if((y >= tableTdAux[i].startTop && y <= tableTdAux[i].endTop) && (x >= tableTdAux[i].startLeft && x <= tableTdAux[i].endLeft)) {
             chip = getRuletteChip();
             chip.className="circle"
             console.log('final startL = ' + tableTdAux[i].startLeft + ' endL = ' + tableTdAux[i].endLeft);
             chip.style.left = (tableTdAux[i].startLeft + table.offsetLeft);
-            chip.style.top = (tableTdAux[i].startTop + table.offsetTop) + 5;
+            chip.style.top = (tableTdAux[i].startTop + table.offsetTop);
             table.appendChild(chip);
         }
     }
+    */
 };
 
 var generateTableAux = function(tdWidth, tdHeight, cols, rows, PostitionTopTable, PostitionLeftTable) {
@@ -253,7 +254,7 @@ window.addEventListener(
         var tblEmi = generateTableEmi();
         divContent.appendChild(tblEmi);
         var tblB = document.getElementById('tblNew');
-        //tblB.style.position='absolute';
+        tblB.style.position='absolute';
         tblB.style.left = tblB.offsetLeft + 78;
         tblB.style.top = 105;
 
