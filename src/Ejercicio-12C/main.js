@@ -45,7 +45,10 @@ window.addEventListener(
         var divContent = createElement('div');
         divContent.className = "container-div";
         var tblNew = getTable(2,2);
+        var divShowCell = createElement('div');
+        divShowCell.className = "container-show-div";
         divContent.appendChild(tblNew);
+        divContent.appendChild(divShowCell);
         document.body.appendChild(divContent);
     }
 );

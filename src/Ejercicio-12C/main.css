@@ -1,7 +1,7 @@
 .container-cell {
-    width:50px;
+    width: 50px;
     height: 50px;
-    border:3px solid white;
+    border: 3px solid white;
 }
 
 .container-div {
@@ -15,4 +15,13 @@
     border-bottom-left-radius: 55px;
     border-top-right-radius: 55px;
     border-bottom-right-radius: 55px;
+}
+
+.container-show-div {
+    width: 50px;
+    height: 20px;
+    border: 3px solid red;
+    position: absolute;
+    left: 250px;
+    top: 100px;
 }
