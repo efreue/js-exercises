@@ -5,24 +5,9 @@ var createElement = function(name) {
 var selectCell = function(xCoord, yCoord, cellWidth, cellHeight) {
     var cellRow;
     var cellCol;
-    //cellWidth -= 2;
-    if (xCoord < cellWidth ) {
-        cellCol = 0;
-    }
-    else {
-        if(xCoord >= cellWidth){
-            cellCol = Math.trunc(xCoord/cellWidth);
-        }
-    }
+    cellCol = Math.trunc(xCoord/cellWidth);
+    cellRow = Math.trunc(yCoord/cellHeight);
 
-    if (yCoord < cellHeight) {
-        cellRow = 0;
-    }
-    else {
-        if(yCoord >= cellHeight){
-            cellRow = Math.trunc(yCoord/cellHeight);
-        }
-    }
     console.log('row: ' + cellRow + ', column: ' + cellCol);
     return {row: cellRow, column: cellCol};
 };
