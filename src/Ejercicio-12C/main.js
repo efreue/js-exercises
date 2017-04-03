@@ -5,7 +5,7 @@ var createElement = function(name) {
 var selectCell = function(xCoord, yCoord, cellWidth, cellHeight) {
     var cellRow;
     var cellCol;
-    cellWidth -= 2;
+    //cellWidth -= 2;
     if (xCoord < cellWidth ) {
         cellCol = 0;
     }
