@@ -2,46 +2,38 @@ var createElement = function(name) {
     return document.createElement(name);
 };
 
+var selectCell = function(xCoord, yCoord, cellWidth, cellHeight) {
+    var cellRow;
+    var cellCol;
+    cellWidth -= 2;
+    if (xCoord < cellWidth ) {
+        cellCol = 0;
+    }
+    else {
+        if(xCoord >= cellWidth){
+            cellCol = Math.trunc(xCoord/cellWidth);
+        }
+    }
+
+    if (yCoord < cellHeight) {
+        cellrow = 0;
+    }
+    else {
+        if(yCoord >= cellHeight){
+            cellRow = Math.trunc(yCoord/cellHeight);
+        }
+    }
+    console.log('row: ' + cellRow + ', column: ' + cellCol);
+    return {row: cellRow, column: cellCol};
+};
+
 var getSelectedCellNumber = function(e) {
     var table = document.getElementsByTagName('table')[0];
     var x = (e.clientX - table.offsetLeft);
     var y = (e.clientY - table.offsetTop);
+    var r = [];
 
-    var startW = 0;
-    var endW = 0;
-    var startH = 0;
-    var endH = 0;
-    var findCell = 0;
-
-    /*console.log(' y = ' + y + ' x = ' + x + ' rows = ' + table.rows.length + ' cols = ' + table.rows[0].cells.length + ' widthTable = ' + table.offsetWidth + ' colWidth = ' + table.rows[0].cells[0].offsetWidth);
-      */
-    console.log(' posWidth = ' + x + ' posHeight = ' + y);
-    for(i = 0; i <= (table.rows.length - 1); i++) {
-        if(i == 0) {
-            startW = i;
-        } else {
-            startW = endW + 1;
-        }
-        endW = (startW + table.rows[i].cells[i].offsetWidth) - 1;
-
-        for(j = 0; j <= (table.rows[0].cells.length - 1); j++) {
-            if(j == 0) {
-                startH = j;
-            } else {
-                startH = endH + 1;
-            }
-            endH = (startH + table.rows[i].cells[j].offsetHeight) - 1;
-            if ((x >= startW && x <= endW ) && (y >= startH && y <= endH)) {
-                console.log('row = ' + i + ' col = ' + j + ' width = ' + startW + ' - ' + endW + ' height = ' + startH + ' - ' + endH);
-                findCell = 1;
-                break
-            }
-        }
-        if (findCell == 1) {
-            break;
-        }
-
-    }
+    r = selectCell(x, y, 50, 50);
 }
 
 var createCell = function() {
