@@ -3,13 +3,10 @@ var createElement = function(name) {
 };
 
 var selectCell = function(xCoord, yCoord, cellWidth, cellHeight) {
-    var cellRow;
-    var cellCol;
-    cellCol = Math.trunc(xCoord/cellWidth);
-    cellRow = Math.trunc(yCoord/cellHeight);
-
-    console.log('row: ' + cellRow + ', column: ' + cellCol);
-    return {row: cellRow, column: cellCol};
+    return {
+        row: Math.floor(xCoord/cellWidth),
+        column: Math.floor(yCoord/cellHeight)
+    };
 };
 
 var getSelectedCellNumber = function(e) {
