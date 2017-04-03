@@ -16,7 +16,7 @@ var selectCell = function(xCoord, yCoord, cellWidth, cellHeight) {
     }
 
     if (yCoord < cellHeight) {
-        cellrow = 0;
+        cellRow = 0;
     }
     else {
         if(yCoord >= cellHeight){
