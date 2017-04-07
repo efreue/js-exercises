@@ -5,6 +5,21 @@
     padding: 0px;
 }
 
+.circle {
+    width: 35px;
+    height: 35px;
+    -moz-border-radius: 55%;
+    -webkit-border-radius: 55%;
+    border-radius: 100%;
+    border: 2px solid;
+    position:absolute;
+    border-color: mediumvioletred;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    text-align: center;
+}
+
+
 .container-div {
     background-color: #108413;
     /*
@@ -23,7 +38,7 @@
 }
 
 .container-show-div {
-    width: 50px;
+    width: 200px;
     height: 20px;
     border: 1px solid red;
     position: absolute;
