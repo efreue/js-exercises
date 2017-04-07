@@ -3,6 +3,7 @@
     height: 50px;
     border: 1px solid white;
     padding: 0px;
+    box-sizing: border-box;
 }
 
 .circle {
