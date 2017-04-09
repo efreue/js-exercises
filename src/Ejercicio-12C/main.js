@@ -3,24 +3,35 @@ var createElement = function(name) {
 };
 
 var rouletteChip = function() {
-    var chip = createElement('div');
+    var chip;
+    deleteChip();
+    chip = createElement('div');
     chip.id = 'chip_id';
     chip.className="circle"
     return chip;
 }
 
-var showChip = function(cell, chip) {
+var deleteChip = function() {
+    var chip = document.getElementsByClassName('circle');
+    if(chip.length > 0) {
+        for(var j=0; j <= chip.length - 1; j++) {
+            chip[j].style.display='none';
+        }
+    }
+}
+
+var showChip = function(cell, chip, cellWidth, cellHeight) {
     var table = document.getElementsByTagName('table')[0];
-    console.log('column: ' + cell.row + ' row: ' + cell.column);
-    chip.style.left = 10;
-    chip.style.top = 10;
+    console.log('column: ' + cell.row + ' row: ' + cell.column + ' cellWidth: ' + cellWidth + ' cellHeight: ' + cellHeight);
+    chip.style.left = (cell.column * cellWidth);
+    chip.style.top = (cell.row * cellHeight);
     table.appendChild(chip);
 }
 
-var selectCell = function(xCoord, yCoord, cellWidth, cellHeight) {
+var GetCell = function(xCoord, yCoord, cellWidth, cellHeight) {
     return {
-        row: Math.floor(xCoord/cellWidth),
-        column: Math.floor(yCoord/cellHeight)
+        row: Math.floor(xCoord/cellWidth) + 1,
+        column: Math.floor(yCoord/cellHeight) + 1
     };
 };
 
@@ -31,11 +42,11 @@ var showSelectedCell = function(cell) {
 
 
 
-var getSelectedCellNumber = function(e) {
+var getSelectedCellNumber = function(e, cellWidth, cellHeight) {
     var table = document.getElementsByTagName('table')[0];
     var x = (e.clientX - table.offsetLeft);
     var y = (e.clientY - table.offsetTop);
-    var cell = selectCell(x, y, 50, 50);
+    var cell = GetCell(x, y, cellWidth, cellHeight);
     showSelectedCell(cell);
     return cell;
 }
@@ -44,7 +55,7 @@ var createCell = function() {
     var td = createElement('td');
     td.className = "container-cell";
     td.onclick = function(e){
-        showChip(getSelectedCellNumber(e), rouletteChip());
+        showChip(getSelectedCellNumber(e,50,50), rouletteChip(), 50,50);
     };
     return td;
 };
