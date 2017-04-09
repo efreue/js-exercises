@@ -22,22 +22,36 @@ var deleteChip = function() {
 
 var showChip = function(cell, chip, cellWidth, cellHeight) {
     var table = document.getElementsByTagName('table')[0];
-    console.log('column: ' + cell.row + ' row: ' + cell.column + ' cellWidth: ' + cellWidth + ' cellHeight: ' + cellHeight);
-    chip.style.left = (cell.column * cellWidth);
-    chip.style.top = (cell.row * cellHeight);
+    var moveLeft = 0;
+    var moveTop = 0
+    if(cell.column == cell.row) {
+        moveLeft = ((cell.column/3) * cellWidth);
+        moveTop = ((cell.row/3) * cellHeight);
+    } else {
+        if(cell.column > cell.row) {
+            moveLeft = (cell.column * cellWidth);
+            moveTop = ((cell.row/3) * cellHeight);
+        } else {
+            moveLeft = ((cell.column/3) * cellWidth);
+            moveTop = (cell.row * cellHeight);
+        }
+    }
+    chip.style.left = moveLeft;
+    chip.style.top = moveTop;
+    console.log('row: ' + cell.row + ' column: ' + cell.column + ' cellWidth: ' + cellWidth + ' cellHeight: ' + cellHeight + ' LEFT: ' + chip.style.left + ' TOP: ' + chip.style.top);
     table.appendChild(chip);
 }
 
 var GetCell = function(xCoord, yCoord, cellWidth, cellHeight) {
     return {
-        row: Math.floor(xCoord/cellWidth) + 1,
-        column: Math.floor(yCoord/cellHeight) + 1
+        row: Math.floor(yCoord/cellHeight) + 1,
+        column: Math.floor(xCoord/cellWidth) + 1
     };
 };
 
 var showSelectedCell = function(cell) {
     var divResul = document.getElementById('divResultCell');
-    divResul.textContent = 'column: ' + cell.row + ' row: ' + cell.column;
+    divResul.textContent = 'column: ' + cell.column + ' row: ' + cell.row;
 }
 
 
