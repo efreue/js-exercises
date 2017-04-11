@@ -1,8 +1,13 @@
+var config = {
+    width: 50,
+    height: 50
+};
+
 var createElement = function(name) {
     return document.createElement(name);
 };
 
-var rouletteChip = function() {
+var getChip = function() {
     var chip;
     deleteChip();
     chip = createElement('div');
@@ -22,23 +27,10 @@ var deleteChip = function() {
 
 var showChip = function(cell, chip, cellWidth, cellHeight) {
     var table = document.getElementsByTagName('table')[0];
-    var moveLeft = 0;
-    var moveTop = 0
-    if(cell.column == cell.row) {
-        moveLeft = ((cell.column/3) * cellWidth);
-        moveTop = ((cell.row/3) * cellHeight);
-    } else {
-        if(cell.column > cell.row) {
-            moveLeft = (cell.column * cellWidth);
-            moveTop = ((cell.row/3) * cellHeight);
-        } else {
-            moveLeft = ((cell.column/3) * cellWidth);
-            moveTop = (cell.row * cellHeight);
-        }
-    }
-    chip.style.left = moveLeft;
-    chip.style.top = moveTop;
-    console.log('row: ' + cell.row + ' column: ' + cell.column + ' cellWidth: ' + cellWidth + ' cellHeight: ' + cellHeight + ' LEFT: ' + chip.style.left + ' TOP: ' + chip.style.top);
+
+    chip.style.top = Math.floor(((cell.row * cellHeight) + ((cell.row * cellHeight) - cellHeight))/2) - 8;
+    chip.style.left = Math.floor(((cell.column * cellWidth ) + ((cell.column * cellWidth) - cellWidth))/2) - 8;
+    /*console.log('row: ' + cell.row + ' column: ' + cell.column + ' cellWidth: ' + cellWidth + ' cellHeight: ' + cellHeight + ' LEFT: ' + chip.style.left + ' TOP: ' + chip.style.top);*/
     table.appendChild(chip);
 }
 
@@ -54,9 +46,7 @@ var showSelectedCell = function(cell) {
     divResul.textContent = 'column: ' + cell.column + ' row: ' + cell.row;
 }
 
-
-
-var getSelectedCellNumber = function(e, cellWidth, cellHeight) {
+var getSelectedCell = function(e, cellWidth, cellHeight) {
     var table = document.getElementsByTagName('table')[0];
     var x = (e.clientX - table.offsetLeft);
     var y = (e.clientY - table.offsetTop);
@@ -69,7 +59,12 @@ var createCell = function() {
     var td = createElement('td');
     td.className = "container-cell";
     td.onclick = function(e){
-        showChip(getSelectedCellNumber(e,50,50), rouletteChip(), 50,50);
+        showChip(
+            getSelectedCell(e, config.width, config.height),
+            getChip(),
+            config.width,
+            config.height
+        );
     };
     return td;
 };
