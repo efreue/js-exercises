@@ -9,14 +9,11 @@
 .circle {
     width: 35px;
     height: 35px;
-    -moz-border-radius: 55%;
-    -webkit-border-radius: 55%;
-    border-radius: 100%;
+    box-sizing: border-box;
+    border-radius: 50%;
     border: 2px solid;
     position:absolute;
     border-color: mediumvioletred;
-    -webkit-transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);
     text-align: center;
 }
 
