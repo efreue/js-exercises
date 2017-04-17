@@ -2,23 +2,15 @@ var config = {
     cellWidth: 50,
     cellHeight: 50,
     chipWidth: 35,
-    chipHeight: 35
+    chipHeight: 35,
+    table:null
 };
 
 var createElement = function(name) {
     return document.createElement(name);
 };
 
-var getChip = function() {
-    var chip;
-    deleteChip();
-    chip = createElement('div');
-    chip.id = 'chip_id';
-    chip.className = "circle"
-    return chip;
-};
-
-var deleteChip = function() {
+var deleteAllChip = function() {
     var chip = document.getElementsByClassName('circle');
     for(var i = chip.length - 1; 0 <= i; i--) {
         if(chip[i] && chip[i].parentElement) {
@@ -28,14 +20,44 @@ var deleteChip = function() {
 };
 
 var showChip = function(cell, chip) {
-    var table = document.getElementsByTagName('table')[0];
     var marginLeft = (config.cellWidth - config.chipWidth);
     var marginTop = (config.cellHeight - config.chipHeight);
 
     chip.style.top = (cell.row * config.cellHeight) + marginTop;
     chip.style.left = (cell.column * config.cellWidth) + marginLeft;
-    table.appendChild(chip);
+    config.table.appendChild(chip);
 };
+
+
+var chip = {
+    countChip: 1,
+    increment: function() {
+        return ++chip.countChip;
+    },
+    decrement: function() {
+        return (chip.countChip > 0) ? --chip.countChip : 0;
+    },
+    create: function() {
+        var oneChip;
+        oneChip = createElement('div');
+        oneChip.id = 'chip_id';
+        oneChip.className = "circle";
+        oneChip.onclick = function(e){
+            if(e.ctrlKey){
+               this.innerHTML = chip.decrement();
+            } else {
+               this.innerHTML = chip.increment();
+            }
+        }
+        oneChip.innerHTML = 1;//chip.countChip;
+        return oneChip;
+    },
+    getNewChip: function() {
+        var newChip = new chip.create();
+        return newChip;
+    }
+}
+
 
 var getCell = function(xCoord, yCoord) {
     return {
@@ -50,9 +72,8 @@ var showSelectedCell = function(cell) {
 };
 
 var getSelectedCell = function(e) {
-    var table = document.getElementsByTagName('table')[0];
-    var x = (e.clientX - table.offsetLeft);
-    var y = (e.clientY - table.offsetTop);
+    var x = (e.clientX - config.table.offsetLeft);
+    var y = (e.clientY - config.table.offsetTop);
     var cell = getCell(x, y);
     showSelectedCell(cell);
     return cell;
@@ -64,7 +85,7 @@ var createCell = function() {
     td.onclick = function(e){
         showChip(
             getSelectedCell(e),
-            getChip()
+            chip.getNewChip()
         );
     };
     return td;
@@ -80,27 +101,39 @@ var createRow = function(numberRow, numberCells) {
     return tr;
 };
 
-var getTable = function(rows, cols){
-    var table = createElement('table');
+var createTable = function(rows, cols){
+    var tblNew = createElement('table');
     for (var i = 0; i <= rows - 1; i++) {
-        table.appendChild(
+        tblNew.appendChild(
             createRow(i, cols - 1)
         )
     }
-    return table;
+    return tblNew;
 };
 
+var createButton = function() {
+    var button = createElement('input');
+    button.setAttribute('type', 'button')
+    button.className = "container-button";
+    button.setAttribute('value', 'Delete All Chip');
+    button.onclick = function() {
+        deleteAllChip();
+    };
+    return button;
+}
 window.addEventListener(
     "load",
     function() {
         var divContent = createElement('div');
         divContent.className = "container-div";
-        var tblNew = getTable(4,4);
+        config.table = createTable(4,4);
         var divShowCell = createElement('div');
         divShowCell.className = "container-show-div";
         divShowCell.id = "divResultCell";
-        divContent.appendChild(tblNew);
+        var button = createButton();
+        divContent.appendChild(config.table);
         divContent.appendChild(divShowCell);
+        divContent.appendChild(button);
         document.body.appendChild(divContent);
     }
 );
