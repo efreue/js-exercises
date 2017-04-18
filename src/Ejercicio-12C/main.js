@@ -36,34 +36,33 @@ var chip = {
     decrement: function(countChip) {
         return (countChip > 1) ? --countChip : 0;
     },
-    create: function() {
+    create: function(countChip) {
         var oneChip;
-        var countChip = 1,
+        var countIncrementChip = countChip,
         oneChip = createElement('div');
         oneChip.id = 'chip_id';
         oneChip.className = "circle";
-        oneChip.onclick = function(e){
-            var totalChip = this.innerHTML;
+        oneChip.onclick = function(e) {
             if(e.ctrlKey){
-               this.innerHTML = chip.decrement(totalChip);
-               if(this.innerHTML == "0") {
+               countIncrementChip = chip.decrement(countIncrementChip);
+               if(countIncrementChip == 0) {
                    chip.delete(this);
                }
             } else {
-               this.innerHTML = chip.increment(totalChip);
+               countIncrementChip = chip.increment(countIncrementChip);
             }
+            this.innerHTML = countIncrementChip;
         }
-        oneChip.innerHTML = countChip;
+        oneChip.innerHTML = countIncrementChip;
         return oneChip;
     },
     delete: function(chipRem) {
         chipRem.parentElement.removeChild(chipRem);
-        //this.remove;
     }
 }
 
 var createNewChip = function() {
-        var newChip = new chip.create();
+        var newChip = new chip.create(1);
         return newChip;
     }
 
