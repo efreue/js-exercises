@@ -119,27 +119,59 @@ var createTable = function(rows, cols){
     return tblNew;
 };
 
-var createButton = function() {
+var createLabel = function(styleLbl, valuebl) {
+    var label = createElement('input');
+    label.setAttribute('type', 'text')
+    label.className = styleLbl;
+    label.setAttribute('value', valuebl);
+    return label;
+}
+
+var createButton = function(styleBtn, nameBtn, funBtn) {
     var button = createElement('input');
     button.setAttribute('type', 'button')
-    button.className = "container-button";
-    button.setAttribute('value', 'Delete All Chip');
+    button.className = styleBtn;
+    button.setAttribute('value', nameBtn);
     button.onclick = function() {
-        deleteAllChip();
+        funBtn();
     };
     return button;
+}
+
+var createDiv = function(styleDiv, idDiv) {
+    var divNew = createElement('div');
+    divNew.className = styleDiv;
+    divNew.id = idDiv;
+    return divNew;
+}
+
+var addNewChip = function() {
+    alert('prueba btn add');
+};
+
+var createBoardChip = function() {
+        var divBoardNew = createDiv("container-board-div", "divBoardId");
+        var labelRow = createLabel("label-board", "row");
+        var labelCol = createLabel("label-board", "column");
+        var btnAdd = createButton("container-board-btn", "Add", addNewChip);
+        var btnRemove = createButton("container-board-btn", "Remove", addNewChip);
+        divBoardNew.appendChild(labelRow);
+        divBoardNew.appendChild(labelCol);
+        divBoardNew.appendChild(btnAdd);
+        divBoardNew.appendChild(btnRemove);
+
+        return divBoardNew;
 }
 window.addEventListener(
     "load",
     function() {
-        var divContent = createElement('div');
-        divContent.className = "container-div";
+        var divContent = createDiv("container-div", "divContainerId");
         config.table = createTable(4,4);
-        var divShowCell = createElement('div');
-        divShowCell.className = "container-show-div";
-        divShowCell.id = "divResultCell";
-        var button = createButton();
+        var divShowCell = createDiv("container-show-div", "divResultCell");
+        var divBoard = createBoardChip();
+        var button = createButton("container-button", 'Delete All Chip', deleteAllChip);
         divContent.appendChild(config.table);
+        divContent.appendChild(divBoard);
         divContent.appendChild(divShowCell);
         divContent.appendChild(button);
         document.body.appendChild(divContent);
