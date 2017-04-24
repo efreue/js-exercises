@@ -30,30 +30,22 @@ var showChip = function(cell, chip) {
 
 
 var chip = {
-    increment: function(countChip) {
-        return ++countChip;
-    },
-    decrement: function(countChip) {
-        return (countChip > 1) ? --countChip : 0;
-    },
     create: function(countChip) {
         var oneChip;
-        var countIncrementChip = countChip,
         oneChip = createElement('div');
         oneChip.id = 'chip_id';
         oneChip.className = "circle";
         oneChip.onclick = function(e) {
             if(e.ctrlKey){
-               countIncrementChip = chip.decrement(countIncrementChip);
-               if(countIncrementChip == 0) {
+               if(((countChip > 1) ? --countChip : 0) == 0) {
                    chip.delete(this);
                }
             } else {
-               countIncrementChip = chip.increment(countIncrementChip);
+               ++countChip;
             }
-            this.innerHTML = countIncrementChip;
+            this.innerHTML = countChip;
         }
-        oneChip.innerHTML = countIncrementChip;
+        oneChip.innerHTML = countChip;
         return oneChip;
     },
     delete: function(chipRem) {
