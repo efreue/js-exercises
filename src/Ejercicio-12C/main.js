@@ -22,9 +22,9 @@ var deleteAllChip = function() {
 var showChip = function(cell, chip) {
     var marginLeft = (config.cellWidth - config.chipWidth);
     var marginTop = (config.cellHeight - config.chipHeight);
-
     chip.style.top = (cell.row * config.cellHeight) + marginTop;
     chip.style.left = (cell.column * config.cellWidth) + marginLeft;
+    chip.click();
     config.table.appendChild(chip);
 };
 
@@ -37,11 +37,11 @@ var chip = {
         oneChip.className = "circle";
         oneChip.onclick = function(e) {
             if(e.ctrlKey){
-               if(((countChip > 1) ? --countChip : 0) == 0) {
+               if(((countChip > 1) ? countChip-- : 0) == 0) {
                    chip.delete(this);
                }
             } else {
-               ++countChip;
+               countChip++;
             }
             this.innerHTML = countChip;
         }
@@ -52,12 +52,6 @@ var chip = {
         chipRem.parentElement.removeChild(chipRem);
     }
 }
-
-var createNewChip = function() {
-        var newChip = new chip.create(1);
-        return newChip;
-    }
-
 
 var getCell = function(xCoord, yCoord) {
     return {
@@ -85,7 +79,7 @@ var createCell = function() {
     td.onclick = function(e){
         showChip(
             getSelectedCell(e),
-            createNewChip()
+            chip.create(0)
         );
     };
     return td;
