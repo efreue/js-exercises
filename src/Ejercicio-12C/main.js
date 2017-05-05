@@ -37,7 +37,6 @@ var chip = {
         oneChip = createElement('div');
         oneChip.id = 'chip_id';
         oneChip.className = "circle";
-        chip.wasCreated = 1;
         oneChip.onclick = function(e) {
             if(e.ctrlKey){
                if(((chip.countChip > 1) ? chip.countChip-- : 0) == 0) {
@@ -63,10 +62,18 @@ var chip = {
 }
 
 var chips = {
-    add: function() {
+    allCells:[],
+    allChips:[],
+    add: function(cell) {
         var oneChip = new chip.create(1);
+            chips.allCells.push(cell);
+            chips.allChips.push(oneChip);
+            oneChip.wasCreated = 1;
             return oneChip;
-        }
+    },
+    validExists: function(oneChip, cell) {
+
+    }
 }
 
 var getCell = function(xCoord, yCoord) {
@@ -95,7 +102,7 @@ var createCell = function() {
     td.onclick = function(e){
         showChip(
             getSelectedCell(e),
-            chips.add()
+            chips.add(getSelectedCell(e))
         );
     };
     return td;
