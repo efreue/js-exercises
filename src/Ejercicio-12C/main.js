@@ -30,27 +30,43 @@ var showChip = function(cell, chip) {
 
 
 var chip = {
-    create: function(countChip) {
+    wasCreated: 0,
+    countChip: 0,
+    create: function() {
         var oneChip;
         oneChip = createElement('div');
         oneChip.id = 'chip_id';
         oneChip.className = "circle";
+        chip.wasCreated = 1;
         oneChip.onclick = function(e) {
             if(e.ctrlKey){
-               if(((countChip > 1) ? countChip-- : 0) == 0) {
+               if(((chip.countChip > 1) ? chip.countChip-- : 0) == 0) {
                    chip.delete(this);
                }
             } else {
-               countChip++;
+               chip.countChip++;
             }
-            this.innerHTML = countChip;
+            this.innerHTML = chip.countChip;
         }
-        oneChip.innerHTML = countChip;
+        oneChip.innerHTML = chip.countChip;
         return oneChip;
+    },
+    getCountChip: function() {
+        return chip.countChip;
+    },
+    getWasCreated: function() {
+        return chip.wasCreated;
     },
     delete: function(chipRem) {
         chipRem.parentElement.removeChild(chipRem);
     }
+}
+
+var chips = {
+    add: function() {
+        var oneChip = new chip.create(1);
+            return oneChip;
+        }
 }
 
 var getCell = function(xCoord, yCoord) {
@@ -79,7 +95,7 @@ var createCell = function() {
     td.onclick = function(e){
         showChip(
             getSelectedCell(e),
-            chip.create(0)
+            chips.add()
         );
     };
     return td;
