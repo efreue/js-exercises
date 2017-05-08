@@ -32,15 +32,17 @@ var showChip = function(cell, chip) {
 var chip = {
     wasCreated: 0,
     countChip: 0,
-    create: function() {
+    create: function(init) {
         var oneChip;
         oneChip = createElement('div');
         oneChip.id = 'chip_id';
+        chip.countChip = init;
         oneChip.className = "circle";
         oneChip.onclick = function(e) {
             if(e.ctrlKey){
                if(((chip.countChip > 1) ? chip.countChip-- : 0) == 0) {
                    chip.delete(this);
+                   chips.delete(this);
                }
             } else {
                chip.countChip++;
@@ -49,12 +51,6 @@ var chip = {
         }
         oneChip.innerHTML = chip.countChip;
         return oneChip;
-    },
-    getCountChip: function() {
-        return chip.countChip;
-    },
-    getWasCreated: function() {
-        return chip.wasCreated;
     },
     delete: function(chipRem) {
         chipRem.parentElement.removeChild(chipRem);
@@ -65,16 +61,33 @@ var chips = {
     allCells:[],
     allChips:[],
     add: function(cell) {
-        var oneChip = new chip.create(1);
+        var oneChip = chips.getChipExists(cell);
+        if (oneChip == null) {
+            oneChip = new chip.create(0);
             chips.allCells.push(cell);
             chips.allChips.push(oneChip);
-            oneChip.wasCreated = 1;
-            return oneChip;
+        }
+        return oneChip;
     },
-    validExists: function(oneChip, cell) {
-
+    getChipExists: function(cell) {
+        var chipExists = null;
+        for (var i=0; i < chips.allCells.length; i++) {
+            if((cell.column == chips.allCells[i].column) && (cell.row == chips.allCells[i].row)) {
+                chipExists = chips.allChips[i];
+                break;
+            }
+        }
+        return chipExists;
+    },
+    delete: function(oneChip) {
+        for (var i=0; i < chips.allChips.length; i++) {
+            if(oneChip === chips.allChips[i]) {
+                chips.allChips.splice(i,1);
+                chips.allCells.splice(i,1);
+            }
+        }
     }
-}
+};
 
 var getCell = function(xCoord, yCoord) {
     return {
