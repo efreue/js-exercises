@@ -19,18 +19,19 @@ var deleteAllChip = function() {
     }
 };
 
-var showChip = function(cell, chip) {
+var showChip = function(cell, newChip, e) {
     var marginLeft = (config.cellWidth - config.chipWidth);
     var marginTop = (config.cellHeight - config.chipHeight);
-    chip.style.top = (cell.row * config.cellHeight) + marginTop;
-    chip.style.left = (cell.column * config.cellWidth) + marginLeft;
-    chip.click();
-    config.table.appendChild(chip);
+    newChip.style.top = (cell.row * config.cellHeight) + marginTop;
+    newChip.style.left = (cell.column * config.cellWidth) + marginLeft;
+    newChip.onclick(e)
+    if (chip.countChip > 0) {
+        config.table.appendChild(newChip);
+    }
+
 };
 
-
 var chip = {
-    wasCreated: 0,
     countChip: 0,
     create: function(init) {
         var oneChip;
@@ -43,6 +44,7 @@ var chip = {
                if(((chip.countChip > 1) ? chip.countChip-- : 0) == 0) {
                    chip.delete(this);
                    chips.delete(this);
+                   chip.countChip--;
                }
             } else {
                chip.countChip++;
@@ -115,7 +117,8 @@ var createCell = function() {
     td.onclick = function(e){
         showChip(
             getSelectedCell(e),
-            chips.add(getSelectedCell(e))
+            chips.add(getSelectedCell(e)),
+            e
         );
     };
     return td;
