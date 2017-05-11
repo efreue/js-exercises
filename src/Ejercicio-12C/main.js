@@ -24,34 +24,37 @@ var showChip = function(cell, newChip, e) {
     var marginTop = (config.cellHeight - config.chipHeight);
     newChip.style.top = (cell.row * config.cellHeight) + marginTop;
     newChip.style.left = (cell.column * config.cellWidth) + marginLeft;
-    newChip.onclick(e)
-    if (chip.countChip > 0) {
+    var numChip = parseInt(newChip.textContent);
+    newChip.onclick(e, numChip);
+    if (parseInt(newChip.textContent) > 0) {
         config.table.appendChild(newChip);
     }
-
 };
 
 var chip = {
-    countChip: 0,
     create: function(init) {
         var oneChip;
         oneChip = createElement('div');
         oneChip.id = 'chip_id';
-        chip.countChip = init;
         oneChip.className = "circle";
-        oneChip.onclick = function(e) {
+        oneChip.onclick = function(e, numChip) {
+            if (numChip == undefined) {
+                numChip = parseInt(this.textContent);
+            }
             if(e.ctrlKey){
-               if(((chip.countChip > 1) ? chip.countChip-- : 0) == 0) {
+               if(((numChip > 1) ? numChip-- : 0) == 0) {
                    chip.delete(this);
                    chips.delete(this);
-                   chip.countChip--;
+                   numChip--;
                }
             } else {
-               chip.countChip++;
+               numChip++;
             }
-            this.innerHTML = chip.countChip;
+            this.textContent = numChip;
+            this.innerHTML = numChip;
         }
-        oneChip.innerHTML = chip.countChip;
+        oneChip.innerHTML = init;
+        oneChip.textContent = init;
         return oneChip;
     },
     delete: function(chipRem) {
@@ -69,6 +72,7 @@ var chips = {
             chips.allCells.push(cell);
             chips.allChips.push(oneChip);
         }
+
         return oneChip;
     },
     getChipExists: function(cell) {
@@ -111,6 +115,7 @@ var getSelectedCell = function(e) {
     return cell;
 };
 
+
 var createCell = function() {
     var td = createElement('td');
     td.className = "container-cell";
@@ -149,6 +154,9 @@ var createLabel = function(styleLbl, valuebl) {
     label.setAttribute('type', 'text')
     label.className = styleLbl;
     label.setAttribute('value', valuebl);
+    label.onclick = function() {
+        this.value = '';
+    };
     return label;
 }
 
