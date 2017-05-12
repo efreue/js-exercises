@@ -107,9 +107,12 @@ var showSelectedCell = function(cell) {
     divResul.textContent = 'column: ' + cell.column + ' row: ' + cell.row;
 };
 
+
+
 var getSelectedCell = function(e) {
     var x = (e.clientX - config.table.offsetLeft);
     var y = (e.clientY - config.table.offsetTop);
+
     var cell = getCell(x, y);
     showSelectedCell(cell);
     return cell;
@@ -179,7 +182,14 @@ var createDiv = function(styleDiv, idDiv) {
 }
 
 var addNewChip = function() {
-    alert('prueba btn add');
+    var element = document.getElementsByClassName("label-board");
+    var row = parseInt(element[0].value);
+    var col = parseInt(element[1].value);
+    var cell =  document.getElementsByClassName("container-cell");
+    /*
+    1)AGREGAR LOGICA PARA OBTENER LA CEDA A LA QUE PERTENECE ROW/COL
+    2)HACER cell.click(e) para que invoque a createCell*/
+    alert('prueba btn add ' + row + ' , ' + col);
 };
 
 var createBoardChip = function() {
