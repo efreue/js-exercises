@@ -14,20 +14,9 @@ var deleteAllChip = function() {
     var chip = document.getElementsByClassName('circle');
     for(var i = chip.length - 1; 0 <= i; i--) {
         if(chip[i] && chip[i].parentElement) {
+            chips.delete(chip[i]);
             chip[i].parentElement.removeChild(chip[i]);
         }
-    }
-};
-
-var showChip = function(cell, newChip, e) {
-    var marginLeft = (config.cellWidth - config.chipWidth);
-    var marginTop = (config.cellHeight - config.chipHeight);
-    newChip.style.top = (cell.row * config.cellHeight) + marginTop;
-    newChip.style.left = (cell.column * config.cellWidth) + marginLeft;
-    var numChip = parseInt(newChip.textContent);
-    newChip.onclick(e, numChip);
-    if (parseInt(newChip.textContent) > 0) {
-        config.table.appendChild(newChip);
     }
 };
 
@@ -58,7 +47,9 @@ var chip = {
         return oneChip;
     },
     delete: function(chipRem) {
+        chips.delete(chipRem);
         chipRem.parentElement.removeChild(chipRem);
+
     }
 }
 
@@ -92,32 +83,65 @@ var chips = {
                 chips.allCells.splice(i,1);
             }
         }
+        if(chips.allChips.length == 0) {
+            clearSelectedCell();
+        }
     }
 };
 
-var getCell = function(xCoord, yCoord) {
-    return {
-        row: Math.floor(yCoord / config.cellHeight),
-        column: Math.floor(xCoord / config.cellWidth)
-    };
+var showChip = function(cell, newChip, e) {
+    var marginLeft = (config.cellWidth - config.chipWidth);
+    var marginTop = (config.cellHeight - config.chipHeight);
+    newChip.style.top = (cell.row * config.cellHeight) + marginTop;
+    newChip.style.left = (cell.column * config.cellWidth) + marginLeft;
+    var numChip = parseInt(newChip.textContent);
+    newChip.onclick(e, numChip);
+    if (parseInt(newChip.textContent) > 0) {
+        config.table.appendChild(newChip);
+    }
 };
+
+
+var getCell = {
+    withCoord: function(e) {
+        var xCoord = (e.clientX - config.table.offsetLeft);
+        var yCoord = (e.clientY - config.table.offsetTop);
+        return {
+            row: Math.floor(yCoord / config.cellHeight),
+            column: Math.floor(xCoord / config.cellWidth)
+        };
+    },
+    withColRow: function(row, col){
+        return {
+            row: row,
+            column: col
+        };
+    }
+};
+
 
 var showSelectedCell = function(cell) {
     var divResul = document.getElementById('divResultCell');
     divResul.textContent = 'column: ' + cell.column + ' row: ' + cell.row;
 };
 
+var clearSelectedCell = function(cell) {
+    var divResul = document.getElementById('divResultCell');
+    divResul.textContent = '';
+};
 
 
-var getSelectedCell = function(e) {
-    var x = (e.clientX - config.table.offsetLeft);
-    var y = (e.clientY - config.table.offsetTop);
+var getSelectedCell = function(e, col, row) {
+    var cell;
+    if(col == undefined && row == undefined) {
+        cell = getCell.withCoord(e);
+    } else {
+        cell = getCell.withColRow(col,row);
+    }
 
-    var cell = getCell(x, y);
     showSelectedCell(cell);
     return cell;
 };
-
 
 var createCell = function() {
     var td = createElement('td');
