@@ -49,9 +49,8 @@ var chip = {
     delete: function(chipRem) {
         chips.delete(chipRem);
         chipRem.parentElement.removeChild(chipRem);
-
     }
-}
+};
 
 var chips = {
     allCells:[],
@@ -63,7 +62,6 @@ var chips = {
             chips.allCells.push(cell);
             chips.allChips.push(oneChip);
         }
-
         return oneChip;
     },
     getChipExists: function(cell) {
@@ -130,7 +128,6 @@ var clearSelectedCell = function(cell) {
     divResul.textContent = '';
 };
 
-
 var getSelectedCell = function(e, col, row) {
     var cell;
     if(col == undefined && row == undefined) {
@@ -138,7 +135,6 @@ var getSelectedCell = function(e, col, row) {
     } else {
         cell = getCell.withColRow(col,row);
     }
-
     showSelectedCell(cell);
     return cell;
 };
@@ -209,11 +205,17 @@ var addNewChip = function() {
     var element = document.getElementsByClassName("label-board");
     var row = parseInt(element[0].value);
     var col = parseInt(element[1].value);
-    var cell =  document.getElementsByClassName("container-cell");
+    var cell = getSelectedCell(null, col, row);
+    var chip = chips.add(cell);
+    showChip(cell, chip);
+    //document.getElementsByClassName("container-cell");
+    //    var config.table.rows.length;
+
     /*
     1)AGREGAR LOGICA PARA OBTENER LA CEDA A LA QUE PERTENECE ROW/COL
     2)HACER cell.click(e) para que invoque a createCell*/
-    alert('prueba btn add ' + row + ' , ' + col);
+    //alert('prueba btn add ' + row + ' , ' + col);
+
 };
 
 var createBoardChip = function() {
@@ -233,7 +235,7 @@ window.addEventListener(
     "load",
     function() {
         var divContent = createDiv("container-div", "divContainerId");
-        config.table = createTable(4,4);
+        config.table = createTable(4, 4);
         var divShowCell = createDiv("container-show-div", "divResultCell");
         var divBoard = createBoardChip();
         var button = createButton("container-button", 'Delete All Chip', deleteAllChip);
