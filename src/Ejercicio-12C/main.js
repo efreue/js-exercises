@@ -3,6 +3,8 @@ var config = {
     cellHeight: 50,
     chipWidth: 35,
     chipHeight: 35,
+    countRows: 4,
+    countCols:4,
     table:null
 };
 
@@ -30,14 +32,20 @@ var chip = {
             if (numChip == undefined) {
                 numChip = parseInt(this.textContent);
             }
-            if(e.ctrlKey){
-               if(((numChip > 1) ? numChip-- : 0) == 0) {
-                   chip.delete(this);
-                   chips.delete(this);
-                   numChip--;
-               }
-            } else {
-               numChip++;
+            if(typeof(e) != "undefined") {
+                if (e.ctrlKey){
+                   if(((numChip > 1) ? numChip-- : 0) == 0) {
+                       chip.delete(this);
+                       chips.delete(this);
+                       numChip--;
+                   }
+                }
+                else {
+                   numChip++;
+                }
+            }
+            else {
+                numChip++;
             }
             this.textContent = numChip;
             this.innerHTML = numChip;
@@ -83,6 +91,7 @@ var chips = {
         }
         if(chips.allChips.length == 0) {
             clearSelectedCell();
+            clearLabelRowCol();
         }
     }
 };
@@ -201,21 +210,40 @@ var createDiv = function(styleDiv, idDiv) {
     return divNew;
 }
 
+var clearLabelRowCol = function() {
+    var element = document.getElementsByClassName("label-board");
+    element[0].value = "row";
+    element[1].value = "column";
+};
+
+var validateRowCol = function (row, col) {
+var msg = 'ok';
+    if(isNaN(row) || isNaN(col)) {
+        msg = 'Debe definir una fila y columna valida';
+    } else {
+        if((row >= config.countRows || row < 0) || (col >= config.countCols || col < 0)) {
+            msg = 'Los valores para la fila estan entre (0,' + config.countRows + '), y para la columna entre (0,' + config.countCols + ')';
+        }
+    }
+    if (msg !== 'ok') {
+        alert(msg);
+        return 0
+    }
+    else {
+        return 1
+    }
+};
+
 var addNewChip = function() {
     var element = document.getElementsByClassName("label-board");
     var row = parseInt(element[0].value);
     var col = parseInt(element[1].value);
-    var cell = getSelectedCell(null, col, row);
-    var chip = chips.add(cell);
-    showChip(cell, chip);
-    //document.getElementsByClassName("container-cell");
-    //    var config.table.rows.length;
-
-    /*
-    1)AGREGAR LOGICA PARA OBTENER LA CEDA A LA QUE PERTENECE ROW/COL
-    2)HACER cell.click(e) para que invoque a createCell*/
-    //alert('prueba btn add ' + row + ' , ' + col);
-
+    var validOk = validateRowCol(row, col)
+    if (validOk == 1) {
+        var cell = getSelectedCell(null, col, row);
+        var chip = chips.add(cell);
+        showChip(cell, chip);
+    }
 };
 
 var createBoardChip = function() {
@@ -235,7 +263,7 @@ window.addEventListener(
     "load",
     function() {
         var divContent = createDiv("container-div", "divContainerId");
-        config.table = createTable(4, 4);
+        config.table = createTable(config.countRows, config.countCols);
         var divShowCell = createDiv("container-show-div", "divResultCell");
         var divBoard = createBoardChip();
         var button = createButton("container-button", 'Delete All Chip', deleteAllChip);
