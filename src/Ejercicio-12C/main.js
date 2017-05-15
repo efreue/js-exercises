@@ -4,8 +4,8 @@ var config = {
     chipWidth: 35,
     chipHeight: 35,
     countRows: 4,
-    countCols:4,
-    table:null
+    countCols: 4,
+    table: null
 };
 
 var createElement = function(name) {
@@ -61,8 +61,8 @@ var chip = {
 };
 
 var chips = {
-    allCells:[],
-    allChips:[],
+    allCells: [],
+    allChips: [],
     add: function(cell) {
         var oneChip = chips.getChipExists(cell);
         if (oneChip == null) {
@@ -74,7 +74,7 @@ var chips = {
     },
     getChipExists: function(cell) {
         var chipExists = null;
-        for (var i=0; i < chips.allCells.length; i++) {
+        for (var i = 0; i < chips.allCells.length; i++) {
             if((cell.column == chips.allCells[i].column) && (cell.row == chips.allCells[i].row)) {
                 chipExists = chips.allChips[i];
                 break;
@@ -83,10 +83,10 @@ var chips = {
         return chipExists;
     },
     delete: function(oneChip) {
-        for (var i=0; i < chips.allChips.length; i++) {
+        for (var i = 0; i < chips.allChips.length; i++) {
             if(oneChip === chips.allChips[i]) {
-                chips.allChips.splice(i,1);
-                chips.allCells.splice(i,1);
+                chips.allChips.splice(i, 1);
+                chips.allCells.splice(i, 1);
             }
         }
         if(chips.allChips.length == 0) {
@@ -107,7 +107,6 @@ var showChip = function(cell, newChip, e) {
         config.table.appendChild(newChip);
     }
 };
-
 
 var getCell = {
     withCoord: function(e) {
@@ -190,7 +189,7 @@ var createLabel = function(styleLbl, valuebl) {
         this.value = '';
     };
     return label;
-}
+};
 
 var createButton = function(styleBtn, nameBtn, funBtn) {
     var button = createElement('input');
@@ -201,14 +200,14 @@ var createButton = function(styleBtn, nameBtn, funBtn) {
         funBtn();
     };
     return button;
-}
+};
 
 var createDiv = function(styleDiv, idDiv) {
     var divNew = createElement('div');
     divNew.className = styleDiv;
     divNew.id = idDiv;
     return divNew;
-}
+};
 
 var clearLabelRowCol = function() {
     var element = document.getElementsByClassName("label-board");
@@ -217,7 +216,7 @@ var clearLabelRowCol = function() {
 };
 
 var validateRowCol = function (row, col) {
-var msg = 'ok';
+    var msg = 'ok';
     if(isNaN(row) || isNaN(col)) {
         msg = 'Debe definir una fila y columna valida';
     } else {
@@ -247,18 +246,19 @@ var addNewChip = function() {
 };
 
 var createBoardChip = function() {
-        var divBoardNew = createDiv("container-board-div", "divBoardId");
-        var labelRow = createLabel("label-board", "row");
-        var labelCol = createLabel("label-board", "column");
-        var btnAdd = createButton("container-board-btn", "Add", addNewChip);
-        var btnRemove = createButton("container-board-btn", "Remove", addNewChip);
-        divBoardNew.appendChild(labelRow);
-        divBoardNew.appendChild(labelCol);
-        divBoardNew.appendChild(btnAdd);
-        divBoardNew.appendChild(btnRemove);
+    var divBoardNew = createDiv("container-board-div", "divBoardId");
+    var labelRow = createLabel("label-board", "row");
+    var labelCol = createLabel("label-board", "column");
+    var btnAdd = createButton("container-board-btn", "Add", addNewChip);
+    var btnRemove = createButton("container-board-btn", "Remove", addNewChip);
+    divBoardNew.appendChild(labelRow);
+    divBoardNew.appendChild(labelCol);
+    divBoardNew.appendChild(btnAdd);
+    divBoardNew.appendChild(btnRemove);
 
-        return divBoardNew;
-}
+    return divBoardNew;
+};
+
 window.addEventListener(
     "load",
     function() {
