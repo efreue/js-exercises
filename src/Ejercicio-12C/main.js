@@ -72,9 +72,9 @@ var chip = {
 var chips = {
     allCells: [],
     allChips: [],
-    add: function(cell) {
+    add: function(cell, delChip) {
         var oneChip = chips.getChipExists(cell);
-        if (oneChip == null) {
+        if (oneChip == null && (delChip == 0 || delChip == undefined)) {
             oneChip = new chip.create(0);
             chips.allCells.push(cell);
             chips.allChips.push(oneChip);
@@ -248,8 +248,11 @@ var logicButtonAddDelChip = function(delChip) {
     var validOk = validateRowCol(row, col)
     if (validOk == 1) {
         var cell = getSelectedCell(null, col, row);
-        var chip = chips.add(cell);
-        showChip(cell, chip, undefined, delChip);
+        var chip = chips.add(cell, delChip);
+        if(chip != null) {
+            showChip(cell, chip, undefined, delChip);
+        }
+
     }
 }
 
