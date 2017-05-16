@@ -28,7 +28,7 @@ var chip = {
         oneChip = createElement('div');
         oneChip.id = 'chip_id';
         oneChip.className = "circle";
-        oneChip.onclick = function(e, numChip) {
+        oneChip.onclick = function(e, numChip, delChip) {
             if (numChip == undefined) {
                 numChip = parseInt(this.textContent);
             }
@@ -45,7 +45,16 @@ var chip = {
                 }
             }
             else {
-                numChip++;
+                if(delChip == 1) {
+                    if(((numChip > 1) ? numChip-- : 0) == 0) {
+                       chip.delete(this);
+                       chips.delete(this);
+                       numChip--;
+                    }
+                } else {
+                    numChip++;
+                }
+
             }
             this.textContent = numChip;
             this.innerHTML = numChip;
@@ -96,13 +105,13 @@ var chips = {
     }
 };
 
-var showChip = function(cell, newChip, e) {
+var showChip = function(cell, newChip, e, delChip) {
     var marginLeft = (config.cellWidth - config.chipWidth);
     var marginTop = (config.cellHeight - config.chipHeight);
     newChip.style.top = (cell.row * config.cellHeight) + marginTop;
     newChip.style.left = (cell.column * config.cellWidth) + marginLeft;
     var numChip = parseInt(newChip.textContent);
-    newChip.onclick(e, numChip);
+    newChip.onclick(e, numChip, delChip);
     if (parseInt(newChip.textContent) > 0) {
         config.table.appendChild(newChip);
     }
@@ -233,7 +242,7 @@ var validateRowCol = function (row, col) {
     }
 };
 
-var addNewChip = function() {
+var logicButtonAddDelChip = function(delChip) {
     var element = document.getElementsByClassName("label-board");
     var row = parseInt(element[0].value);
     var col = parseInt(element[1].value);
@@ -241,8 +250,16 @@ var addNewChip = function() {
     if (validOk == 1) {
         var cell = getSelectedCell(null, col, row);
         var chip = chips.add(cell);
-        showChip(cell, chip);
+        showChip(cell, chip, undefined, delChip);
     }
+}
+
+var addNewChip = function() {
+    logicButtonAddDelChip(0);
+};
+
+var delNewChip = function() {
+    logicButtonAddDelChip(1);
 };
 
 var createBoardChip = function() {
@@ -250,7 +267,7 @@ var createBoardChip = function() {
     var labelRow = createLabel("label-board", "row");
     var labelCol = createLabel("label-board", "column");
     var btnAdd = createButton("container-board-btn", "Add", addNewChip);
-    var btnRemove = createButton("container-board-btn", "Remove", addNewChip);
+    var btnRemove = createButton("container-board-btn", "Remove", delNewChip);
     divBoardNew.appendChild(labelRow);
     divBoardNew.appendChild(labelCol);
     divBoardNew.appendChild(btnAdd);
