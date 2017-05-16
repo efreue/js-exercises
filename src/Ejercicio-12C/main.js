@@ -134,7 +134,6 @@ var getCell = {
     }
 };
 
-
 var showSelectedCell = function(cell) {
     var divResul = document.getElementById('divResultCell');
     divResul.textContent = 'column: ' + cell.column + ' row: ' + cell.row;
@@ -235,10 +234,10 @@ var validateRowCol = function (row, col) {
     }
     if (msg !== 'ok') {
         alert(msg);
-        return 0
+        return 0;
     }
     else {
-        return 1
+        return 1;
     }
 };
 
