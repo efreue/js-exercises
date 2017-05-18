@@ -188,10 +188,6 @@ var createTable = function(rows, cols){
     return tblNew;
 };
 
-var clearLabel = function(obj) {
-    obj.value = '';
-};
-
 var createButton = function(styleBtn, nameBtn, funBtn) {
     var button = createElement('input');
     button.setAttribute('type', 'button')
@@ -212,8 +208,10 @@ var createDiv = function(styleDiv, idDiv) {
 
 var clearLabelRowCol = function() {
     var element = document.getElementsByClassName("label-board");
-    element[0].value = "row";
-    element[1].value = "column";
+    element[0].value = "";
+    element[0].placeholder = "row";
+    element[1].value = "";
+    element[1].placeholder = "column";
 };
 
 var validateRowCol = function (row, col) {
