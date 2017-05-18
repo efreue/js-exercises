@@ -188,15 +188,8 @@ var createTable = function(rows, cols){
     return tblNew;
 };
 
-var createLabel = function(styleLbl, valuebl) {
-    var label = createElement('input');
-    label.setAttribute('type', 'text')
-    label.className = styleLbl;
-    label.setAttribute('value', valuebl);
-    label.onclick = function() {
-        this.value = '';
-    };
-    return label;
+var clearLabel = function(obj) {
+    obj.value = '';
 };
 
 var createButton = function(styleBtn, nameBtn, funBtn) {
@@ -252,7 +245,9 @@ var logicButtonAddDelChip = function(delChip) {
         if(chip != null) {
             showChip(cell, chip, undefined, delChip);
         }
-
+        else {
+            alert('No existe ficha en la ceda seleccionada');
+        }
     }
 }
 
@@ -264,30 +259,14 @@ var delNewChip = function() {
     logicButtonAddDelChip(1);
 };
 
-var createBoardChip = function() {
-    var divBoardNew = createDiv("container-board-div", "divBoardId");
-    var labelRow = createLabel("label-board", "row");
-    var labelCol = createLabel("label-board", "column");
-    var btnAdd = createButton("container-board-btn", "Add", addNewChip);
-    var btnRemove = createButton("container-board-btn", "Remove", delNewChip);
-    divBoardNew.appendChild(labelRow);
-    divBoardNew.appendChild(labelCol);
-    divBoardNew.appendChild(btnAdd);
-    divBoardNew.appendChild(btnRemove);
-
-    return divBoardNew;
-};
-
 window.addEventListener(
     "load",
     function() {
         var divContent = createDiv("container-div", "divContainerId");
         config.table = createTable(config.countRows, config.countCols);
         var divShowCell = createDiv("container-show-div", "divResultCell");
-        var divBoard = createBoardChip();
         var button = createButton("container-button", 'Delete All Chip', deleteAllChip);
         divContent.appendChild(config.table);
-        divContent.appendChild(divBoard);
         divContent.appendChild(divShowCell);
         divContent.appendChild(button);
         document.body.appendChild(divContent);
