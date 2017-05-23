@@ -69,36 +69,42 @@ var chip = {
     }
 };
 
+var CellAndChip = function(cell, oneChip)  {
+    var matriz = new Array(
+        new Array(cell),
+        new Array(oneChip)
+    );
+    return matriz;
+};
+
 var chips = {
-    allCells: [],
-    allChips: [],
+    matrizCellChip:[],
     add: function(cell, delChip) {
         var oneChip = chips.getChipExists(cell);
         if (oneChip == null && (delChip == 0 || delChip == undefined)) {
             oneChip = new chip.create(0);
-            chips.allCells.push(cell);
-            chips.allChips.push(oneChip);
+            chips.matrizCellChip.push(CellAndChip(cell, oneChip));
         }
         return oneChip;
     },
     getChipExists: function(cell) {
         var chipExists = null;
-        for (var i = 0; i < chips.allCells.length; i++) {
-            if((cell.column == chips.allCells[i].column) && (cell.row == chips.allCells[i].row)) {
-                chipExists = chips.allChips[i];
+        for (var i = 0; i < chips.matrizCellChip.length; i++) {
+            if((cell.column == chips.matrizCellChip[i][0][0].column) && (cell.row == chips.matrizCellChip[i][0][0].row)) {
+                chipExists = chips.matrizCellChip[i][1][0];
                 break;
             }
         }
         return chipExists;
     },
     delete: function(oneChip) {
-        for (var i = 0; i < chips.allChips.length; i++) {
-            if(oneChip === chips.allChips[i]) {
-                chips.allChips.splice(i, 1);
-                chips.allCells.splice(i, 1);
+        for (var i = 0; i < chips.matrizCellChip.length; i++) {
+            if(oneChip === chips.matrizCellChip[i][1][0]) {
+                chips.matrizCellChip[i][0].splice(i, 1);
+                chips.matrizCellChip[i][1].splice(i, 1);
             }
         }
-        if(chips.allChips.length == 0) {
+        if(chips.matrizCellChip[0][0].length == 0) {
             clearSelectedCell();
             clearLabelRowCol();
         }
