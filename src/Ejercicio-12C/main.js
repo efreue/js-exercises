@@ -100,11 +100,10 @@ var chips = {
     delete: function(oneChip) {
         for (var i = 0; i < chips.matrizCellChip.length; i++) {
             if(oneChip === chips.matrizCellChip[i][1][0]) {
-                chips.matrizCellChip[i][0].splice(i, 1);
-                chips.matrizCellChip[i][1].splice(i, 1);
+                chips.matrizCellChip.splice(i, 1);
             }
         }
-        if(chips.matrizCellChip[0][0].length == 0) {
+        if(chips.matrizCellChip.length == 0) {
             clearSelectedCell();
             clearLabelRowCol();
         }
