@@ -20,6 +20,7 @@ var createDiv = function(styleDiv, idDiv) {
 
 var createTable = function(rows, cols){
     var tblNew = createElement('table');
+    tblNew.id = 'tableId';
     for (var i = 0; i <= rows - 1; i++) {
         tblNew.appendChild(
             createRow(i, cols - 1)
@@ -43,7 +44,8 @@ var createCell = function() {
     var td = createElement('td');
     td.className = "container-cell";
     td.onclick = function(e){
-        alert('llamar a funcion')
+        //alert('llamar a funcion')
+        chip.show(chip.add(e));
     };
     return td;
 };
@@ -54,28 +56,87 @@ var createRow = function(numberRow, numberCells) {
         tr.appendChild(
             createCell()
         )
-        board.addCells(numberRow, i);
+        cellNew.add(numberRow, i);
     }
     return tr;
 };
 
-var board = {
+var cellNew = {
     allCells: [],
-    allChipsToCell: [],
-    addCells: function(row, cell) {
-        board.allCells.push(row, cell);
+    add: function(row, cell) {
+        cellNew.allCells.push(row, cell);
     },
-    validateCell: function(row, cell) {
+    validate: function(row, cell) {
         var exists = false;
-        if (board.allCells.indexOf(row,cell) != -1)
+        if (cellNew.allCells.indexOf(row, cell) != -1) {
             exists = true;
+        }
         return exists;
     },
-    addChip: function(oneChip, row, cell) {
-        if(board.validateCell(row, cell)) {
-            board.asignChipToCell(row, cell, oneChip)
-        }
+    getSelectedCell: function(e) {
+        var table = document.getElementById('tableId');
+        var xCoord = (e.clientX - table.offsetLeft);
+        var yCoord = (e.clientY - table.offsetTop);
+        return {
+            row: Math.floor(yCoord / config.cellHeight),
+            column: Math.floor(xCoord / config.cellWidth)
+        };
+    }
+};
+
+var chip = {
+    create: function(init) {
+        var oneChip = createElement('div');
+        oneChip.id = 'chip_id';
+        oneChip.className = "circle";
+        oneChip.onclick = function(e) {
+            var numChip = parseInt(this.textContent);
+            if (e.ctrlKey) {
+                if (((numChip > 1) ? numChip-- : 0) == 0) {
+                    //chip.delete(this);
+                    //chips.delete(this);
+                    numChip--;
+                }
+            }
+            else {
+                numChip++;
+            }
+            this.textContent = numChip;
+            this.innerHTML = numChip;
+        };
+        oneChip.innerHTML = init;
+        oneChip.textContent = init;
+        return oneChip;
     },
+    add: function(e) {
+        var oneChip = null;
+        var oneCell = cellNew.getSelectedCell(e);
+        if(cellNew.validate(oneCell.row, oneCell.column)) {
+            if(board.getChip(oneCell.row, oneCell.column) != null) {
+                oneChip = board.allChipsToCell[oneCell.row, oneCell.column]
+            }
+            else {
+                oneChip = chip.create(1);
+            }
+            board.asignChipToCell(oneCell.row, oneCell.column, oneChip);
+        }
+        return {
+            row: oneCell.row,
+            col: oneCell.column,
+            oneChip: oneChip
+        };
+    },
+    show: function(chipCreated) {
+        var marginLeft = (config.cellWidth - config.chipWidth);
+        var marginTop = (config.cellHeight - config.chipHeight);
+        chipCreated.oneChip.style.top = (chipCreated.row * config.cellHeight) + marginTop;
+        chipCreated.oneChip.style.left = (chipCreated.column * config.cellWidth) + marginLeft;
+        document.body.appendChild(chipCreated.oneChip);
+    }
+};
+
+var board = {
+    allChipsToCell: [],
     asignChipToCell: function(row, cell, oneChip) {
         var chipsCell = new Array(
             row,
@@ -83,16 +144,21 @@ var board = {
             new Array(oneChip)
         );
         return chipsCell;
+    },
+    getChip: function(row, cell) {
+        var oneChip = null;
+        if (board.allChipsToCell.indexOf(row, cell) != -1) {
+            oneChip = board.allChipsToCell[row, cell];
+        }
+        return oneChip;
+    },
+    validate: function(row, cell, oneChip) {
+        var exists = false;
+        if (board.asignChipToCell.indexOf(row, cell, oneChip) != -1) {
+            exists = true;
+        }
+        return exists;
     }
-};
-
-var asignChipToCell = function(row, cell)  {
-    var oneChip = null;
-    var chipsCell = new Array(
-        new Array(oneChip)
-    );
-
-    return chipsCell;
 };
 
 window.addEventListener(
