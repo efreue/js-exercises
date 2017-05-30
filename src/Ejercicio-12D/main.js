@@ -130,7 +130,7 @@ var chip = {
         var marginLeft = (config.cellWidth - config.chipWidth);
         var marginTop = (config.cellHeight - config.chipHeight);
         chipCreated.oneChip.style.top = (chipCreated.row * config.cellHeight) + marginTop;
-        chipCreated.oneChip.style.left = (chipCreated.column * config.cellWidth) + marginLeft;
+        chipCreated.oneChip.style.left = (chipCreated.col * config.cellWidth) + marginLeft;
         document.body.appendChild(chipCreated.oneChip);
     }
 };
