@@ -93,7 +93,8 @@ var chip = {
             var numChip = parseInt(this.textContent);
             if (e.ctrlKey) {
                 if (((numChip > 1) ? numChip-- : 0) == 0) {
-                    chip.delete(this);
+                    var oneCell = cellNew.getSelectedCell(e);
+                    chip.delete(this, oneCell.row, oneCell.column);
                     numChip--;
                 }
             }
@@ -132,10 +133,10 @@ var chip = {
         chipCreated.oneChip.style.left = (chipCreated.col * config.cellWidth) + marginLeft;
         document.body.appendChild(chipCreated.oneChip);
     },
-    delete: function(chipDel) {
+    delete: function(chipDel, row, column) {
         chipDel.parentElement.removeChild(chipDel);
         //verificar como obtener el row y col del chip a borrar de la matriz
-        //board.delete(0,0,chipDel);
+        board.delete(row,column,chipDel);
     }
 };
 
