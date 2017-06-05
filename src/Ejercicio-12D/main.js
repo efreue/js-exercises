@@ -113,19 +113,29 @@ var Chip = {
         return chip;
     },
     add: function(e) {
-        var chip = null;
         var cellSelected = getSelectedCell(e);
-        var numChip = Board.getNumberChip(cellSelected.row, cellSelected.column);
-        if (numChip === 0 && e.ctrlKey === false) {
+        var chip = null;
+        if (e.ctrlKey === false) {
+            chip = Chip.get(cellSelected.row, cellSelected.column);
+        }
+        return chip;
+    },
+    get: function(row, col) {
+        var chip = null;
+        var numChip = Board.getNumberChip(row, col);
+        if (numChip === 0) {
             numChip++;
-            chip = Chip.create(cellSelected.row, cellSelected.column, numChip);
+            chip = Chip.create(row, col, numChip);
         }
         return {
-            row: cellSelected.row,
-            col: cellSelected.column,
+            row: row,
+            col: col,
             chip: chip
         };
     },
+    /*set: function(row, col, num) {
+
+    },*/
     show: function(chipCreated) {
         var marginLeft = (config.cellWidth - config.chipWidth);
         var marginTop = (config.cellHeight - config.chipHeight);
@@ -154,7 +164,7 @@ var addNewChip = function() {
     var col = parseInt(element[1].value);
     var numChip = Board.getNumberChip(row, col);
     numChip++;
-    //chip.show(chip.create(row, col, numChip));
+    Chip.show(Chip.get(row, col));
 };
 
 var delNewChip = function() {
