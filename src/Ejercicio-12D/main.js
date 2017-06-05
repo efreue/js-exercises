@@ -77,15 +77,21 @@ var Board = {
         for (var i = 0; i <= rows - 1; i++) {
             Board.chipsByCells[i] = [];
             for (var j = 0; j <= cols - 1; j++) {
-                Board.chipsByCells[i][j] = 0;
+                Board.chipsByCells[i][j] = {chipSel: null, num: 0};
             }
         }
     },
     getNumberChip: function(rows, cols) {
-        return Board.chipsByCells[rows][cols];
+        return Board.chipsByCells[rows][cols].num;
+    },
+    getChipSel: function(rows, cols) {
+        return Board.chipsByCells[rows][cols].chipSel;
     },
     setNumberChip: function(rows, cols, num) {
-        Board.chipsByCells[rows][cols] = num;
+        Board.chipsByCells[rows][cols].num = num;
+    },
+    setChipSel: function(rows, cols, num, chipSel) {
+        Board.chipsByCells[rows][cols] = {chipSel: chipSel, num: num};
     }
 };
 
@@ -106,7 +112,6 @@ var Chip = {
             }
             Board.setNumberChip(cellSelected.row, cellSelected.column, numChip);
             this.textContent = numChip;
-            this.innerHTML = numChip;
         };
         Board.setNumberChip(row, col, init);
         chip.textContent = init;
@@ -162,9 +167,11 @@ var addNewChip = function() {
     var element = document.getElementsByClassName("label-board");
     var row = parseInt(element[0].value);
     var col = parseInt(element[1].value);
-    var numChip = Board.getNumberChip(row, col);
-    numChip++;
-    Chip.show(Chip.get(row, col));
+    var chipSel = Chip.get(row, col);
+
+    var numChip = parseInt(chipSel.chip.textContent);
+    Board.setChipSel(row, col, numChip, chipSel);
+    Chip.show(Board.getChipSel(row, col));
 };
 
 var delNewChip = function() {
