@@ -81,14 +81,23 @@ var Board = {
             }
         }
     },
+    delete: function() {
+        var chip = null;
+        for(var i = config.countRows - 1; 0 <= i; i--) {
+            for(var j = config.countCols - 1;0 <= j; j--) {
+                chip = Board.chipsByCells[i][j].chipSel;
+                if (chip !== null) {
+                    Chip.delete(chip);
+                }
+
+            }
+        }
+    },
     getNumberChip: function(rows, cols) {
         return Board.chipsByCells[rows][cols].num;
     },
     getChipSel: function(rows, cols) {
         return Board.chipsByCells[rows][cols].chipSel;
-    },
-    setNumberChip: function(rows, cols, num) {
-        Board.chipsByCells[rows][cols].num = num;
     },
     setChipSel: function(rows, cols, num, chipSel) {
         Board.chipsByCells[rows][cols] = {chipSel: chipSel, num: num};
@@ -110,10 +119,10 @@ var Chip = {
             else {
                 numChip++;
             }
-            Board.setNumberChip(cellSelected.row, cellSelected.column, numChip);
+            Board.setChipSel(cellSelected.row, cellSelected.column, numChip, this);
             this.textContent = numChip;
         };
-        Board.setNumberChip(row, col, init);
+        Board.setChipSel(row, col, init, chip);
         chip.textContent = init;
         return chip;
     },
@@ -132,15 +141,18 @@ var Chip = {
             numChip++;
             chip = Chip.create(row, col, numChip);
         }
+        else {
+            chip = Board.getChipSel(row, col);
+            numChip++;
+            Board.setChipSel(row, col, numChip, chip);
+            chip.textContent = numChip;
+        }
         return {
             row: row,
             col: col,
             chip: chip
         };
     },
-    /*set: function(row, col, num) {
-
-    },*/
     show: function(chipCreated) {
         var marginLeft = (config.cellWidth - config.chipWidth);
         var marginTop = (config.cellHeight - config.chipHeight);
@@ -154,28 +166,58 @@ var Chip = {
 }
 
 var deleteAllChip = function() {
-    var chips = document.getElementsByClassName('circle');
-    for(var i = chips.length - 1; 0 <= i; i--) {
-        if(chips[i] && chips[i].parentElement) {
-            Chip.delete(chips[i]);
-        }
-    }
-    Board.initialize(config.countRows, config.countCols);
+    Board.delete();
 };
 
-var addNewChip = function() {
+var getRowColInserted = function() {
     var element = document.getElementsByClassName("label-board");
     var row = parseInt(element[0].value);
     var col = parseInt(element[1].value);
-    var chipSel = Chip.get(row, col);
+    return {
+        row: row,
+        col: col
+    }
+}
 
-    var numChip = parseInt(chipSel.chip.textContent);
-    Board.setChipSel(row, col, numChip, chipSel);
-    Chip.show(Board.getChipSel(row, col));
+
+var validateRowCol = function (row, col) {
+    var msg = 'ok';
+    if(isNaN(row) || isNaN(col)) {
+        msg = 'Debe definir una fila y columna valida';
+    } else {
+        if((row >= config.countRows || row < 0) || (col >= config.countCols || col < 0)) {
+            msg = 'Los valores para la fila estan entre (0,' + config.countRows + '), y para la columna entre (0,' + config.countCols + ')';
+        }
+    }
+    if (msg !== 'ok') {
+        alert(msg);
+        return 0;
+    }
+    else {
+        return 1;
+    }
+};
+
+var addNewChip = function() {
+    var position = getRowColInserted();
+    if(validateRowCol(position.row, position.col) === 1) {
+        var chipSel = Chip.get(position.row, position.col);
+        Chip.show(chipSel);
+    }
 };
 
 var delNewChip = function() {
-    alert('armar logica');
+    var position = getRowColInserted();
+    if(validateRowCol(position.row, position.col) === 1) {
+        var chipSel = Board.getChipSel(position.row, position.col);
+        var numChip = Board.getNumberChip(position.row, position.col);
+        if (((numChip > 1) ? numChip-- : 0) == 0) {
+            Chip.delete(chipSel);
+            numChip--;
+        }
+        Board.setChipSel(position.row, position.col, numChip, chipSel);
+        chipSel.textContent = numChip;
+    }
 }
 
 window.addEventListener(
