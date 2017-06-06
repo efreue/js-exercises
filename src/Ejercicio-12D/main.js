@@ -88,6 +88,7 @@ var Board = {
                 chip = Board.chipsByCells[i][j].chipSel;
                 if (chip !== null) {
                     Chip.delete(chip);
+                    Board.setChipSel(i,j,0,chip);
                 }
 
             }
@@ -111,9 +112,9 @@ var Chip = {
             var cellSelected = getSelectedCell(e);
             var numChip = Board.getNumberChip(cellSelected.row, cellSelected.column);
             if (e.ctrlKey && numChip > 0) {
-                if (((numChip > 1) ? numChip-- : 0) == 0) {
+                numChip = Chip.rest(numChip);
+                if (numChip <= 0)  {
                     Chip.delete(this);
-                    numChip--;
                 }
             }
             else {
@@ -130,11 +131,19 @@ var Chip = {
         var cellSelected = getSelectedCell(e);
         var chip = null;
         if (e.ctrlKey === false) {
-            chip = Chip.get(cellSelected.row, cellSelected.column);
+            chip = Chip.get(cellSelected.row, cellSelected.column, 0);
+        } else {
+            chip = Chip.get(cellSelected.row, cellSelected.column, 1);
         }
         return chip;
     },
-    get: function(row, col) {
+    rest: function(numChip, chip) {
+        if (((numChip > 1) ? numChip-- : 0) == 0) {
+            numChip--;
+        }
+        return numChip;
+    },
+    get: function(row, col, del) {
         var chip = null;
         var numChip = Board.getNumberChip(row, col);
         if (numChip === 0) {
@@ -143,9 +152,20 @@ var Chip = {
         }
         else {
             chip = Board.getChipSel(row, col);
-            numChip++;
+            if (del === 0) {
+                	numChip++;
+            } else {
+                var numChip = Chip.rest(numChip);
+                if (numChip <= 0)  {
+                    Chip.delete(chip);
+                }
+            }
             Board.setChipSel(row, col, numChip, chip);
-            chip.textContent = numChip;
+            if (numChip > 0)  {
+                chip.textContent = numChip;
+            } else  {
+                chip = null;
+            }
         }
         return {
             row: row,
@@ -154,11 +174,13 @@ var Chip = {
         };
     },
     show: function(chipCreated) {
-        var marginLeft = (config.cellWidth - config.chipWidth);
-        var marginTop = (config.cellHeight - config.chipHeight);
-        chipCreated.chip.style.top = (chipCreated.row * config.cellHeight) + marginTop;
-        chipCreated.chip.style.left = (chipCreated.col * config.cellWidth) + marginLeft;
-        document.body.appendChild(chipCreated.chip);
+        if (chipCreated.chip !== null) {
+            var marginLeft = (config.cellWidth - config.chipWidth);
+            var marginTop = (config.cellHeight - config.chipHeight);
+            chipCreated.chip.style.top = (chipCreated.row * config.cellHeight) + marginTop;
+            chipCreated.chip.style.left = (chipCreated.col * config.cellWidth) + marginLeft;
+            document.body.appendChild(chipCreated.chip);
+        }
     },
     delete: function(chipDel) {
         chipDel.parentElement.removeChild(chipDel);
@@ -201,7 +223,7 @@ var validateRowCol = function (row, col) {
 var addNewChip = function() {
     var position = getRowColInserted();
     if(validateRowCol(position.row, position.col) === 1) {
-        var chipSel = Chip.get(position.row, position.col);
+        var chipSel = Chip.get(position.row, position.col, 0);
         Chip.show(chipSel);
     }
 };
@@ -211,9 +233,9 @@ var delNewChip = function() {
     if(validateRowCol(position.row, position.col) === 1) {
         var chipSel = Board.getChipSel(position.row, position.col);
         var numChip = Board.getNumberChip(position.row, position.col);
-        if (((numChip > 1) ? numChip-- : 0) == 0) {
+        numChip = Chip.rest(numChip);
+        if (numChip <= 0)  {
             Chip.delete(chipSel);
-            numChip--;
         }
         Board.setChipSel(position.row, position.col, numChip, chipSel);
         chipSel.textContent = numChip;
