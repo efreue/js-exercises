@@ -43,7 +43,7 @@ var htmlCreateCell = function() {
     var td = htmlCreateElement('td');
     td.className = "container-cell";
     td.onclick = function(e){
-        Chip.show(Chip.add(e));
+        Chip.show(Chip.generate(e));
     };
     return td;
 };
@@ -59,6 +59,21 @@ var htmlCreateRow = function(numberRow, numberCells) {
 };
 
 /*logica chips and cells*/
+
+var clearSelectedCell = function() {
+    var divResul = document.getElementById('divResultCell');
+    divResul.textContent = '';
+};
+
+
+var clearLabelRowCol = function() {
+    var element = document.getElementsByClassName("label-board");
+    element[0].value = "";
+    element[0].placeholder = "row";
+    element[1].value = "";
+    element[1].placeholder = "column";
+};
+
 
 var getSelectedCell = function(e) {
     var table = document.getElementById('tableId');
@@ -87,8 +102,8 @@ var Board = {
             for(var j = config.countCols - 1;0 <= j; j--) {
                 chip = Board.chipsByCells[i][j].chipSel;
                 if (chip !== null) {
+                    Board.setChipSel(i,j,0,null);
                     Chip.delete(chip);
-                    Board.setChipSel(i,j,0,chip);
                 }
 
             }
@@ -102,6 +117,24 @@ var Board = {
     },
     setChipSel: function(rows, cols, num, chipSel) {
         Board.chipsByCells[rows][cols] = {chipSel: chipSel, num: num};
+    },
+    existsSomeChip: function() {
+        var chip = null;
+        var existChip = 0;
+        for(var i = config.countRows - 1; 0 <= i; i--) {
+            for(var j = config.countCols - 1;0 <= j; j--) {
+                chip = Board.chipsByCells[i][j].chipSel;
+                if (chip !== null) {
+                    existChip = 1;
+                    break
+                }
+
+            }
+            if (existChip === 1) {
+                break;
+            }
+        }
+        return existChip;
     }
 };
 
@@ -127,7 +160,7 @@ var Chip = {
         chip.textContent = init;
         return chip;
     },
-    add: function(e) {
+    generate: function(e) {
         var cellSelected = getSelectedCell(e);
         var chip = null;
         if (e.ctrlKey === false) {
@@ -167,6 +200,7 @@ var Chip = {
                 chip = null;
             }
         }
+        showSelectedCell(row, col);
         return {
             row: row,
             col: col,
@@ -187,8 +221,21 @@ var Chip = {
     }
 }
 
+var showSelectedCell = function(row, col) {
+    var divResul = document.getElementById('divResultCell');
+    divResul.textContent = 'column: ' + col + ' row: ' + row;
+};
+
+
 var deleteAllChip = function() {
-    Board.delete();
+    var existsChip = Board.existsSomeChip();
+    if(existsChip === 1) {
+        Board.delete();
+    } else {
+        alert("No hay fichas para borrar");
+    }
+    clearLabelRowCol();
+    clearSelectedCell();
 };
 
 var getRowColInserted = function() {
@@ -229,16 +276,23 @@ var addNewChip = function() {
 };
 
 var delNewChip = function() {
-    var position = getRowColInserted();
-    if(validateRowCol(position.row, position.col) === 1) {
-        var chipSel = Board.getChipSel(position.row, position.col);
-        var numChip = Board.getNumberChip(position.row, position.col);
-        numChip = Chip.rest(numChip);
-        if (numChip <= 0)  {
-            Chip.delete(chipSel);
+    var existsChip = Board.existsSomeChip();
+    if(existsChip === 1) {
+        var position = getRowColInserted();
+        if(validateRowCol(position.row, position.col) === 1) {
+            var chipSel = Board.getChipSel(position.row, position.col);
+            var numChip = Board.getNumberChip(position.row, position.col);
+            numChip = Chip.rest(numChip);
+            if (numChip <= 0)  {
+                Chip.delete(chipSel);
+                Board.setChipSel(position.row, position.col, 0, null);
+            } else {
+                Board.setChipSel(position.row, position.col, numChip, chipSel);
+            }
+            chipSel.textContent = numChip;
         }
-        Board.setChipSel(position.row, position.col, numChip, chipSel);
-        chipSel.textContent = numChip;
+    } else {
+        alert("No hay fichas para borrar");
     }
 }
 
