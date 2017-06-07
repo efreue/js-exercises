@@ -65,6 +65,10 @@ var clearSelectedCell = function() {
     divResul.textContent = '';
 };
 
+var showSelectedCell = function(row, col) {
+    var divResul = document.getElementById('divResultCell');
+    divResul.textContent = 'column: ' + col + ' row: ' + row;
+};
 
 var clearLabelRowCol = function() {
     var element = document.getElementsByClassName("label-board");
@@ -74,6 +78,15 @@ var clearLabelRowCol = function() {
     element[1].placeholder = "column";
 };
 
+var getRowColInserted = function() {
+    var element = document.getElementsByClassName("label-board");
+    var row = parseInt(element[0].value);
+    var col = parseInt(element[1].value);
+    return {
+        row: row,
+        col: col
+    }
+};
 
 var getSelectedCell = function(e) {
     var table = document.getElementById('tableId');
@@ -83,7 +96,36 @@ var getSelectedCell = function(e) {
         row: Math.floor(yCoord / config.cellHeight),
         column: Math.floor(xCoord / config.cellWidth)
     };
-}
+};
+
+var deleteAllChip = function() {
+    var existsChip = Board.existsSomeChip();
+    if(existsChip === 1) {
+        Board.delete();
+    } else {
+        alert("No hay fichas para borrar");
+    }
+    clearLabelRowCol();
+    clearSelectedCell();
+};
+
+var validateRowCol = function (row, col) {
+    var msg = 'ok';
+    if(isNaN(row) || isNaN(col)) {
+        msg = 'Debe definir una fila y columna valida';
+    } else {
+        if((row >= config.countRows || row < 0) || (col >= config.countCols || col < 0)) {
+            msg = 'Los valores para la fila estan entre (0,' + config.countRows + '), y para la columna entre (0,' + config.countCols + ')';
+        }
+    }
+    if (msg !== 'ok') {
+        alert(msg);
+        return 0;
+    }
+    else {
+        return 1;
+    }
+};
 
 var Board = {
     chipsByCells: [],
@@ -128,7 +170,6 @@ var Board = {
                     existChip = 1;
                     break
                 }
-
             }
             if (existChip === 1) {
                 break;
@@ -219,52 +260,6 @@ var Chip = {
     delete: function(chipDel) {
         chipDel.parentElement.removeChild(chipDel);
     }
-}
-
-var showSelectedCell = function(row, col) {
-    var divResul = document.getElementById('divResultCell');
-    divResul.textContent = 'column: ' + col + ' row: ' + row;
-};
-
-
-var deleteAllChip = function() {
-    var existsChip = Board.existsSomeChip();
-    if(existsChip === 1) {
-        Board.delete();
-    } else {
-        alert("No hay fichas para borrar");
-    }
-    clearLabelRowCol();
-    clearSelectedCell();
-};
-
-var getRowColInserted = function() {
-    var element = document.getElementsByClassName("label-board");
-    var row = parseInt(element[0].value);
-    var col = parseInt(element[1].value);
-    return {
-        row: row,
-        col: col
-    }
-}
-
-
-var validateRowCol = function (row, col) {
-    var msg = 'ok';
-    if(isNaN(row) || isNaN(col)) {
-        msg = 'Debe definir una fila y columna valida';
-    } else {
-        if((row >= config.countRows || row < 0) || (col >= config.countCols || col < 0)) {
-            msg = 'Los valores para la fila estan entre (0,' + config.countRows + '), y para la columna entre (0,' + config.countCols + ')';
-        }
-    }
-    if (msg !== 'ok') {
-        alert(msg);
-        return 0;
-    }
-    else {
-        return 1;
-    }
 };
 
 var addNewChip = function() {
@@ -294,7 +289,7 @@ var delNewChip = function() {
     } else {
         alert("No hay fichas para borrar");
     }
-}
+};
 
 window.addEventListener(
     "load",
@@ -309,6 +304,5 @@ window.addEventListener(
         divContent.appendChild(button);
         document.body.appendChild(divContent);
         Board.initialize(config.countRows, config.countCols);
-
     }
 );
