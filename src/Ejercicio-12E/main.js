@@ -86,7 +86,7 @@ var Board = {
         return Board.chipsByCells[rows][columns].chip;
     },
     getNumberChip: function(rows, columns) {
-        return Board.chipsByCells[rows][columns].num;
+        return Board.chipsByCells[rows][columns].number;
     },
 };
 
@@ -109,10 +109,10 @@ var Chip = {
                 numberChip++;
             }
             this.textContent = numberChip;
-            Board.setChipSel(row, column, this, numberChip);
+            Board.setChip(row, column, numberChip, this);
         };
         chip.textContent = init;
-        Board.setChip(row, column, chip, init);
+        Board.setChip(row, column, init, chip);
         return chip;
     },
     get: function(cell) {
@@ -123,7 +123,7 @@ var Chip = {
         return {chip: chip, row: cell.row, column: cell.column};
     },
     delete: function(chipDel, row, column) {
-        Board.setChipSel(row, column, null);
+        Board.setChip(row, column, 0, null);
         chipDel.parentElement.removeChild(chipDel);
     },
     show: function(chipSel) {
