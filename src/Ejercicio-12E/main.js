@@ -65,7 +65,8 @@ var getSelectedCell = function(e) {
     var yCoord = (e.clientY - table.offsetTop);
     return {
         row: Math.floor(yCoord / config.cellHeight),
-        column: Math.floor(xCoord / config.cellWidth)
+        column: Math.floor(xCoord / config.cellWidth),
+        ctrlKey: e.ctrlKey
     };
 };
 
@@ -91,7 +92,7 @@ var Board = {
 };
 
 var Chip = {
-    create: function(row, column, init) {
+    create: function(cell) {
         var chip = htmlCreateDiv("circle");
         chip.onclick = function(e) {
             var cellSelected = getSelectedCell(e);
@@ -101,7 +102,7 @@ var Chip = {
                     numberChip--;
                 }
                 else {
-                    Chip.delete(this, row, column);
+                    Chip.delete(this, cellSelected.row, cellSelected.column);
                     return;
                 }
             }
@@ -109,19 +110,39 @@ var Chip = {
                 numberChip++;
             }
             this.textContent = numberChip;
-            Board.setChip(row, column, numberChip, this);
+            Board.setChip(cellSelected.row, cellSelected.column, numberChip, this);
         };
-        chip.textContent = init;
-        Board.setChip(row, column, init, chip);
+        var numberChip = Board.getNumberChip(cell.row, cell.column);
+        numberChip++;
+        chip.textContent = numberChip;
+        Board.setChip(cell.row, cell.column, numberChip, chip);
         return chip;
     },
     get: function(cell) {
         var chip = Board.getChip(cell.row, cell.column);
         if(chip === null) {
-            chip = Chip.create(cell.row, cell.column, 1);
+            chip = Chip.create(cell);
         }
-        return {chip: chip, row: cell.row, column: cell.column};
+        var number = Board.getNumberChip(cell.row, cell.column);
+        return {chip: chip, row: cell.row, column: cell.column, number: number, isAdd: cell.ctrlKey};
     },
+    /*update: function(chip) {
+        var chipUpdate = null;
+        if (chip.isAdd) {
+            if (chip.number > 1)  {
+                chip.number--;
+            }
+            else {
+                Chip.delete(chip, chip.row, chip.column);
+                return chipUpdate;
+            }
+        }
+        else {
+            chip.number++;
+        }
+        chip.textContent = chip.number;
+        return chip;
+    },*/
     delete: function(chipDel, row, column) {
         Board.setChip(row, column, 0, null);
         chipDel.parentElement.removeChild(chipDel);
