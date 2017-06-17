@@ -119,30 +119,37 @@ var Chip = {
         return chip;
     },
     get: function(cell) {
+        var number;
         var chip = Board.getChip(cell.row, cell.column);
         if(chip === null) {
             chip = Chip.create(cell);
+            number = Board.getNumberChip(cell.row, cell.column);
+        } else {
+            Chip.update(chip, cell)
+            chip = Board.getChip(cell.row, cell.column);
         }
-        var number = Board.getNumberChip(cell.row, cell.column);
-        return {chip: chip, row: cell.row, column: cell.column, number: number, isAdd: cell.ctrlKey};
+        return {chip: chip, row: cell.row, column: cell.column};
     },
-    /*update: function(chip) {
-        var chipUpdate = null;
-        if (chip.isAdd) {
-            if (chip.number > 1)  {
-                chip.number--;
+    update: function(chip, cell) {
+        var chipWasDeleted = false;
+        var number = Board.getNumberChip(cell.row, cell.column);
+        if (cell.ctrlKey) {
+            if (number > 1)  {
+                number--;
             }
             else {
-                Chip.delete(chip, chip.row, chip.column);
-                return chipUpdate;
+                Chip.delete(chip, cell.row, cell.column);
+                chipWasDeleted = true;
             }
         }
         else {
-            chip.number++;
+            number++;
         }
-        chip.textContent = chip.number;
-        return chip;
-    },*/
+        if (chipWasDeleted === false) {
+            chip.textContent = number;
+            Board.setChip(cell.row, cell.column, number, chip);
+        }
+    },
     delete: function(chipDel, row, column) {
         Board.setChip(row, column, 0, null);
         chipDel.parentElement.removeChild(chipDel);
