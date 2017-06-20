@@ -62,15 +62,24 @@ var htmlCreateRow = function(numberRow, numberCells) {
     return tr;
 };
 
+var getElementByClass = function(name) {
+    return document.getElementsByClassName(name);
+};
+
+var getElementId = function(name) {
+    return document.getElementById(name);
+};
+
+
 /*logica chips and cells*/
 var getSelectedCell = function(e) {
-    var table = document.getElementById('tableId');
+    var table = getElementId('tableId');
     var xCoord = (e.clientX - table.offsetLeft);
     var yCoord = (e.clientY - table.offsetTop);
     return {
         row: Math.floor(yCoord / config.cellHeight),
         column: Math.floor(xCoord / config.cellWidth),
-        ctrlKey: e.ctrlKey
+        substractChip: e.ctrlKey
     };
 };
 
@@ -133,12 +142,10 @@ var Chip = {
         return chip;
     },
     get: function(cell) {
-        var number;
         var chip = Board.getChip(cell.row, cell.column);
         if(chip === null) {
-            if (cell.ctrlKey === false) {
+            if (cell.substractChip === false) {
                 chip = Chip.create(cell);
-                number = Board.getNumberChip(cell.row, cell.column);
             }
         } else {
             Chip.update(chip, cell)
@@ -149,7 +156,7 @@ var Chip = {
     update: function(chip, cell) {
         var chipWasDeleted = false;
         var number = Board.getNumberChip(cell.row, cell.column);
-        if (cell.ctrlKey) {
+        if (cell.substractChip) {
             if (number > 1)  {
                 number--;
             }
@@ -183,13 +190,13 @@ var Chip = {
 };
 
 var getRowColumnInserted = function(substractChip) {
-    var element = document.getElementsByClassName("label-board");
+    var element = getElementByClass("label-board");
     var row = parseInt(element[0].value);
     var column = parseInt(element[1].value);
     return {
         row: row,
         column: column,
-        ctrlKey: substractChip
+        substractChip: substractChip
     }
 };
 
@@ -237,7 +244,7 @@ var removeChips = function() {
 };
 
 var clearLabelRowCol = function() {
-    var element = document.getElementsByClassName("label-board");
+    var element = getElementByClass("label-board");
     element[0].value = "";
     element[0].placeholder = "row";
     element[1].value = "";
@@ -245,12 +252,12 @@ var clearLabelRowCol = function() {
 };
 
 var clearSelectedCell = function() {
-    var divResul = document.getElementById('divResultCell');
+    var divResul = getElementId('divResultCell');
     divResul.textContent = '';
 };
 
 var showSelectedCell = function(row, column) {
-    var divResul = document.getElementById('divResultCell');
+    var divResul = getElementId('divResultCell');
     divResul.textContent = 'column: ' + column + ' row: ' + row;
 };
 
