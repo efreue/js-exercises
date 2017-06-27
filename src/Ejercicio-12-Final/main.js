@@ -35,7 +35,7 @@ var Dom = {
                     var boardCoords = Board.toBoardCoords(
                         Utils.getCoordsFromEvent(e)
                     );
-                    Chip.add(boardCoords.row, boardCoords.column);
+                    Chip.add(boardCoords.row, boardCoords.column, e.ctrlKey);
                 }
             );
         if (numberCol == 0) {
@@ -78,7 +78,7 @@ var Chip = {
                 var boardCoords = Board.toBoardCoords(
                     Utils.getCoordsFromEvent(e)
                 );
-                Chip.add(boardCoords.row, boardCoords.column);
+                Chip.add(boardCoords.row, boardCoords.column, e.ctrlKey);
             }),
             number: 0
         };
@@ -90,19 +90,33 @@ var Chip = {
         chip.number++;
         Chip.update(chip);
     },
+    decrement: function(chip) {
+        chip.number--;
+        Chip.update(chip);
+    },
     move: function(chip, row, col) {
         var marginLeft = (Config.cellWidth - Config.chipWidth);
         var marginTop = (Config.cellHeight - Config.chipHeight);
         chip.element.style.top = (row * Config.cellHeight) + marginTop;
         chip.element.style.left = (col * Config.cellWidth) + marginLeft;
     },
-    add: function(row, col) {
+    add: function(row, col, substractChip) {
         var chip = Board.chips[row][col];
         if(!chip) {
             chip = Chip.create();
             Board.addChip(row, col, chip);
         }
-        Chip.increment(chip);
+        if (substractChip) {
+            if (chip.number > 1)  {
+                Chip.decrement(chip);
+            }
+            else {
+                alert('remover ficha');
+            }
+        }
+        else {
+            Chip.increment(chip);
+        }
         Chip.move(chip, row, col);
     }
 };
