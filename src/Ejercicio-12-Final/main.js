@@ -4,7 +4,8 @@ var Config = {
     chipWidth: 35,
     chipHeight: 35,
     rows: 3,
-    cols: 12
+    cols: 12,
+    substractChip: 0
 };
 
 
@@ -35,7 +36,13 @@ var Dom = {
                     var boardCoords = Board.toBoardCoords(
                         Utils.getCoordsFromEvent(e)
                     );
-                    Chip.add(boardCoords.row, boardCoords.column, e.ctrlKey);
+                    if(e.ctrlKey) {
+                        Config.substractChip = 1;
+                    }
+                    else {
+                        Config.substractChip = 0;
+                    }
+                    Chip.add(boardCoords.row, boardCoords.column);
                 }
             );
         if (numberCol == 0) {
@@ -78,7 +85,13 @@ var Chip = {
                 var boardCoords = Board.toBoardCoords(
                     Utils.getCoordsFromEvent(e)
                 );
-                Chip.add(boardCoords.row, boardCoords.column, e.ctrlKey);
+                if(e.ctrlKey) {
+                    Config.substractChip = 1;
+                }
+                else {
+                    Config.substractChip = 0;
+                }
+                Chip.add(boardCoords.row, boardCoords.column);
             }),
             number: 0
         };
@@ -100,30 +113,34 @@ var Chip = {
         chip.element.style.top = (row * Config.cellHeight) + marginTop;
         chip.element.style.left = (col * Config.cellWidth) + marginLeft;
     },
-    add: function(row, col, substractChip) {
+    add: function(row, col) {
         var chip = Board.chips[row][col];
         if(!chip) {
             chip = Chip.create();
             Board.addChip(row, col, chip);
         }
-        if (substractChip) {
+        if (Config.substractChip === 1) {
             if (chip.number > 1)  {
                 Chip.decrement(chip);
             }
             else {
-                alert('remover ficha');
+                Chip.delete(chip, row, col);
+                Board.addChip(row, col, undefined);
             }
         }
         else {
             Chip.increment(chip);
         }
         Chip.move(chip, row, col);
+    },
+    delete: function(chipDel, row, column) {
+        chipDel.element.parentElement.removeChild(chipDel.element);
     }
 };
 
 var Board = {
     chips: [],
-     addChip: function(row, col, chip) {
+    addChip: function(row, col, chip) {
         Board.chips[row][col] = chip;
         document.body.appendChild(chip.element);
     },
@@ -187,6 +204,5 @@ var getColor = function(num) {
     }
     return color;
 };
-
 
 window.addEventListener('load', Board.create);
