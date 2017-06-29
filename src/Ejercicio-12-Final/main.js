@@ -110,10 +110,18 @@ var Chip = {
     move: function(chip, row, col) {
         var marginLeft = (Config.cellWidth - Config.chipWidth);
         var marginTop = (Config.cellHeight - Config.chipHeight);
-        chip.element.style.top = (row * Config.cellHeight) + marginTop;
-        chip.element.style.left = (col * Config.cellWidth) + marginLeft;
+
+        if(col === 0) {
+            chip.element.style.top = ((Config.cellHeight * 2) + Config.cellHeight)/2;
+            chip.element.style.left = ((Config.cellWidth) / 2) - 5;
+        } else {
+            chip.element.style.top = (row * Config.cellHeight) + marginTop;
+            chip.element.style.left = (col * Config.cellWidth) + marginLeft;
+        }
+
     },
     add: function(row, col) {
+        row = (col == 0)? 1 :row;
         var chip = Board.chips[row][col];
         if(!chip) {
             chip = Chip.create();

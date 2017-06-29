@@ -12,8 +12,8 @@
 }
 
 .shape {
-    width: 45px;
-    height: 45px;
+    width: 46px;
+    height: 46px;
     -moz-border-radius: 55%;
     -webkit-border-radius: 55%;
     border-radius: 100%;
@@ -25,8 +25,8 @@
 }
 
 .circle {
-    width: 35px;
-    height: 35px;
+    width: 31px;
+    height: 31px;
     -moz-border-radius: 55%;
     -webkit-border-radius: 55%;
     border-radius: 100%;
