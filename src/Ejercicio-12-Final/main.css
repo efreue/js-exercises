@@ -17,7 +17,7 @@
     -moz-border-radius: 55%;
     -webkit-border-radius: 55%;
     border-radius: 100%;
-    border: 2px solid;
+    border: 1px solid;
     border-color: white;
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
@@ -25,12 +25,12 @@
 }
 
 .circle {
-    width: 31px;
-    height: 31px;
+    width: 30px;
+    height: 30px;
     -moz-border-radius: 55%;
     -webkit-border-radius: 55%;
     border-radius: 100%;
-    border: 2px solid;
+    border: 1px solid;
     position:absolute;
     border-color: #FFD700;
     background: #7FFF00;
