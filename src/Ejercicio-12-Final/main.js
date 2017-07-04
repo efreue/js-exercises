@@ -112,8 +112,8 @@ var Chip = {
         var marginTop = (Config.cellHeight - Config.chipHeight);
 
         if(col === 0) {
-            chip.element.style.top = ((Config.cellHeight * 2) + Config.cellHeight)/2;
-            chip.element.style.left = ((Config.cellWidth) / 2) - 5;
+            chip.element.style.top = (((Config.cellHeight * 2) + Config.cellHeight)/2) - 8;
+            chip.element.style.left = ((Config.cellWidth) / 2) - 8;
         } else {
             chip.element.style.top = (row * Config.cellHeight) + marginTop;
             chip.element.style.left = (col * Config.cellWidth) + marginLeft;
