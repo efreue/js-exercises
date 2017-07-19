@@ -3,7 +3,6 @@ var Config = {
     cellHeight: 50,
     chipWidth: 35,
     chipHeight: 35,
-    cellQuarter: 33.3,
     rows: 3,
     cols: 12,
     substractChip: 0
@@ -43,7 +42,7 @@ var Dom = {
                     else {
                         Config.substractChip = 0;
                     }
-                    Chip.add(boardCoords.row, boardCoords.column, boardCoords.rowAux, boardCoords.columnAux);
+                    Chip.add(boardCoords.row, boardCoords.column);
                 }
             );
         if (numberCol == 0) {
@@ -92,7 +91,7 @@ var Chip = {
                 else {
                     Config.substractChip = 0;
                 }
-                Chip.add(boardCoords.row, boardCoords.column, boardCoords.rowAux, boardCoords.columnAux);
+                Chip.add(boardCoords.row, boardCoords.column);
             }),
             number: 0
         };
@@ -112,19 +111,16 @@ var Chip = {
         var marginLeft = (Config.cellWidth - Config.chipWidth);
         var marginTop = (Config.cellHeight - Config.chipHeight);
 
-        chip.element.style.top = (((row + 1) * Config.cellQuarter) + (row * Config.cellQuarter)) / 2;
-        chip.element.style.left = (((col + 1) * Config.cellQuarter) + (col * Config.cellQuarter)) / 2;
-        /*
         if(col === 0) {
-            chip.element.style.top = (((row + 1) * Config.cellQuarter) + (row * Config.cellQuarter)) / 2;
-            chip.element.style.left = (((col + 1) * Config.cellQuarter) + (col * Config.cellQuarter)) / 2;
+            chip.element.style.top = ((Config.cellHeight * 2) + Config.cellHeight)/2;
+            chip.element.style.left = ((Config.cellWidth) / 2) - 5;
         } else {
             chip.element.style.top = (row * Config.cellHeight) + marginTop;
             chip.element.style.left = (col * Config.cellWidth) + marginLeft;
         }
-*/
+
     },
-    add: function(row, col, rowAux, columnAux) {
+    add: function(row, col) {
         row = (col == 0)? 1 :row;
         var chip = Board.chips[row][col];
         if(!chip) {
@@ -143,7 +139,7 @@ var Chip = {
         else {
             Chip.increment(chip);
         }
-        Chip.move(chip, rowAux, columnAux);
+        Chip.move(chip, row, col);
     },
     delete: function(chipDel, row, column) {
         chipDel.element.parentElement.removeChild(chipDel.element);
@@ -157,21 +153,9 @@ var Board = {
         document.body.appendChild(chip.element);
     },
     toBoardCoords: function(absoluteCoords) {
-        var colAux;
-        var rowAux;
-        if(absoluteCoords.x <= Config.cellQuarter) {
-            colAux = 0;
-            rowAux = 2;
-        }
-        else {
-            colAux = Math.floor(absoluteCoords.x / Config.cellQuarter) - 1;
-            rowAux = Math.floor(absoluteCoords.y / Config.cellQuarter) - 1;
-        }
         return {
             row: Math.floor(absoluteCoords.y / Config.cellHeight),
-            column: Math.floor(absoluteCoords.x / Config.cellWidth),
-            rowAux: rowAux,
-            columnAux: colAux
+            column: Math.floor(absoluteCoords.x / Config.cellWidth)
         };
     },
     create: function() {
