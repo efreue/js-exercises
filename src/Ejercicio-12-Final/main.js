@@ -1,6 +1,7 @@
 var Config = {
     cellWidth: 50,
     cellHeight: 50,
+    cellQuarter: 33.3,
     chipWidth: 35,
     chipHeight: 35,
     rows: 3,
@@ -108,6 +109,8 @@ var Chip = {
         Chip.update(chip);
     },
     move: function(chip, row, col) {
+        var posLeft;
+        var posTop;
         var marginLeft = (Config.cellWidth - Config.chipWidth);
         var marginTop = (Config.cellHeight - Config.chipHeight);
 
@@ -115,8 +118,11 @@ var Chip = {
             chip.element.style.top = ((Config.cellHeight * 2) + Config.cellHeight)/2;
             chip.element.style.left = ((Config.cellWidth) / 2) - 5;
         } else {
-            chip.element.style.top = (row * Config.cellHeight) + marginTop;
-            chip.element.style.left = (col * Config.cellWidth) + marginLeft;
+            //chip.element.style.top = (row * Config.cellHeight) + marginTop;
+            //chip.element.style.left = (col * Config.cellWidth) + marginLeft;
+            posTop = (row * Config.cellHeight) + marginTop;
+            posLeft = (col * Config.cellWidth) + marginLeft;
+            Chip.newCalculatePosition(chip, posLeft, posTop)
         }
 
     },
@@ -143,14 +149,25 @@ var Chip = {
     },
     delete: function(chipDel, row, column) {
         chipDel.element.parentElement.removeChild(chipDel.element);
+    },
+    newCalculatePosition: function(chip, posLeft, posTop) {
+        //logica para calcular las nuevas posiciones de las fichas
+        var y = Math.floor(posTop/Config.cellQuarter);
+        var x = Math.floor(posLeft/Config.cellQuarter);
+
+        chip.element.style.top = (((y + 1) * Config.cellQuarter) + (y * Config.cellQuarter))/2;
+        chip.element.style.left = (((x + 1) * Config.cellQuarter) + (x * Config.cellQuarter))/2;
     }
 };
+
 
 var Board = {
     chips: [],
     addChip: function(row, col, chip) {
         Board.chips[row][col] = chip;
-        document.body.appendChild(chip.element);
+        if (typeof(chip) != "undefined") {
+            document.body.appendChild(chip.element);
+        }
     },
     toBoardCoords: function(absoluteCoords) {
         return {
