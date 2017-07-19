@@ -1,7 +1,8 @@
 var Config = {
     cellWidth: 50,
     cellHeight: 50,
-    cellQuarter: 33.3,
+    cellQuarter: 12.5,
+    cellHalf: 25,
     chipWidth: 35,
     chipHeight: 35,
     rows: 3,
@@ -43,7 +44,7 @@ var Dom = {
                     else {
                         Config.substractChip = 0;
                     }
-                    Chip.add(boardCoords.row, boardCoords.column);
+                    Chip.add(boardCoords.row, boardCoords.column, boardCoords.coordRow, boardCoords.coordCol);
                 }
             );
         if (numberCol == 0) {
@@ -92,7 +93,7 @@ var Chip = {
                 else {
                     Config.substractChip = 0;
                 }
-                Chip.add(boardCoords.row, boardCoords.column);
+                Chip.add(boardCoords.row, boardCoords.column, boardCoords.coordRow, boardCoords.coordCol);
             }),
             number: 0
         };
@@ -108,9 +109,7 @@ var Chip = {
         chip.number--;
         Chip.update(chip);
     },
-    move: function(chip, row, col) {
-        var posLeft;
-        var posTop;
+    move: function(chip, col, coordRow, coordCol) {
         var marginLeft = (Config.cellWidth - Config.chipWidth);
         var marginTop = (Config.cellHeight - Config.chipHeight);
 
@@ -120,13 +119,11 @@ var Chip = {
         } else {
             //chip.element.style.top = (row * Config.cellHeight) + marginTop;
             //chip.element.style.left = (col * Config.cellWidth) + marginLeft;
-            posTop = (row * Config.cellHeight) + marginTop;
-            posLeft = (col * Config.cellWidth) + marginLeft;
-            Chip.newCalculatePosition(chip, posLeft, posTop)
+            Chip.newCalculatePosition(chip, coordRow, coordCol)
         }
 
     },
-    add: function(row, col) {
+    add: function(row, col, coordRow, coordCol) {
         row = (col == 0)? 1 :row;
         var chip = Board.chips[row][col];
         if(!chip) {
@@ -145,18 +142,70 @@ var Chip = {
         else {
             Chip.increment(chip);
         }
-        Chip.move(chip, row, col);
+        Chip.move(chip, col, coordRow, coordCol);
     },
     delete: function(chipDel, row, column) {
         chipDel.element.parentElement.removeChild(chipDel.element);
     },
     newCalculatePosition: function(chip, posLeft, posTop) {
         //logica para calcular las nuevas posiciones de las fichas
-        var y = Math.floor(posTop/Config.cellQuarter);
-        var x = Math.floor(posLeft/Config.cellQuarter);
+        var minCellRowAux;
+        var maxCellRowAux;
+        var minCellColAux;
+        var maxCellColAux;
 
-        chip.element.style.top = (((y + 1) * Config.cellQuarter) + (y * Config.cellQuarter))/2;
-        chip.element.style.left = (((x + 1) * Config.cellQuarter) + (x * Config.cellQuarter))/2;
+        //1) Determinar Nro Columna y Nro Row de tabla original
+        var row = Math.floor(posLeft / Config.cellWidth);
+        var col = Math.floor(posTop / Config.cellHeight);
+
+        //2) Determinar limites de la celda de la tabla original
+        var minCellRow = (row * Config.cellWidth);
+        var maxCellRow = (minCellRow + Config.cellWidth);
+        var minCellCol = (col * Config.cellHeight);
+        var maxCellCol = (minCellCol + Config.cellHeight);
+
+        //3) Determinar limites de la celda en la tabla auxiliar
+        //Calculo a nivel de Row
+        if (minCellRow <= posLeft) {
+            if ((minCellRow + Config.cellQuarter) <= posLeft) {
+                if((maxCellRow - Config.cellQuarter) <= posLeft) {
+                    minCellRowAux = (maxCellRow - Config.cellQuarter);
+                    maxCellRowAux = (maxCellRow + Config.cellQuarter);
+                }
+                else {
+                    minCellRowAux = (minCellRow + Config.cellQuarter);
+                    maxCellRowAux = (maxCellRow - Config.cellQuarter);
+                }
+            }
+            else {
+                minCellRowAux = (minCellRow -  Config.cellQuarter);
+                maxCellRowAux = (minCellRow + Config.cellQuarter);
+            }
+        }
+
+        //Calculo a nivel de Col
+        if (minCellCol <= posTop) {
+            if ((minCellCol + Config.cellQuarter) <= posTop) {
+                if((maxCellCol - Config.cellQuarter) <= posTop) {
+                    minCellColAux = (maxCellCol - Config.cellQuarter);
+                    maxCellColAux = (maxCellCol + Config.cellQuarter);
+                }
+                else {
+                    minCellColAux = (minCellCol + Config.cellQuarter);
+                    maxCellColAux = (maxCellCol - Config.cellQuarter);
+                }
+            }
+            else {
+                minCellColAux = (minCellCol -  Config.cellQuarter);
+                maxCellColAux = (minCellCol + Config.cellQuarter);
+            }
+        }
+
+        var cellX = (maxCellRowAux + minCellRowAux) / 2;
+        var cellY = (maxCellColAux + minCellColAux) / 2;
+
+        chip.element.style.top = cellY - 5;
+        chip.element.style.left = cellX - 5;
     }
 };
 
@@ -172,7 +221,9 @@ var Board = {
     toBoardCoords: function(absoluteCoords) {
         return {
             row: Math.floor(absoluteCoords.y / Config.cellHeight),
-            column: Math.floor(absoluteCoords.x / Config.cellWidth)
+            column: Math.floor(absoluteCoords.x / Config.cellWidth),
+            coordRow: absoluteCoords.x,
+            coordCol: absoluteCoords.y
         };
     },
     create: function() {
