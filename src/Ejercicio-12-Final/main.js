@@ -144,19 +144,30 @@ var Chip = {
 };
 
 var TableAux = {
-    getCellRow: function(coordLeft) {
+     getCellRow: function(coordLeft) {
+        var row = Math.floor(coordLeft / Config.cellWidthHeigth);
+        var minCellRow = (row * Config.cellWidthHeigth);
+        var maxCellRow = (minCellRow + Config.cellWidthHeigth)
+        var minCellRowAux = TableAux.getRangeRow(coordLeft, minCellRow, maxCellRow).minCellRowAux;
+        var maxCellRowAux = TableAux.getRangeRow(coordLeft, minCellRow, maxCellRow).maxCellRowAux;
+        var cellX = (maxCellRowAux + minCellRowAux) / 2;
+
+        return cellX;
+    },
+    getCellCol: function(coordTop) {
+        var col = Math.floor(coordTop / Config.cellWidthHeigth);
+        var minCellCol = (col * Config.cellWidthHeigth);
+        var maxCellCol = (minCellCol + Config.cellWidthHeigth);
+        var minCellColAux = TableAux.getRangeCol(coordTop, minCellCol, maxCellCol).minCellColAux;
+        var maxCellColAux = TableAux.getRangeCol(coordTop, minCellCol, maxCellCol).maxCellColAux;
+        var cellY = (maxCellColAux + minCellColAux) / 2;
+
+        return cellY;
+    },
+    getRangeRow: function(coordLeft, minCellRow, maxCellRow) {
         var minCellRowAux;
         var maxCellRowAux;
-
-        //1) Determinar Nro Row de tabla original
-        var row = Math.floor(coordLeft / Config.cellWidthHeigth);
-        //2) Determinar limites de la celda de la tabla original
-        var minCellRow = (row * Config.cellWidthHeigth);
-        var maxCellRow = (minCellRow + Config.cellWidthHeigth);
-
-        //3) Determinar limites de la celda en la tabla auxiliar
-        //Calculo a nivel de Row
-        if (minCellRow <= coordLeft) {
+       if (minCellRow <= coordLeft) {
             if ((minCellRow + Config.cellQuarter) <= coordLeft) {
                 if((maxCellRow - Config.cellQuarter) <= coordLeft) {
                     minCellRowAux = (maxCellRow - Config.cellQuarter);
@@ -172,20 +183,14 @@ var TableAux = {
                 maxCellRowAux = (minCellRow + Config.cellQuarter);
             }
         }
-        var cellX = (maxCellRowAux + minCellRowAux) / 2;
-        return cellX;
+        return {
+            minCellRowAux: minCellRowAux,
+            maxCellRowAux: maxCellRowAux
+        };
     },
-    getCellCol: function(coordTop) {
+    getRangeCol: function(coordTop, minCellCol, maxCellCol) {
         var minCellColAux;
         var maxCellColAux;
-
-        //1) Determinar Nro Columna de tabla original
-        var col = Math.floor(coordTop / Config.cellWidthHeigth);
-        //2) Determinar limites de la celda de la tabla original
-        var minCellCol = (col * Config.cellWidthHeigth);
-        var maxCellCol = (minCellCol + Config.cellWidthHeigth);
-        //3) Determinar limites de la celda en la tabla auxiliar
-        //Calculo a nivel de Col
         if (minCellCol <= coordTop) {
             if ((minCellCol + Config.cellQuarter) <= coordTop) {
                 if((maxCellCol - Config.cellQuarter) <= coordTop) {
@@ -202,8 +207,10 @@ var TableAux = {
                 maxCellColAux = (minCellCol + Config.cellQuarter);
             }
         }
-        var cellY = (maxCellColAux + minCellColAux) / 2;
-        return cellY;
+        return {
+            minCellColAux: minCellColAux,
+            maxCellColAux: maxCellColAux
+        };
     }
 }
 
