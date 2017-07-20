@@ -1,9 +1,6 @@
 var Config = {
-    cellWidth: 50,
-    cellHeight: 50,
+    cellWidthHeigth: 50,
     cellQuarter: 12.5,
-    chipWidth: 35,
-    chipHeight: 35,
     rows: 3,
     cols: 12,
     substractChip: 0
@@ -109,12 +106,9 @@ var Chip = {
         Chip.update(chip);
     },
     move: function(chip, col, coordRow, coordCol) {
-        var marginLeft = (Config.cellWidth - Config.chipWidth);
-        var marginTop = (Config.cellHeight - Config.chipHeight);
-
         if(col === 0) {
-            chip.element.style.top = ((Config.cellHeight * 2) + Config.cellHeight)/2;
-            chip.element.style.left = ((Config.cellWidth) / 2) - 5;
+            chip.element.style.top = ((Config.cellWidthHeigth * 2) + Config.cellWidthHeigth)/2;
+            chip.element.style.left = ((Config.cellWidthHeigth) / 2) - 5;
         } else {
             Chip.newCalculatePosition(chip, coordRow, coordCol)
         }
@@ -152,14 +146,14 @@ var Chip = {
         var maxCellColAux;
 
         //1) Determinar Nro Columna y Nro Row de tabla original
-        var row = Math.floor(posLeft / Config.cellWidth);
-        var col = Math.floor(posTop / Config.cellHeight);
+        var row = Math.floor(posLeft / Config.cellWidthHeigth);
+        var col = Math.floor(posTop / Config.cellWidthHeigth);
 
         //2) Determinar limites de la celda de la tabla original
-        var minCellRow = (row * Config.cellWidth);
-        var maxCellRow = (minCellRow + Config.cellWidth);
-        var minCellCol = (col * Config.cellHeight);
-        var maxCellCol = (minCellCol + Config.cellHeight);
+        var minCellRow = (row * Config.cellWidthHeigth);
+        var maxCellRow = (minCellRow + Config.cellWidthHeigth);
+        var minCellCol = (col * Config.cellWidthHeigth);
+        var maxCellCol = (minCellCol + Config.cellWidthHeigth);
 
         //3) Determinar limites de la celda en la tabla auxiliar
         //Calculo a nivel de Row
@@ -217,8 +211,8 @@ var Board = {
     },
     toBoardCoords: function(absoluteCoords) {
         return {
-            row: Math.floor(absoluteCoords.y / Config.cellHeight),
-            column: Math.floor(absoluteCoords.x / Config.cellWidth),
+            row: Math.floor(absoluteCoords.y / Config.cellWidthHeigth),
+            column: Math.floor(absoluteCoords.x / Config.cellWidthHeigth),
             coordRow: absoluteCoords.x,
             coordCol: absoluteCoords.y
         };
