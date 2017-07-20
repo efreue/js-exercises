@@ -6,7 +6,6 @@ var Config = {
     substractChip: 0
 };
 
-
 var Dom = {
     createElement: function(type, cssClass, clickCallback) {
         var element = document.createElement(type);
@@ -139,27 +138,27 @@ var Chip = {
         chipDel.element.parentElement.removeChild(chipDel.element);
     },
     newCalculatePosition: function(chip, posLeft, posTop) {
-        //logica para calcular las nuevas posiciones de las fichas
+        chip.element.style.top = TableAux.getCellCol(posTop) - 5;
+        chip.element.style.left = TableAux.getCellRow(posLeft) - 5;
+    }
+};
+
+var TableAux = {
+    getCellRow: function(coordLeft) {
         var minCellRowAux;
         var maxCellRowAux;
-        var minCellColAux;
-        var maxCellColAux;
 
-        //1) Determinar Nro Columna y Nro Row de tabla original
-        var row = Math.floor(posLeft / Config.cellWidthHeigth);
-        var col = Math.floor(posTop / Config.cellWidthHeigth);
-
+        //1) Determinar Nro Row de tabla original
+        var row = Math.floor(coordLeft / Config.cellWidthHeigth);
         //2) Determinar limites de la celda de la tabla original
         var minCellRow = (row * Config.cellWidthHeigth);
         var maxCellRow = (minCellRow + Config.cellWidthHeigth);
-        var minCellCol = (col * Config.cellWidthHeigth);
-        var maxCellCol = (minCellCol + Config.cellWidthHeigth);
 
         //3) Determinar limites de la celda en la tabla auxiliar
         //Calculo a nivel de Row
-        if (minCellRow <= posLeft) {
-            if ((minCellRow + Config.cellQuarter) <= posLeft) {
-                if((maxCellRow - Config.cellQuarter) <= posLeft) {
+        if (minCellRow <= coordLeft) {
+            if ((minCellRow + Config.cellQuarter) <= coordLeft) {
+                if((maxCellRow - Config.cellQuarter) <= coordLeft) {
                     minCellRowAux = (maxCellRow - Config.cellQuarter);
                     maxCellRowAux = (maxCellRow + Config.cellQuarter);
                 }
@@ -173,11 +172,23 @@ var Chip = {
                 maxCellRowAux = (minCellRow + Config.cellQuarter);
             }
         }
+        var cellX = (maxCellRowAux + minCellRowAux) / 2;
+        return cellX;
+    },
+    getCellCol: function(coordTop) {
+        var minCellColAux;
+        var maxCellColAux;
 
+        //1) Determinar Nro Columna de tabla original
+        var col = Math.floor(coordTop / Config.cellWidthHeigth);
+        //2) Determinar limites de la celda de la tabla original
+        var minCellCol = (col * Config.cellWidthHeigth);
+        var maxCellCol = (minCellCol + Config.cellWidthHeigth);
+        //3) Determinar limites de la celda en la tabla auxiliar
         //Calculo a nivel de Col
-        if (minCellCol <= posTop) {
-            if ((minCellCol + Config.cellQuarter) <= posTop) {
-                if((maxCellCol - Config.cellQuarter) <= posTop) {
+        if (minCellCol <= coordTop) {
+            if ((minCellCol + Config.cellQuarter) <= coordTop) {
+                if((maxCellCol - Config.cellQuarter) <= coordTop) {
                     minCellColAux = (maxCellCol - Config.cellQuarter);
                     maxCellColAux = (maxCellCol + Config.cellQuarter);
                 }
@@ -191,15 +202,10 @@ var Chip = {
                 maxCellColAux = (minCellCol + Config.cellQuarter);
             }
         }
-
-        var cellX = (maxCellRowAux + minCellRowAux) / 2;
         var cellY = (maxCellColAux + minCellColAux) / 2;
-
-        chip.element.style.top = cellY - 5;
-        chip.element.style.left = cellX - 5;
+        return cellY;
     }
-};
-
+}
 
 var Board = {
     chips: [],
