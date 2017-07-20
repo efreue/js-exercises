@@ -145,29 +145,27 @@ var Chip = {
 
 var TableAux = {
      getCellRow: function(coordLeft) {
-        var row = Math.floor(coordLeft / Config.cellWidthHeigth);
-        var minCellRow = (row * Config.cellWidthHeigth);
-        var maxCellRow = (minCellRow + Config.cellWidthHeigth)
-        var minCellRowAux = TableAux.getRangeRow(coordLeft, minCellRow, maxCellRow).minCellRowAux;
-        var maxCellRowAux = TableAux.getRangeRow(coordLeft, minCellRow, maxCellRow).maxCellRowAux;
+        var minCellRowAux = TableAux.getRangeRow(coordLeft).minCellRowAux;
+        var maxCellRowAux = TableAux.getRangeRow(coordLeft).maxCellRowAux;
         var cellX = (maxCellRowAux + minCellRowAux) / 2;
 
         return cellX;
     },
     getCellCol: function(coordTop) {
-        var col = Math.floor(coordTop / Config.cellWidthHeigth);
-        var minCellCol = (col * Config.cellWidthHeigth);
-        var maxCellCol = (minCellCol + Config.cellWidthHeigth);
-        var minCellColAux = TableAux.getRangeCol(coordTop, minCellCol, maxCellCol).minCellColAux;
-        var maxCellColAux = TableAux.getRangeCol(coordTop, minCellCol, maxCellCol).maxCellColAux;
+        var minCellColAux = TableAux.getRangeCol(coordTop).minCellColAux;
+        var maxCellColAux = TableAux.getRangeCol(coordTop).maxCellColAux;
         var cellY = (maxCellColAux + minCellColAux) / 2;
 
         return cellY;
     },
-    getRangeRow: function(coordLeft, minCellRow, maxCellRow) {
+    getRangeRow: function(coordLeft) {
         var minCellRowAux;
         var maxCellRowAux;
-       if (minCellRow <= coordLeft) {
+        var row = Math.floor(coordLeft / Config.cellWidthHeigth);
+        var minCellRow = (row * Config.cellWidthHeigth);
+        var maxCellRow = (minCellRow + Config.cellWidthHeigth);
+
+        if (minCellRow <= coordLeft) {
             if ((minCellRow + Config.cellQuarter) <= coordLeft) {
                 if((maxCellRow - Config.cellQuarter) <= coordLeft) {
                     minCellRowAux = (maxCellRow - Config.cellQuarter);
@@ -188,9 +186,13 @@ var TableAux = {
             maxCellRowAux: maxCellRowAux
         };
     },
-    getRangeCol: function(coordTop, minCellCol, maxCellCol) {
+    getRangeCol: function(coordTop) {
         var minCellColAux;
         var maxCellColAux;
+        var col = Math.floor(coordTop / Config.cellWidthHeigth);
+        var minCellCol = (col * Config.cellWidthHeigth);
+        var maxCellCol = (minCellCol + Config.cellWidthHeigth);
+
         if (minCellCol <= coordTop) {
             if ((minCellCol + Config.cellQuarter) <= coordTop) {
                 if((maxCellCol - Config.cellQuarter) <= coordTop) {
