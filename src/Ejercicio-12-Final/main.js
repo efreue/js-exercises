@@ -118,7 +118,7 @@ var Chip = {
         var chip = Board.chips[row][col];
         if(!chip) {
             chip = Chip.create();
-            Board.addChip(row, col, chip);
+            Board.addChip(row, col, chip, coordRow, coordCol);
         }
         if (Config.substractChip === 1) {
             if (chip.number > 1)  {
@@ -126,7 +126,7 @@ var Chip = {
             }
             else {
                 Chip.delete(chip, row, col);
-                Board.addChip(row, col, undefined);
+                Board.addChip(row, col, undefined, coordRow, coordCol);
             }
         }
         else {
@@ -218,7 +218,11 @@ var TableAux = {
 
 var Board = {
     chips: [],
-    addChip: function(row, col, chip) {
+    addChip: function(row, col, chip, coordRow, coordCol) {
+        //preguntar a charly como pueden formar parte del array (Board.chips)
+        var posRow = TableAux.getCellRow(coordRow);
+        var posCol = TableAux.getCellCol(coordCol);
+
         Board.chips[row][col] = chip;
         if (typeof(chip) != "undefined") {
             document.body.appendChild(chip.element);
