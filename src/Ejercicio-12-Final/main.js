@@ -2,7 +2,6 @@ var Config = {
     cellWidth: 50,
     cellHeight: 50,
     cellQuarter: 12.5,
-    cellHalf: 25,
     chipWidth: 35,
     chipHeight: 35,
     rows: 3,
@@ -117,8 +116,6 @@ var Chip = {
             chip.element.style.top = ((Config.cellHeight * 2) + Config.cellHeight)/2;
             chip.element.style.left = ((Config.cellWidth) / 2) - 5;
         } else {
-            //chip.element.style.top = (row * Config.cellHeight) + marginTop;
-            //chip.element.style.left = (col * Config.cellWidth) + marginLeft;
             Chip.newCalculatePosition(chip, coordRow, coordCol)
         }
 
