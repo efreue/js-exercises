@@ -1,0 +1,48 @@
+.container-cell {
+    width: 48px;
+    height: 48px;
+    border: 1px solid black;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.container-div {
+    background-color: #108413;
+    display: inline-block;
+}
+
+.red {
+    background-color:#F43E3E;
+}
+
+.black {
+    background-color:#000000;
+}
+
+.green {
+    background-color: #108413;
+}
+
+.border-disappear {
+    border: 0;
+}
+
+.shape {
+    width: 75px;
+    height: 75px;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    border: 5px solid;
+    border-color: cornflowerblue;
+}
+
+.num-white {
+    color:white;
+    font-size:30px;
+    font-family:Verdana;
+    align-content: center;
+	vertical-align: middle;
+    text-align: center;
+    line-height: 46px;
+}
