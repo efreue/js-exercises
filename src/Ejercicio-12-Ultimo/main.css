@@ -9,6 +9,7 @@
 .container-div {
     background-color: #108413;
     display: inline-block;
+    padding: 25px;
 }
 
 .red {
@@ -28,8 +29,8 @@
 }
 
 .shape {
-    width: 75px;
-    height: 75px;
+    width: 76px;
+    height: 76px;
     -moz-border-radius: 50px;
     -webkit-border-radius: 50px;
     border-radius: 50px;
