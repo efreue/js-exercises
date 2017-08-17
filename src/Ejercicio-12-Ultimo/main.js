@@ -11,13 +11,19 @@ var Dom = {
     createElement: function(type, cssClass, clickCallback) {
         var element = document.createElement(type);
         element.className = cssClass;
-        if(clickCallback) {
+        if (clickCallback) {
             element.onclick = clickCallback;
         }
         return element;
     },
-    createTable: function(rows, cols){
-        var table = Dom.createElement('table');
+    createTable: function(rows, cols, clickCallback){
+        var table = Dom.createElement(
+            'table',
+            null,
+            function(e) {
+                clickCallback(e);
+            }
+        );
         for (var i = rows; i >= 1; i--) {
             table.appendChild(
                 Dom.createRow(i, cols - 1)
@@ -50,7 +56,7 @@ var Dom = {
             );
         }
 
-        for(var i = 0; i <= numberCells; i++) {
+        for (var i = 0; i <= numberCells; i++) {
             tr.appendChild(
                 Dom.getCell(numberRow)
             );
@@ -60,12 +66,22 @@ var Dom = {
     }
 };
 
+
+var Utils = {
+    getCoordsFromEvent: function(e) {
+        return {
+            x: e.clientX - Board.element.offsetLeft,
+            y: e.clientY - Board.element.offsetTop
+        };
+    }
+};
+
 var getCircle = function(number) {
     var circle = Dom.createElement('div');
     circle.className = "shape num-white horizontal-centered-text " + getColor(number);
     circle.textContent = number;
 
-    if(number == 0) {
+    if (number == 0) {
         circle.className += " border-disappear";
     }
     return circle;
@@ -106,12 +122,24 @@ var getColor = function(num) {
 
 var Board = {
     chips: [],
+    showPosition: function(ev) {
+        var boardCoords = Board.toBoardCoords(
+            Utils.getCoordsFromEvent(ev)
+        );
+        alert('col: ' + boardCoords.coordCol + ' row: ' + boardCoords.coordRow);
+    },
+    toBoardCoords: function(absoluteCoords) {
+        return {
+            coordRow: absoluteCoords.x,
+            coordCol: absoluteCoords.y
+        };
+    },
     create: function() {
         var divContent = Dom.createElement('div', 'container-div');
-        Board.element = Dom.createTable(Config.rows, Config.cols);
+        Board.element = Dom.createTable(Config.rows, Config.cols, Board.showPosition);
         divContent.appendChild(Board.element);
         document.body.appendChild(divContent);
-        for(var i = 0; i < Config.rowsAux; i++) {
+        for (var i = 0; i < Config.rowsAux; i++) {
             Board.chips.push(new Array(Config.colsAux));
         }
     }
