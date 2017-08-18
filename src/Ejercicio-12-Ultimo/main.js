@@ -120,23 +120,30 @@ var getColor = function(num) {
     return color;
 };
 
+var Chip = {
+     add: function(ev) {
+         var position = Board.getPosition(ev);
+         alert('row: ' + position.coordRow + ' col: ' + position.coordCol);
+     }
+};
+
 var Board = {
     chips: [],
-    showPosition: function(ev) {
+    getPosition: function(ev) {
         var boardCoords = Board.toBoardCoords(
             Utils.getCoordsFromEvent(ev)
         );
-        alert('col: ' + boardCoords.coordCol + ' row: ' + boardCoords.coordRow);
+        return boardCoords;
     },
     toBoardCoords: function(absoluteCoords) {
         return {
-            coordRow: absoluteCoords.x,
-            coordCol: absoluteCoords.y
+            coordCol: absoluteCoords.x,
+            coordRow: absoluteCoords.y
         };
     },
     create: function() {
         var divContent = Dom.createElement('div', 'container-div');
-        Board.element = Dom.createTable(Config.rows, Config.cols, Board.showPosition);
+        Board.element = Dom.createTable(Config.rows, Config.cols, Chip.add);
         divContent.appendChild(Board.element);
         document.body.appendChild(divContent);
         for (var i = 0; i < Config.rowsAux; i++) {
