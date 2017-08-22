@@ -122,9 +122,82 @@ var getColor = function(num) {
 
 var Chip = {
      add: function(ev) {
-         var position = Board.getPosition(ev);
+         var position = Chip.getPosition(ev);
          alert('row: ' + position.coordRow + ' col: ' + position.coordCol);
-     }
+     },
+     getPosition: function(ev) {
+        var positionBoard = Board.getPosition(ev);
+        var limitCellCol =  Chip.getLimitCellCol(positionBoard);
+        var limitCellRow =  Chip.getLimitCellRow(positionBoard);
+        var coordCol = (limitCellCol.minCellCol + limitCellCol.maxCellCol) / 2;
+        var coordRow = (limitCellRow.minCellRow + limitCellRow.maxCellRow) / 2;
+
+        if(coordCol <= (Config.cellQuarter * 2)) {
+            coordRow =  ((Config.cellWidthHeigth * 2) + Config.cellWidthHeigth)/2;
+            coordCol = ((Config.cellWidthHeigth) / 2);
+        }
+        return {
+            coordRow: coordRow,
+            coordCol: coordCol
+        };
+
+     },
+    getLimitCellCol: function(positionBoard) {
+        var minCellColAux;
+        var maxCellColAux;
+        var col = Math.floor(positionBoard.coordCol / Config.cellWidthHeigth);
+        var minCellCol = (col * Config.cellWidthHeigth);
+        var maxCellCol = (minCellCol + Config.cellWidthHeigth);
+
+        if (minCellCol <= positionBoard.coordCol) {
+            if ((minCellCol + Config.cellQuarter) <= positionBoard.coordCol) {
+                if((maxCellCol - Config.cellQuarter) <= positionBoard.coordCol) {
+                    minCellColAux = (maxCellCol - Config.cellQuarter);
+                    maxCellColAux = (maxCellCol + Config.cellQuarter);
+                }
+                else {
+                    minCellColAux = (minCellCol + Config.cellQuarter);
+                    maxCellColAux = (maxCellCol - Config.cellQuarter);
+                }
+            }
+            else {
+                minCellColAux = (minCellCol -  Config.cellQuarter);
+                maxCellColAux = (minCellCol + Config.cellQuarter);
+            }
+        }
+        return {
+            minCellCol: minCellColAux,
+            maxCellCol: maxCellColAux
+        };
+    },
+    getLimitCellRow: function(positionBoard) {
+        var minCellRowAux;
+        var maxCellRowAux;
+        var row = Math.floor(positionBoard.coordRow / Config.cellWidthHeigth);
+        var minCellRow = (row * Config.cellWidthHeigth);
+        var maxCellRow = (minCellRow + Config.cellWidthHeigth);
+
+         if (minCellRow <= positionBoard.coordRow) {
+            if ((minCellRow + Config.cellQuarter) <= positionBoard.coordRow) {
+                if((maxCellRow - Config.cellQuarter) <= positionBoard.coordRow) {
+                    minCellRowAux = (maxCellRow - Config.cellQuarter);
+                    maxCellRowAux = (maxCellRow + Config.cellQuarter);
+                }
+                else {
+                    minCellRowAux = (minCellRow + Config.cellQuarter);
+                    maxCellRowAux = (maxCellRow - Config.cellQuarter);
+                }
+            }
+            else {
+                minCellRowAux = (minCellRow -  Config.cellQuarter);
+                maxCellRowAux = (minCellRow + Config.cellQuarter);
+            }
+        }
+        return {
+            minCellRow: minCellRowAux,
+            maxCellRow: maxCellRowAux
+        };
+    }
 };
 
 var Board = {
@@ -133,6 +206,7 @@ var Board = {
         var boardCoords = Board.toBoardCoords(
             Utils.getCoordsFromEvent(ev)
         );
+
         return boardCoords;
     },
     toBoardCoords: function(absoluteCoords) {
