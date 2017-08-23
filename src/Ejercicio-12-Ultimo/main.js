@@ -121,18 +121,46 @@ var getColor = function(num) {
 };
 
 var Chip = {
-     add: function(ev) {
-         var position = Chip.getPosition(ev);
-         alert('row: ' + position.coordRow + ' col: ' + position.coordCol);
-     },
-     getPosition: function(ev) {
+    add: function(ev) {
+        var position = Cells.getPosition(ev);
+        var cell = Cells.getCell(position.coordCol, position.coordRow)
+        var chip = Board.chips[cell.row][cell.col];
+        if (!chip) {
+            chip = Chip.create();
+            Board.addChip(cell.row, cell.col, chip);
+            Chip.show(chip, position);
+        }
+        alert('Coordrow: ' + position.coordRow + ' Coordcol: ' + position.coordCol + ' cellRow = ' + cell.row + ' cellCol = ' + cell.col);
+    },
+    create: function() {
+        return {
+            element: Dom.createElement('div', 'circle'),
+            number: 0
+        }
+    },
+    show: function(chip, position) {
+            chip.element.style.top = position.coordRow;
+            chip.element.style.left = position.coordCol;
+    }
+};
+
+var Cells = {
+    getCell: function(coordCol, coordRow) {
+        var col = Math.floor(coordCol / Config.cellQuarter);
+        var row = Math.floor(coordRow / Config.cellQuarter);
+        return {
+            row: row,
+            col: col
+        };
+    },
+    getPosition: function(ev) {
         var positionBoard = Board.getPosition(ev);
-        var limitCellCol =  Chip.getLimitCellCol(positionBoard);
-        var limitCellRow =  Chip.getLimitCellRow(positionBoard);
+        var limitCellCol =  Cells.getLimitCol(positionBoard);
+        var limitCellRow =  Cells.getLimitRow(positionBoard);
         var coordCol = (limitCellCol.minCellCol + limitCellCol.maxCellCol) / 2;
         var coordRow = (limitCellRow.minCellRow + limitCellRow.maxCellRow) / 2;
 
-        if(coordCol <= (Config.cellQuarter * 2)) {
+        if (coordCol <= (Config.cellQuarter * 2)) {
             coordRow =  ((Config.cellWidthHeigth * 2) + Config.cellWidthHeigth)/2;
             coordCol = ((Config.cellWidthHeigth) / 2);
         }
@@ -140,9 +168,8 @@ var Chip = {
             coordRow: coordRow,
             coordCol: coordCol
         };
-
      },
-    getLimitCellCol: function(positionBoard) {
+    getLimitCol: function(positionBoard) {
         var minCellColAux;
         var maxCellColAux;
         var col = Math.floor(positionBoard.coordCol / Config.cellWidthHeigth);
@@ -170,7 +197,7 @@ var Chip = {
             maxCellCol: maxCellColAux
         };
     },
-    getLimitCellRow: function(positionBoard) {
+    getLimitRow: function(positionBoard) {
         var minCellRowAux;
         var maxCellRowAux;
         var row = Math.floor(positionBoard.coordRow / Config.cellWidthHeigth);
@@ -202,6 +229,12 @@ var Chip = {
 
 var Board = {
     chips: [],
+    addChip: function(row, col, chip) {
+        Board.chips[row][col] = chip;
+        if (typeof(chip) != "undefined") {
+            document.body.appendChild(chip.element);
+        }
+    },
     getPosition: function(ev) {
         var boardCoords = Board.toBoardCoords(
             Utils.getCoordsFromEvent(ev)
