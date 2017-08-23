@@ -147,7 +147,7 @@ var Chip = {
 var Cells = {
     getCell: function(coordCol, coordRow) {
         var col = Math.floor(coordCol / Config.cellQuarter);
-        var row = Math.floor(coordRow / Config.cellQuarter);
+        var row = Math.floor(coordRow / (Config.cellQuarter * 2));
         return {
             row: row,
             col: col
