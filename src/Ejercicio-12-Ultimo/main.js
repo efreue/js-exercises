@@ -286,7 +286,7 @@ var Board = {
         Board.element = Dom.createTable(Config.rows, Config.cols, Chip.define);
         divContent.appendChild(Board.element);
         document.body.appendChild(divContent);
-        for (var i = 0; i < Config.rowsAux; i++) {
+        for (var i = 0; i <= Config.rowsAux; i++) {
             Board.chips.push(new Array(Config.colsAux));
         }
     }
