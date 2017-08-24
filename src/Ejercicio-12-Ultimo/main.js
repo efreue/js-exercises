@@ -121,22 +121,49 @@ var getColor = function(num) {
 };
 
 var Chip = {
-    add: function(ev) {
+    define: function(ev) {
         var position = Cells.getPosition(ev);
         var cell = Cells.getCell(position.coordCol, position.coordRow)
         var chip = Board.chips[cell.row][cell.col];
         if (!chip) {
             chip = Chip.create();
-            Board.addChip(cell.row, cell.col, chip);
+            Chip.add(chip, cell, position);
             Chip.show(chip, position);
         }
-        alert('Coordrow: ' + position.coordRow + ' Coordcol: ' + position.coordCol + ' cellRow = ' + cell.row + ' cellCol = ' + cell.col);
+        if (ev.ctrlKey) {
+            if (chip.number > 1) {
+                Chip.decrement(chip);
+            }
+            else {
+                Chip.delete(chip);
+            }
+        }
+        else {
+            Chip.increment(chip);
+        }
+    },
+    add: function(chip, cell, position) {
+        Board.addChip(cell.row, cell.col, chip);
     },
     create: function() {
         return {
             element: Dom.createElement('div', 'circle'),
             number: 0
         }
+    },
+    increment: function(chip) {
+        chip.number++;
+        Chip.update(chip);
+    },
+    decrement: function(chip) {
+        chip.number--;
+        Chip.update(chip);
+    },
+    update: function(chip) {
+        chip.element.textContent = chip.number;
+    },
+    delete: function(chipDel) {
+        chipDel.element.parentElement.removeChild(chipDel.element);
     },
     show: function(chip, position) {
             chip.element.style.top = position.coordRow;
@@ -250,7 +277,7 @@ var Board = {
     },
     create: function() {
         var divContent = Dom.createElement('div', 'container-div');
-        Board.element = Dom.createTable(Config.rows, Config.cols, Chip.add);
+        Board.element = Dom.createTable(Config.rows, Config.cols, Chip.define);
         divContent.appendChild(Board.element);
         document.body.appendChild(divContent);
         for (var i = 0; i < Config.rowsAux; i++) {
