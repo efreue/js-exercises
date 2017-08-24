@@ -151,7 +151,7 @@ var Chip = {
                 'div',
                 'circle',
                 function(e) {
-                    Chip.define(e)
+                    Chip.define(e);
                 }
             ),
             number: 0
@@ -211,7 +211,7 @@ var Cells = {
 
         if (minCellCol <= positionBoard.coordCol) {
             if ((minCellCol + Config.cellQuarter) <= positionBoard.coordCol) {
-                if((maxCellCol - Config.cellQuarter) <= positionBoard.coordCol) {
+                if ((maxCellCol - Config.cellQuarter) <= positionBoard.coordCol) {
                     minCellColAux = (maxCellCol - Config.cellQuarter);
                     maxCellColAux = (maxCellCol + Config.cellQuarter);
                 }
@@ -239,7 +239,7 @@ var Cells = {
 
          if (minCellRow <= positionBoard.coordRow) {
             if ((minCellRow + Config.cellQuarter) <= positionBoard.coordRow) {
-                if((maxCellRow - Config.cellQuarter) <= positionBoard.coordRow) {
+                if ((maxCellRow - Config.cellQuarter) <= positionBoard.coordRow) {
                     minCellRowAux = (maxCellRow - Config.cellQuarter);
                     maxCellRowAux = (maxCellRow + Config.cellQuarter);
                 }
