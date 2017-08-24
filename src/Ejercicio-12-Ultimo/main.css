@@ -12,19 +12,20 @@
     -moz-border-radius: 55%;
     -webkit-border-radius: 55%;
     border-radius: 100%;
-    border: 1px solid;
+    border: 10px solid;
     position:absolute;
     border-color: #FFD700;
-    background: #7FFF00;
+    background: #FFFFFF;
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
     text-align: center;
+     line-height: 50px;
 }
 
 .container-div {
     background-color: #108413;
     display: inline-block;
-    padding: 25px;
+    padding: 45px;
 }
 
 .red {
@@ -51,6 +52,9 @@
     border-radius: 50px;
     border: 5px solid;
     border-color: cornflowerblue;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    text-align: center;
 }
 
 .num-white {
@@ -60,5 +64,5 @@
     align-content: center;
 	vertical-align: middle;
     text-align: center;
-    line-height: 46px;
+    line-height: 70px;
 }

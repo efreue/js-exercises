@@ -70,8 +70,8 @@ var Dom = {
 var Utils = {
     getCoordsFromEvent: function(e) {
         return {
-            x: e.clientX - Board.element.offsetLeft,
-            y: e.clientY - Board.element.offsetTop
+            x: e.clientX - (Board.element.offsetLeft),
+            y: e.clientY - (Board.element.offsetTop)
         };
     }
 };
@@ -227,8 +227,8 @@ var Cells = {
             }
         }
         return {
-            minCellCol: minCellColAux,
-            maxCellCol: maxCellColAux
+            minCellCol: minCellColAux + 20,
+            maxCellCol: maxCellColAux + 20
         };
     },
     getLimitRow: function(positionBoard) {
@@ -255,8 +255,8 @@ var Cells = {
             }
         }
         return {
-            minCellRow: minCellRowAux,
-            maxCellRow: maxCellRowAux
+            minCellRow: minCellRowAux + 20,
+            maxCellRow: maxCellRowAux + 20
         };
     }
 };
