@@ -147,7 +147,13 @@ var Chip = {
     },
     create: function() {
         return {
-            element: Dom.createElement('div', 'circle'),
+            element: Dom.createElement(
+                'div',
+                'circle',
+                function(e) {
+                    Chip.define(e)
+                }
+            ),
             number: 0
         }
     },
