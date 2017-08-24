@@ -136,6 +136,7 @@ var Chip = {
             }
             else {
                 Chip.delete(chip);
+                Chip.add(null, cell, position);
             }
         }
         else {
@@ -264,7 +265,7 @@ var Board = {
     chips: [],
     addChip: function(row, col, chip) {
         Board.chips[row][col] = chip;
-        if (typeof(chip) != "undefined") {
+        if (chip != null) {
             document.body.appendChild(chip.element);
         }
     },
