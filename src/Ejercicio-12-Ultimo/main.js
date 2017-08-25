@@ -194,9 +194,9 @@ var Cells = {
         var coordCol = (limitCellCol.minCellCol + limitCellCol.maxCellCol) / 2;
         var coordRow = (limitCellRow.minCellRow + limitCellRow.maxCellRow) / 2;
 
-        if (coordCol <= (Config.cellQuarter * 2)) {
-            coordRow =  ((Config.cellWidthHeigth * 2) + Config.cellWidthHeigth)/2;
-            coordCol = ((Config.cellWidthHeigth) / 2);
+        if (coordCol <= (Config.cellQuarter * 4)) {
+            coordRow =  (((Config.cellWidthHeigth * 2) + Config.cellWidthHeigth)/2) + 20;
+            coordCol = (((Config.cellWidthHeigth) / 2) + 20);
         }
         return {
             coordRow: coordRow,
