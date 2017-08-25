@@ -19,7 +19,7 @@ var Dom = {
     createTable: function(rows, cols, clickCallback){
         var table = Dom.createElement(
             'table',
-            null,
+            'hand',
             function(e) {
                 clickCallback(e);
             }

@@ -22,6 +22,10 @@
      line-height: 50px;
 }
 
+.hand {
+    cursor: pointer;
+}
+
 .container-div {
     background-color: #108413;
     display: inline-block;
