@@ -1,7 +1,7 @@
 .container-cell {
     width: 48px;
     height: 48px;
-    border: 1px solid black;
+    border: 1px solid white;
     padding: 5px;
     box-sizing: border-box;
 }
@@ -55,7 +55,7 @@
     -webkit-border-radius: 50px;
     border-radius: 50px;
     border: 5px solid;
-    border-color: cornflowerblue;
+    border-color: white;
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
     text-align: center;
