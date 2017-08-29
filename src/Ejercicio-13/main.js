@@ -31,20 +31,20 @@ var Dom = {
         }
         return table;
     },
-    createCell: function() {
+    createCell: function(cssClass) {
         return Dom.createElement(
             'td',
-            'container-cell'
+            cssClass
         );
     },
     getColumnCero: function(numberCell) {
-        var td = Dom.createCell();
+        var td = Dom.createCell('container-cell0');
         td.setAttribute('rowspan', 3);
         td.appendChild(getCircle(numberCell));
         return td;
     },
     getCell: function(numberCell) {
-        var td = Dom.createCell();
+        var td = Dom.createCell('container-cell');
         td.appendChild(getCircle(numberCell));
         return td;
     },
@@ -195,8 +195,8 @@ var Cells = {
         var coordRow = (limitCellRow.minCellRow + limitCellRow.maxCellRow) / 2;
 
         if (coordCol <= (Config.cellQuarter * 4)) {
-            coordRow =  (((Config.cellWidthHeigth * 2) + Config.cellWidthHeigth)/2) + 20;
-            coordCol = (((Config.cellWidthHeigth) / 2) + 20);
+            coordRow =  (((Config.cellWidthHeigth * 2) + Config.cellWidthHeigth)/2) ;
+            coordCol = (((Config.cellWidthHeigth) / 2) );
         }
         return {
             coordRow: coordRow,
@@ -227,8 +227,8 @@ var Cells = {
             }
         }
         return {
-            minCellCol: minCellColAux + 20,
-            maxCellCol: maxCellColAux + 20
+            minCellCol: minCellColAux ,
+            maxCellCol: maxCellColAux
         };
     },
     getLimitRow: function(positionBoard) {
@@ -255,8 +255,8 @@ var Cells = {
             }
         }
         return {
-            minCellRow: minCellRowAux + 20,
-            maxCellRow: maxCellRowAux + 20
+            minCellRow: minCellRowAux ,
+            maxCellRow: maxCellRowAux
         };
     }
 };
