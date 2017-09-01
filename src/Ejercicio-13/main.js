@@ -6,7 +6,7 @@ var Config = {
     rowsAux: 6,
     colsAux: 36,
     moveBoardTop: 0,
-    moveBoardLeft:0
+    moveBoardLeft: 0
 };
 
 var Dom = {
@@ -181,6 +181,31 @@ var Chip = {
     }
 };
 
+var VirtualTable = {
+    getCellFromCoords: function(x, y) {
+        var virtualTableOffset = {
+            x: Config.cellWidth / 4,
+            y: Config.cellHeight / 4
+        };
+        var virtualCellSize = {
+            width: Config.cellWidth / 2,
+            height: Config.cellHeight / 2
+        };
+        return {
+            row: y + virtualTableOffset.y / virtualCellSize.height,
+            column: x + virtualTableOffset.x / virtualCellSize.width
+        };
+    },
+    getCoordsFromCell: function(row, column) {
+        return {
+            x:
+            y:
+        };
+    }
+};
+
+VirtualTable.getCell();
+
 var Cells = {
     getCell: function(coordCol, coordRow) {
         var col = Math.floor(coordCol / Config.cellQuarter);
@@ -265,6 +290,8 @@ var Cells = {
 
 var Board = {
     chips: [],
+    left: 0,
+    top: 0,
     addChip: function(row, col, chip) {
         Board.chips[row][col] = chip;
         if (chip != null) {
@@ -289,8 +316,8 @@ var Board = {
         Board.element = Dom.createTable(Config.rows, Config.cols, Chip.define);
         divContent.appendChild(Board.element);
         document.body.appendChild(divContent);
-        Config.moveBoardTop = divContent.offsetTop;
-        Config.moveBoardLeft = divContent.offsetLeft;
+        Board.left = divContent.offsetLeft;
+        Board.top = divContent.offsetTop;
         for (var i = 0; i <= Config.rowsAux; i++) {
             Board.chips.push(new Array(Config.colsAux));
         }
