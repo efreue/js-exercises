@@ -122,13 +122,14 @@ var getColor = function(num) {
 
 var Chip = {
     define: function(ev) {
-        var position = Cells.getPosition(ev);
+        var positionBoard = Board.getPosition(ev);
+        var position = Cells.getPosition(positionBoard);
         var cell = Cells.getCell(position.coordCol, position.coordRow)
         var chip = Board.chips[cell.row][cell.col];
         if (!chip) {
             chip = Chip.create();
             Chip.add(chip, cell, position);
-            Chip.show(chip, position);
+            Chip.show(chip, position, positionBoard);
         }
         if (ev.ctrlKey) {
             if (chip.number > 1) {
@@ -172,7 +173,8 @@ var Chip = {
     delete: function(chipDel) {
         chipDel.element.parentElement.removeChild(chipDel.element);
     },
-    show: function(chip, position) {
+    show: function(chip, position, position_board) {
+            alert ("row_aux =" + position.coordRow + " board_row = " + position_board.coordRow + " col_aux =" + position.coordCol + " board_col = " + position_board.coordCol);
             chip.element.style.top = position.coordRow;
             chip.element.style.left = position.coordCol;
     }
@@ -187,8 +189,7 @@ var Cells = {
             col: col
         };
     },
-    getPosition: function(ev) {
-        var positionBoard = Board.getPosition(ev);
+    getPosition: function(positionBoard) {
         var limitCellCol =  Cells.getLimitCol(positionBoard);
         var limitCellRow =  Cells.getLimitRow(positionBoard);
         var coordCol = (limitCellCol.minCellCol + limitCellCol.maxCellCol) / 2;
