@@ -4,7 +4,9 @@ var Config = {
     rows: 3,
     cols: 12,
     rowsAux: 6,
-    colsAux: 36
+    colsAux: 36,
+    moveBoardTop: 0,
+    moveBoardLeft:0
 };
 
 var Dom = {
@@ -129,7 +131,7 @@ var Chip = {
         if (!chip) {
             chip = Chip.create();
             Chip.add(chip, cell, position);
-            Chip.show(chip, position, positionBoard);
+            Chip.show(chip, position);
         }
         if (ev.ctrlKey) {
             if (chip.number > 1) {
@@ -174,9 +176,8 @@ var Chip = {
         chipDel.element.parentElement.removeChild(chipDel.element);
     },
     show: function(chip, position, position_board) {
-            alert ("row_aux =" + position.coordRow + " board_row = " + position_board.coordRow + " col_aux =" + position.coordCol + " board_col = " + position_board.coordCol);
-            chip.element.style.top = position.coordRow;
-            chip.element.style.left = position.coordCol;
+            chip.element.style.top = position.coordRow + Config.moveBoardTop;
+            chip.element.style.left = position.coordCol + Config.moveBoardLeft;
     }
 };
 
@@ -288,6 +289,8 @@ var Board = {
         Board.element = Dom.createTable(Config.rows, Config.cols, Chip.define);
         divContent.appendChild(Board.element);
         document.body.appendChild(divContent);
+        Config.moveBoardTop = divContent.offsetTop;
+        Config.moveBoardLeft = divContent.offsetLeft;
         for (var i = 0; i <= Config.rowsAux; i++) {
             Board.chips.push(new Array(Config.colsAux));
         }
