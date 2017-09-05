@@ -1,0 +1,8 @@
+.rect {
+	border: 1px solid #0b0;
+	position: absolute;
+}
+.box {
+	border: 1px solid #b00;
+	position: absolute;
+}
