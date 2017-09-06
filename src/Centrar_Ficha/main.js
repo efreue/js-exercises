@@ -18,8 +18,8 @@ var Dom = {
 
 var centerPosition = function(circle, square) {
     var centerWidth = (circle.offsetWidth - square[0].offsetWidth) / 2;
-    circle.style.top = square[0].offsetTop - centerWidth;
-    circle.style.left = square[0].offsetLeft - centerWidth;
+    circle.style.top = (square[0].offsetTop - centerWidth) + 'px';
+    circle.style.left = (square[0].offsetLeft - centerWidth) + 'px';
 }
 
 var circle = {
