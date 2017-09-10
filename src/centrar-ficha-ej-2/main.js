@@ -19,10 +19,19 @@ var Element = {
         }
         if(attributes.centerSelector) {
             // complete
+            var rect = document.querySelector('.' + attributes.centerSelector);
+            element.style.top = (rect.offsetTop + (rect.offsetHeight / 2)) - (element.offsetHeight / 2) + 'px';
+            element.style.left = (rect.offsetLeft + (rect.offsetWidth / 2)) - (element.offsetWidth / 2) + 'px';
+
         }
         return element;
     }
 };
+
+
+
+
+
 
 Element.create({
     type: 'div',
@@ -45,18 +54,18 @@ Element.create({
 Element.create({
     type: 'div',
     css: 'box box-1',
-    centerSelector: 'rect-1',
-    size: [60, 60]
+    size: [60, 60],
+    centerSelector: 'rect-1'
 });
 Element.create({
     type: 'div',
     css: 'box box-2',
-    centerSelector: 'rect-2',
-    size: [60, 60]
+    size: [60, 60],
+    centerSelector: 'rect-2'
 });
 Element.create({
     type: 'div',
     css: 'box box-3',
-    centerSelector: 'rect-3',
-    size: [60, 60]
+    size: [60, 60],
+    centerSelector: 'rect-3'
 });
