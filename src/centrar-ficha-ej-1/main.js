@@ -21,6 +21,9 @@ var Element = {
             },
             center: function(targetSelector) {
                 // complete
+                var rect = document.querySelector('.' + targetSelector);
+                element.style.top = (rect.offsetTop + (rect.offsetHeight / 2)) - (element.offsetHeight / 2) + 'px';
+                element.style.left = (rect.offsetLeft + (rect.offsetWidth / 2)) - (element.offsetWidth / 2) + 'px';
                 return self;
             }
         };
@@ -46,16 +49,19 @@ Element
 
     .create('div')
     .setCss('box box-1')
-    .center('rect-1')
     .setSize(60, 60)
+    .center('rect-1')
+
 
     .create('div')
     .setCss('box box-2')
-    .center('rect-2')
     .setSize(60, 60)
+    .center('rect-2')
+
 
     .create('div')
     .setCss('box box-3')
-    .center('rect-3')
-    .setSize(60, 60);
+    .setSize(60, 60)
+    .center('rect-3');
+
 
