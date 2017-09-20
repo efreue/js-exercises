@@ -1,31 +1,13 @@
-.container-cell0 {
-    width: 100px;
-    height: 100px;
+.hand {
+    cursor: pointer;
+}
+
+.cells {
     border: 1px solid white;
     box-sizing: border-box;
-}
-
-.container-cell {
-    width: 100px;
-    height: 100px;
-    border: 1px solid white;
-    box-sizing: border-box;
-}
-
-.red {
-    background-color:#F43E3E;
-}
-
-.black {
-    background-color:#000000;
-}
-
-.green {
-    background-color: #108413;
 }
 
 .container-div {
     background-color: #108413;
     display: inline-block;
-    padding: 45px;
 }
