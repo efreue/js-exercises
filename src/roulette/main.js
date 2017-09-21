@@ -20,12 +20,8 @@ var Dom = {
 };
 
 var Table = {
-    create: function(rows, columns, cssClass, callback) {
-        var table = Dom.createElement(
-            'table',
-            cssClass,
-            callback
-        );
+    create: function(rows, columns) {
+        var table = Dom.createElement('table');
         var tr = Rows.create();
         table.appendChild(
             tr.appendChild(
@@ -37,6 +33,7 @@ var Table = {
                 Rows.getRows(i, columns - 1)
             );
         }
+        return table;
     }
 };
 
@@ -55,7 +52,7 @@ var Rows = {
         return tr;
     },
     getCell: function(number) {
-        var td = Dom.createElement('td');
+        var td = Dom.createElement('td', 'cells');
         td.appendChild(
             getCircle(number)
         );
@@ -89,8 +86,8 @@ var Board = {
         var divContent = Dom.createElement('div', 'container-div');
         var element = Table.create(Config.rows, Config.cols);
         divContent.appendChild(element);
-        divContent.style.width = Config.width;
-        divContent.style.height = Config.height;
+        divContent.style.width = Config.width * Config.Cols;
+        divContent.style.height = Config.height * Config.rows;
         document.body.appendChild(divContent);
     }
 };
