@@ -1,8 +1,8 @@
 var Config = {
     rows: 3,
     cols: 12,
-    width: '100px',
-    height: '100px'
+    width: 100,
+    height: 100
 };
 
 var Dom = {
@@ -22,56 +22,36 @@ var Dom = {
 var Table = {
     create: function(rows, columns) {
         var table = Dom.createElement('table');
-        var tr = Rows.create();
-        table.appendChild(
-            tr.appendChild(
-                FirstColumn.create('cells', 0)
-            )
-        );
         for (var i = rows; i >= 1; i--) {
             table.appendChild(
-                Rows.getRows(i, columns - 1)
+                Table.addRow(i, columns - 1)
             );
         }
         return table;
-    }
-};
-
-var Rows = {
-    create: function() {
-        return Dom.createElement('tr');
     },
-    getRows: function(numberRow, number) {
-        var tr = Rows.create();
+    addRow: function(numberRow, number) {
+        var tr = Dom.createElement('tr');
+        if (numberRow === Config.rows) {
+            tr.appendChild(
+                Board.addFirstColumn('cells', 0)
+            );
+        }
         for (var i = 0; i <= number; i++) {
             tr.appendChild(
-                Rows.getCell(numberRow)
+                Table.addCell(numberRow)
             );
             numberRow += 3;
         }
         return tr;
     },
-    getCell: function(number) {
+    addCell: function(number) {
         var td = Dom.createElement('td', 'cells');
         td.appendChild(
             getCircle(number)
         );
-        td.style.width = Config.width;
-        td.style.height = Config.height;
+        td.style.width = (Config.width) + 'px';
+        td.style.height = (Config.height) + 'px';
         return td;
-    }
-};
-
-var FirstColumn = {
-    create: function(cssClass, number) {
-        var th = Dom.createElement('th', cssClass);
-        th.setAttribute('rowspan', Config.rows);
-        th.appendChild(
-            getCircle(number)
-        );
-        th.style.width = Config.width;
-        th.style.height = Config.height;
-        return th;
     }
 };
 
@@ -86,9 +66,14 @@ var Board = {
         var divContent = Dom.createElement('div', 'container-div');
         var element = Table.create(Config.rows, Config.cols);
         divContent.appendChild(element);
-        divContent.style.width = Config.width * Config.Cols;
-        divContent.style.height = Config.height * Config.rows;
+        divContent.style.width = (Config.width * Config.Cols) + 'px';
+        divContent.style.height = (Config.height * Config.rows) + 'px';
         document.body.appendChild(divContent);
+    },
+    addFirstColumn: function(cssClass, number) {
+        var td = Table.addCell(number);
+        td.setAttribute('rowspan', Config.rows);
+        return td;
     }
 };
 
