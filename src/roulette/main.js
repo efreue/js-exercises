@@ -57,9 +57,46 @@ var Table = {
 
 var getCircle = function(number) {
     var circle = Dom.createElement('div');
+    circle.className = "shape num-white " + getColor(number);
     circle.textContent = number;
+    circle.style.width = (Config.width - (Config.width/4)) + 'px'
+    circle.style.height = (Config.height - (Config.height/4)) + 'px'
     return circle;
 };
+
+var getColor = function(num) {
+    var color = '';
+    switch(num) {
+        case 0:
+            color = 'green';
+            break;
+        case 1:
+        case 3:
+        case 5:
+        case 7:
+        case 9:
+        case 12:
+        case 14:
+        case 16:
+        case 18:
+        case 19:
+        case 21:
+        case 23:
+        case 25:
+        case 32:
+        case 27:
+        case 30:
+        case 34:
+        case 36:
+            color = 'red';
+            break;
+        default:
+            color = 'black';
+            break;
+    }
+    return color;
+};
+
 
 var Board = {
     create: function() {

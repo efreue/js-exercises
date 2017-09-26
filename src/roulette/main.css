@@ -11,3 +11,31 @@
     background-color: #108413;
     display: inline-block;
 }
+
+.red {
+    background-color:#F43E3E;
+}
+
+.black {
+    background-color:#000000;
+}
+
+.green {
+    background-color: #108413;
+}
+
+.shape {
+    border-radius: 50px;
+    border: 3px solid;
+    border-color: white;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    text-align: center;
+}
+
+.num-white {
+    color:white;
+    font-size:30px;
+    font-family:Verdana;
+    line-height: 70px;
+}
