@@ -6,9 +6,9 @@ var Config = {
 };
 
 var Dom = {
-    createElement: function(type, cssClass, clickCallBack) {
+    createElement: function (type, cssClass, clickCallBack) {
         var element = document.createElement(type);
-        if(cssClass) {
+        if (cssClass) {
             element.className = cssClass;
         }
 
@@ -20,7 +20,7 @@ var Dom = {
 };
 
 var Table = {
-    create: function(rows, columns) {
+    create: function (rows, columns) {
         var table = Dom.createElement('table');
         for (var i = rows; i >= 1; i--) {
             table.appendChild(
@@ -29,7 +29,7 @@ var Table = {
         }
         return table;
     },
-    addRow: function(numberRow, number) {
+    addRow: function (numberRow, number) {
         var tr = Dom.createElement('tr');
         if (numberRow === Config.rows) {
             tr.appendChild(
@@ -44,7 +44,7 @@ var Table = {
         }
         return tr;
     },
-    addCell: function(number) {
+    addCell: function (number) {
         var td = Dom.createElement('td', 'cells');
         td.appendChild(
             getCircle(number)
@@ -55,18 +55,18 @@ var Table = {
     }
 };
 
-var getCircle = function(number) {
+var getCircle = function (number) {
     var circle = Dom.createElement('div');
     circle.className = "shape num-white " + getColor(number);
     circle.textContent = number;
-    circle.style.width = (Config.width - (Config.width/4)) + 'px'
-    circle.style.height = (Config.height - (Config.height/4)) + 'px'
+    circle.style.width = (Config.width - (Config.width / 4)) + 'px';
+    circle.style.height = (Config.height - (Config.height / 4)) + 'px';
     return circle;
 };
 
-var getColor = function(num) {
+var getColor = function (num) {
     var color = '';
-    switch(num) {
+    switch (num) {
         case 0:
             color = 'green';
             break;
@@ -99,7 +99,7 @@ var getColor = function(num) {
 
 
 var Board = {
-    create: function() {
+    create: function () {
         var divContent = Dom.createElement('div', 'container-div');
         var element = Table.create(Config.rows, Config.cols);
         divContent.appendChild(element);
@@ -107,7 +107,7 @@ var Board = {
         divContent.style.height = (Config.height * Config.rows) + 'px';
         document.body.appendChild(divContent);
     },
-    addFirstColumn: function(cssClass, number) {
+    addFirstColumn: function (cssClass, number) {
         var td = Table.addCell(number);
         td.setAttribute('rowspan', Config.rows);
         return td;
