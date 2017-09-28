@@ -2,7 +2,9 @@ var Config = {
     rows: 3,
     cols: 12,
     width: 100,
-    height: 100
+    height: 100,
+    top: 30,
+    left: 30
 };
 
 var Dom = {
@@ -29,28 +31,29 @@ var Table = {
         }
         return table;
     },
-    addRow: function (numberRow, number) {
+    addRow: function (numberRow, numberColumn) {
         var tr = Dom.createElement('tr');
+        var numberCircle = numberRow;
         if (numberRow === Config.rows) {
             tr.appendChild(
                 Board.addFirstColumn('cells', 0)
             );
         }
-        for (var i = 0; i <= number; i++) {
+        for (var i = 0; i <= numberColumn; i++) {
             tr.appendChild(
-                Table.addCell(numberRow)
+                Table.addCell(numberCircle)
             );
-            numberRow += 3;
+            numberCircle += 3;
         }
         return tr;
     },
-    addCell: function (number) {
+    addCell: function (numberCircle) {
         var td = Dom.createElement('td', 'cells');
         td.appendChild(
-            getCircle(number)
+            getCircle(numberCircle)
         );
-        td.style.width = (Config.width) + 'px';
-        td.style.height = (Config.height) + 'px';
+        td.style.width = (Config.width + 'px');
+        td.style.height = (Config.height + 'px');
         return td;
     }
 };
@@ -59,8 +62,9 @@ var getCircle = function (number) {
     var circle = Dom.createElement('div');
     circle.className = "shape num-white " + getColor(number);
     circle.textContent = number;
-    circle.style.width = (Config.width - (Config.width / 4)) + 'px';
-    circle.style.height = (Config.height - (Config.height / 4)) + 'px';
+    circle.style.width = ((Config.width - (Config.width / 4)) + 'px');
+    circle.style.height = ((Config.height - (Config.height / 4)) + 'px');
+    //circle.style.top = ((Config.top +  (Config.height / 2)) - (circle.offsetHeight / 2) + 'px');
     return circle;
 };
 
@@ -103,8 +107,10 @@ var Board = {
         var divContent = Dom.createElement('div', 'container-div');
         var element = Table.create(Config.rows, Config.cols);
         divContent.appendChild(element);
-        divContent.style.width = (Config.width * Config.Cols) + 'px';
-        divContent.style.height = (Config.height * Config.rows) + 'px';
+        divContent.style.width = ((Config.width * Config.Cols) + 'px');
+        divContent.style.height = ((Config.height * Config.rows) + 'px');
+        divContent.style.top = (Config.top + 'px');
+        divContent.style.left =  (Config.left + 'px');
         document.body.appendChild(divContent);
     },
     addFirstColumn: function (cssClass, number) {

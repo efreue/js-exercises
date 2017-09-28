@@ -10,6 +10,7 @@
 .container-div {
     background-color: #108413;
     display: inline-block;
+    position: absolute;
 }
 
 .red {
