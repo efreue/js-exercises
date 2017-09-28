@@ -36,21 +36,21 @@ var Table = {
         var numberCircle = numberRow;
         if (numberRow === Config.rows) {
             tr.appendChild(
-                Board.addFirstColumn('cells', 0)
+                Board.addFirstColumn( 0, numberRow)
             );
         }
         for (var i = 0; i <= numberColumn; i++) {
             tr.appendChild(
-                Table.addCell(numberCircle)
+                Table.addCell(numberCircle, numberRow, false)
             );
             numberCircle += 3;
         }
         return tr;
     },
-    addCell: function (numberCircle) {
+    addCell: function (numberCircle, numberRow, isFirstColumn) {
         var td = Dom.createElement('td', 'cells');
         td.appendChild(
-            getCircle(numberCircle)
+            getCircle(numberCircle, numberRow, isFirstColumn)
         );
         td.style.width = (Config.width + 'px');
         td.style.height = (Config.height + 'px');
@@ -58,14 +58,26 @@ var Table = {
     }
 };
 
-var getCircle = function (number) {
+var getCircle = function (number, numberRow, isFirstColumn) {
     var circle = Dom.createElement('div');
     circle.className = "shape num-white " + getColor(number);
     circle.textContent = number;
     circle.style.width = ((Config.width - (Config.width / 4)) + 'px');
     circle.style.height = ((Config.height - (Config.height / 4)) + 'px');
-    //circle.style.top = ((Config.top +  (Config.height / 2)) - (circle.offsetHeight / 2) + 'px');
+    circle.style.top = getValueCentered(numberRow, isFirstColumn);
+    //circle.style.left
     return circle;
+};
+
+
+var getValueCentered = function(numberRow, isFirstColumn) {
+    if (isFirstColumn) {
+        //((numberRow * height celda / 2) - height circle) - Config.top)
+        return ((((numberRow *  Config.height) / 2) - (Config.height - (Config.height / 4)) + Config.top) + 'px');
+    } else {
+        //((numberRow - (numberRow - 1))  * height celda / 2) - height circle) - Config.top)
+        return (((((numberRow - (numberRow - 1)) *  Config.height) / 2) - (Config.height - (Config.height / 4)) + Config.top) + 'px');
+    }
 };
 
 var getColor = function (num) {
@@ -113,8 +125,8 @@ var Board = {
         divContent.style.left =  (Config.left + 'px');
         document.body.appendChild(divContent);
     },
-    addFirstColumn: function (cssClass, number) {
-        var td = Table.addCell(number);
+    addFirstColumn: function (numberCircle, numberRow) {
+        var td = Table.addCell(numberCircle, numberRow, true);
         td.setAttribute('rowspan', Config.rows);
         return td;
     }
