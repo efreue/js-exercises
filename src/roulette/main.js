@@ -64,20 +64,25 @@ var getCircle = function (number, numberRow, isFirstColumn) {
     circle.textContent = number;
     circle.style.width = ((Config.width - (Config.width / 4)) + 'px');
     circle.style.height = ((Config.height - (Config.height / 4)) + 'px');
-    circle.style.top = getValueCentered(numberRow, isFirstColumn);
-    //circle.style.left
+    circle.style.top = (getValueCentered(numberRow, isFirstColumn).y + 'px');
+    circle.style.left = (getValueCentered(numberRow, isFirstColumn).x + 'px');
     return circle;
 };
 
-
 var getValueCentered = function(numberRow, isFirstColumn) {
-    if (isFirstColumn) {
-        //((numberRow * height celda / 2) - height circle) - Config.top)
-        return ((((numberRow *  Config.height) / 2) - (Config.height - (Config.height / 4)) + Config.top) + 'px');
-    } else {
-        //((numberRow - (numberRow - 1))  * height celda / 2) - height circle) - Config.top)
-        return (((((numberRow - (numberRow - 1)) *  Config.height) / 2) - (Config.height - (Config.height / 4)) + Config.top) + 'px');
-    }
+	var x;
+	var y;
+	if (isFirstColumn) {
+		y = (((numberRow * Config.height) / 2) - (Config.height - (Config.height / 4)) + Config.top),
+		x = (((numberRow * Config.width) / 2) - (Config.width - (Config.width / 4)) + Config.left)
+	} else {
+		y = ((numberRow * Config.height) - (Config.height - (Config.height / 4)) - Config.top),
+		x = ((numberRow * Config.width) - (Config.width - (Config.width / 4)) - Config.left)
+	};
+	return {
+		x: x,
+		y: y
+	};
 };
 
 var getColor = function (num) {
@@ -122,7 +127,7 @@ var Board = {
         divContent.style.width = ((Config.width * Config.Cols) + 'px');
         divContent.style.height = ((Config.height * Config.rows) + 'px');
         divContent.style.top = (Config.top + 'px');
-        divContent.style.left =  (Config.left + 'px');
+        divContent.style.left = (Config.left + 'px');
         document.body.appendChild(divContent);
     },
     addFirstColumn: function (numberCircle, numberRow) {
