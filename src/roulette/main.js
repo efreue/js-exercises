@@ -124,7 +124,7 @@ var Board = {
         var divContent = Dom.createElement('div', 'container-div');
         var element = Table.create(Config.rows, Config.cols);
         divContent.appendChild(element);
-        divContent.style.width = ((Config.width * Config.Cols) + 'px');
+        divContent.style.width = ((Config.width * Config.cols) + 'px');
         divContent.style.height = ((Config.height * Config.rows) + 'px');
         divContent.style.top = (Config.top + 'px');
         divContent.style.left = (Config.left + 'px');
