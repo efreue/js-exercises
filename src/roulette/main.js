@@ -79,10 +79,10 @@ var getValueCentered = function(numberCol, numberRow, widthElement, heightElemen
 		x = (Config.left + (Config.width / 2)) - widthElement;
 	} else {
 		y = ((((numberRow) * Config.height) - (heightElement)) + Config.top),
-		x = ((((numberCol + 1) * Config.width) - (widthElement)) + Config.left)
+		x = ((((numberCol + 1) * Config.width) - (widthElement)) + Config.left);
 		//y = (Config.top + (Config.height / 2)) - heightElement,
 		//x = (Config.left + (Config.width / 2)) - widthElement;
-	};
+	}
 	return {
 		x: x,
 		y: y
