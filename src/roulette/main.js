@@ -36,7 +36,7 @@ var Table = {
         var numberCircle = numberRow;
         if (numberRow === Config.rows) {
             tr.appendChild(
-                Board.addFirstColumn( 0, numberColumn, numberRow, numberRow)
+                Board.addFirstColumn( 0, numberColumn, numberRow)
             );
         }
         for (var i = 0; i <= numberColumn; i++) {
@@ -134,7 +134,7 @@ var Board = {
         divContent.style.left = (Config.left + 'px');
         document.body.appendChild(divContent);
     },
-    addFirstColumn: function (numberCircle, numberCol, numberRow, numberRow) {
+    addFirstColumn: function (numberCircle, numberCol, numberRow) {
 		var td = Table.addCell(numberCircle, numberCol, numberRow, true);
 	    td.setAttribute('rowspan', Config.rows);
         return td;
