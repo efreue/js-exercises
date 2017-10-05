@@ -36,21 +36,21 @@ var Table = {
         var numberCircle = numberRow;
         if (numberRow === Config.rows) {
             tr.appendChild(
-                Board.addFirstColumn( 0, numberRow)
+                Board.addFirstColumn( 0, numberColumn, numberRow, numberRow)
             );
         }
         for (var i = 0; i <= numberColumn; i++) {
             tr.appendChild(
-                Table.addCell(numberCircle, numberRow, false)
+                Table.addCell(numberCircle, i, numberRow, false)
             );
             numberCircle += 3;
         }
         return tr;
     },
-    addCell: function (numberCircle, numberRow, isFirstColumn) {
+    addCell: function (numberCircle, numberCol, numberRow, isFirstColumn) {
         var td = Dom.createElement('td', 'cells');
         td.appendChild(
-            getCircle(numberCircle, numberRow, isFirstColumn)
+            getCircle(numberCircle, numberCol, numberRow, isFirstColumn)
         );
         td.style.width = (Config.width + 'px');
         td.style.height = (Config.height + 'px');
@@ -58,26 +58,30 @@ var Table = {
     }
 };
 
-var getCircle = function (number, numberRow, isFirstColumn) {
+var getCircle = function (number, numberCol, numberRow, isFirstColumn) {
     var circle = Dom.createElement('div');
+	var widthCircle = (Config.width - (Config.width / 4));
+	var heightCircle = (Config.height - (Config.height / 4));
     circle.className = "shape num-white " + getColor(number);
     circle.textContent = number;
-    circle.style.width = ((Config.width - (Config.width / 4)) + 'px');
-    circle.style.height = ((Config.height - (Config.height / 4)) + 'px');
-    circle.style.top = (getValueCentered(numberRow, isFirstColumn).y + 'px');
-    circle.style.left = (getValueCentered(numberRow, isFirstColumn).x + 'px');
+    circle.style.width = (widthCircle + 'px');
+    circle.style.height = (heightCircle + 'px');
+    circle.style.top = (getValueCentered(numberCol, numberRow, widthCircle, heightCircle, isFirstColumn).y + 'px');
+    circle.style.left = (getValueCentered(numberCol, numberRow, widthCircle, heightCircle, isFirstColumn).x + 'px');
     return circle;
 };
 
-var getValueCentered = function(numberRow, isFirstColumn) {
+var getValueCentered = function(numberCol, numberRow, widthElement, heightElement, isFirstColumn) {
 	var x;
 	var y;
 	if (isFirstColumn) {
-		y = (((numberRow * Config.height) / 2) - (Config.height - (Config.height / 4)) + Config.top),
-		x = (((numberRow * Config.width) / 2) - (Config.width - (Config.width / 4)) + Config.left)
+		y = (((numberRow * Config.height) / 2) - Config.top),
+		x = (Config.left + (Config.width / 2)) - widthElement;
 	} else {
-		y = ((numberRow * Config.height) - (Config.height - (Config.height / 4)) - Config.top),
-		x = ((numberRow * Config.width) - (Config.width - (Config.width / 4)) - Config.left)
+		y = ((((numberRow) * Config.height) - (heightElement)) + Config.top),
+		x = ((((numberCol + 1) * Config.width) - (widthElement)) + Config.left)
+		//y = (Config.top + (Config.height / 2)) - heightElement,
+		//x = (Config.left + (Config.width / 2)) - widthElement;
 	};
 	return {
 		x: x,
@@ -130,9 +134,9 @@ var Board = {
         divContent.style.left = (Config.left + 'px');
         document.body.appendChild(divContent);
     },
-    addFirstColumn: function (numberCircle, numberRow) {
-        var td = Table.addCell(numberCircle, numberRow, true);
-        td.setAttribute('rowspan', Config.rows);
+    addFirstColumn: function (numberCircle, numberCol, numberRow, numberRow) {
+		var td = Table.addCell(numberCircle, numberCol, numberRow, true);
+	    td.setAttribute('rowspan', Config.rows);
         return td;
     }
 };
