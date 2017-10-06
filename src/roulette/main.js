@@ -1,6 +1,6 @@
 var Config = {
     rows: 3,
-    cols: 12,
+    cols: 13,
     width: 100,
     height: 100,
     top: 30,
@@ -39,7 +39,7 @@ var Table = {
                 Board.addFirstColumn( 0, numberColumn, numberRow)
             );
         }
-        for (var i = 0; i <= numberColumn; i++) {
+        for (var i = 0; i < numberColumn; i++) {
             tr.appendChild(
                 Table.addCell(numberCircle, i, numberRow, false)
             );
@@ -75,13 +75,11 @@ var getValueCentered = function(numberCol, numberRow, widthElement, heightElemen
 	var x;
 	var y;
 	if (isFirstColumn) {
-		y = (((numberRow * Config.height) / 2) - Config.top),
-		x = (Config.left + (Config.width / 2)) - widthElement;
+		y = (((numberRow * Config.height) / 2) - (Config.top)),
+		x = (Config.left) + ((Config.width / 2) - widthElement + (Config.left / 2));
 	} else {
-		y = ((((numberRow) * Config.height) - (heightElement)) + Config.top),
-		x = ((((numberCol + 1) * Config.width) - (widthElement)) + Config.left);
-		//y = (Config.top + (Config.height / 2)) - heightElement,
-		//x = (Config.left + (Config.width / 2)) - widthElement;
+        y = (Config.top / 2) + ((((numberRow) * Config.height) - (heightElement)) - Config.top),
+		x = (Config.left) + (Config.width / 2) + ((((numberCol + 1) * Config.width) - (widthElement / 2)) - Config.left);
 	}
 	return {
 		x: x,
