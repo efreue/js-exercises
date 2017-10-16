@@ -3,7 +3,7 @@ var Config = {
     cols: 13,
     width: 100,
     height: 100,
-    top: 60,
+    top: 80,
     left: 30
 };
 
@@ -75,10 +75,10 @@ var getValueCentered = function(numberCol, numberRow, widthElement, heightElemen
 	var x;
 	var y;
 	if (isFirstColumn) {
-		y = (((numberRow * Config.height) / 2) - (Config.top / 2)),
-		x =  ((Config.width - widthElement)  - Config.left / 2);
+		y = ((((numberRow * Config.height)) / 2) - (heightElement / 2));
+		x = (Config.width / 2) - (widthElement / 2);
 	} else {
-        y = (((numberRow * Config.height) - heightElement) - ((heightElement + Config.top) / 2)) + Config.top,
+        y = (((numberRow * Config.height) - heightElement) - ((heightElement + Config.top) / 2)) + Config.top;
 		//y = ((numberRow * Config.height) - heightElement) - (Config.top / 2),
 		x = (Config.left) + (Config.width / 2) + ((((numberCol + 1) * Config.width) - (widthElement / 2)) - Config.left);
 	}
