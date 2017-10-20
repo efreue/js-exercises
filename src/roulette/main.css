@@ -27,7 +27,6 @@
 
 .shape {
     border-radius: 50px;
-    border: 3px solid;
     border-color: white;
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);

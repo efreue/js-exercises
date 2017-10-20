@@ -4,7 +4,8 @@ var Config = {
     width: 100,
     height: 100,
     top: 80,
-    left: 30
+    left: 30,
+	borderCircle: 3
 };
 
 var Dom = {
@@ -60,14 +61,17 @@ var Table = {
 
 var getCircle = function (number, numberCol, numberRow, isFirstColumn) {
     var circle = Dom.createElement('div');
+	var positionCircle;
 	var widthCircle = (Config.width - (Config.width / 4));
 	var heightCircle = (Config.height - (Config.height / 4));
     circle.className = "shape num-white " + getColor(number);
-    circle.textContent = number;
-    circle.style.width = (widthCircle + 'px');
+    circle.style.border = (Config.borderCircle + 'px  solid');
+	circle.textContent = number;
+	circle.style.width = (widthCircle + 'px');
     circle.style.height = (heightCircle + 'px');
-    circle.style.top = (getValueCentered(numberCol, numberRow, widthCircle, heightCircle, isFirstColumn).y + 'px');
-    circle.style.left = (getValueCentered(numberCol, numberRow, widthCircle, heightCircle, isFirstColumn).x + 'px');
+	positionCircle = getValueCentered(numberCol, numberRow, widthCircle, heightCircle, isFirstColumn);
+    circle.style.top = (positionCircle.y + 'px');
+    circle.style.left = (positionCircle.x + 'px');
     return circle;
 };
 
@@ -76,11 +80,10 @@ var getValueCentered = function(numberCol, numberRow, widthElement, heightElemen
 	var y;
 	if (isFirstColumn) {
 		y = ((((numberRow * Config.height)) / 2) - (heightElement / 2));
-		x = (Config.width / 2) - (widthElement / 2);
+		x = (Config.width / 2) - (widthElement / 2) - Config.borderCircle;
 	} else {
-        y = (((numberRow * Config.height) - heightElement) - ((heightElement + Config.top) / 2)) + Config.top;
-		//y = ((numberRow * Config.height) - heightElement) - (Config.top / 2),
-		x = (Config.left) + (Config.width / 2) + ((((numberCol + 1) * Config.width) - (widthElement / 2)) - Config.left);
+		y = ((numberRow * Config.height) - (Config.height / 2) - (heightElement / 2));
+		x = Config.width + (((numberCol + 1) * Config.width) - (Config.width / 2) - (widthElement / 2) - Config.borderCircle);
 	}
 	return {
 		x: x,
