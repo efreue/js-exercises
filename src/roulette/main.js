@@ -52,7 +52,7 @@ var Table = {
     addCell: function (numberCircle, numberCol, numberRow, isFirstColumn) {
         var td = Dom.createElement('td', 'cells');
         td.appendChild(
-            getCircle(numberCircle, numberCol, numberRow, isFirstColumn)
+            Circle.getElement(numberCircle, numberCol, numberRow, isFirstColumn)
         );
         td.style.width = (Config.width + 'px');
         td.style.height = (Config.height + 'px');
@@ -60,20 +60,34 @@ var Table = {
     }
 };
 
-var getCircle = function (number, numberCol, numberRow, isFirstColumn) {
-    var circle = Dom.createElement('div');
-	var positionCircle;
-	var widthCircle = (Config.width - (Config.width / 4));
-	var heightCircle = (Config.height - (Config.height / 4));
-    circle.className = "shape num-white " + getColor(number);
-    circle.style.border = (Config.borderCircle + 'px  solid');
-	circle.textContent = number;
-	circle.style.width = (widthCircle + 'px');
-    circle.style.height = (heightCircle + 'px');
-	positionCircle = getValueCentered(numberCol, numberRow, widthCircle, heightCircle, isFirstColumn);
-    circle.style.top = (positionCircle.y + 'px');
-    circle.style.left = (positionCircle.x + 'px');
-    return circle;
+var Circle = {
+	add: function(number) {
+		var circle = Dom.createElement('div');
+		circle.className = "shape num-white " + getColor(number);
+		circle.style.border = (Config.borderCircle + 'px  solid');
+		circle.textContent = number;
+		return circle;
+	},
+	getPosition: function(numberCol, numberRow, isFirstColumn) {
+		var widthCircle = (Config.width - (Config.width / 4));
+		var heightCircle = (Config.height - (Config.height / 4));
+		var center = getValueCentered(numberCol, numberRow, widthCircle, heightCircle, isFirstColumn);
+		return {
+			width: widthCircle,
+			height: heightCircle,
+			top: center.y,
+			left: center.x
+		};
+	},
+	getElement: function(number, numberCol, numberRow, isFirstColumn) {
+		var circle = Circle.add(number);
+		var position = Circle.getPosition(numberCol, numberRow, isFirstColumn);
+		circle.style.width = (position.width + 'px');
+		circle.style.height = (position.height + 'px');
+		circle.style.top = (position.top + 'px');
+		circle.style.left = (position.left + 'px');
+		return circle;
+	}
 };
 
 var getValueCentered = function(numberCol, numberRow, widthElement, heightElement, isFirstColumn) {
