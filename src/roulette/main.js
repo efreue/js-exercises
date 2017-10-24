@@ -40,6 +40,7 @@ var Table = {
                 Board.addFirstColumn( 0, numberColumn, numberRow)
             );
         }
+		numberRow = Config.rows - (numberRow - 1);
         for (var i = 0; i < numberColumn; i++) {
             tr.appendChild(
                 Table.addCell(numberCircle, i, numberRow, false)
