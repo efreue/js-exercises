@@ -195,16 +195,16 @@ var VirtualTable = {
             row: y + virtualTableOffset.y / virtualCellSize.height,
             column: x + virtualTableOffset.x / virtualCellSize.width
         };
-    },
+    }/*,
     getCoordsFromCell: function(row, column) {
         return {
             x:
             y:
         };
-    }
+    }*/
 };
 
-VirtualTable.getCell();
+//VirtualTable.getCell();
 
 var Cells = {
     getCell: function(coordCol, coordRow) {
