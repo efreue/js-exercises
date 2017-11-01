@@ -138,8 +138,19 @@ var getColor = function (num) {
     }
     return color;
 };
+/*
+//el jugador agrega fichas, quita fichas en el board
+var Player = {
+};
+//create, increment, decrement, deleted,
+var Chip = {
 
+};
 
+var virtualTable = {
+
+};
+*/
 var Board = {
     create: function () {
         var divContent = Dom.createElement('div', 'container-div');
