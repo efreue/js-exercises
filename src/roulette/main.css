@@ -40,3 +40,18 @@
     font-family:Verdana;
     line-height: 70px;
 }
+
+.chip-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    border: 10px solid;
+    position:absolute;
+    border-color: #FFD700;
+    background: #FFFFFF;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    text-align: center;
+    line-height: 50px;
+
+}

@@ -151,16 +151,35 @@ var virtualTable = {
 
 };
 */
+
+var Chip = {
+    create: function () {
+        return {
+            element: Dom.createElement(
+                'div',
+                'chip-circle'
+            ),
+            number: 0
+        };
+    }
+};
+
 var Board = {
     create: function () {
         var divContent = Dom.createElement('div', 'container-div');
         var element = Table.create(Config.rows, Config.cols);
+        var chip = Chip.create();
+        chip.element.style.top = '10px';  /*sacar*/
+        chip.element.style.left = '30px'; /*sacar*/
+        chip.element.textContent = '1';  /*sacar*/
         divContent.appendChild(element);
+        divContent.appendChild(chip.element); /*sacar*/
         divContent.style.width = ((Config.width * Config.cols) + 'px');
         divContent.style.height = ((Config.height * Config.rows) + 'px');
         divContent.style.top = (Config.top + 'px');
         divContent.style.left = (Config.left + 'px');
         document.body.appendChild(divContent);
+
     },
     addFirstColumn: function (numberCircle, numberCol, numberRow) {
 		var td = Table.addCell(numberCircle, numberCol, numberRow, true);
