@@ -42,16 +42,16 @@
 }
 
 .chip-circle {
-    width: 60px;
-    height: 60px;
+    width: 42px;
+    height: 42px;
     border-radius: 100%;
-    border: 10px solid;
+    border: 6px dashed;
     position:absolute;
-    border-color: #FFD700;
+    font-family: monospace;
+    font-size: 20px;
+    border-color: #debe12;
     background: #FFFFFF;
-    -webkit-transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);
     text-align: center;
-    line-height: 50px;
+    line-height: 40px;
 
 }
