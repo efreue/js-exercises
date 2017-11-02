@@ -68,22 +68,25 @@ var Circle = {
 		circle.textContent = number;
 		return circle;
 	},
-	getPosition: function(numberCol, numberRow, isFirstColumn) {
-		var widthCircle = (Config.width - (Config.width / 4));
-		var heightCircle = (Config.height - (Config.height / 4));
+    getSize: function() {
+        return {
+            width: (Config.width - (Config.width / 4)),
+            height: (Config.height - (Config.height / 4))
+        };
+    },
+	getPosition: function(numberCol, numberRow, widthCircle, heightCircle, isFirstColumn) {
 		var center = getValueCentered(numberCol, numberRow, widthCircle, heightCircle, isFirstColumn);
 		return {
-			width: widthCircle,
-			height: heightCircle,
 			top: center.y,
 			left: center.x
 		};
 	},
 	getElement: function(number, numberCol, numberRow, isFirstColumn) {
 		var circle = Circle.add(number);
-		var position = Circle.getPosition(numberCol, numberRow, isFirstColumn);
-		circle.style.width = (position.width + 'px');
-		circle.style.height = (position.height + 'px');
+        var size = Circle.getSize();
+		var position = Circle.getPosition(numberCol, numberRow, size.width, size.height, isFirstColumn);
+		circle.style.width = (size.width + 'px');
+		circle.style.height = (size.height + 'px');
 		circle.style.top = (position.top + 'px');
 		circle.style.left = (position.left + 'px');
 		return circle;
@@ -161,7 +164,14 @@ var Chip = {
             ),
             number: 0
         };
-    }
+    }/*,
+    getPosition: function() {},
+    getSize: function() {
+         return {
+            width: ((Config.width - (Config.width / 4)) / 2),
+            height: ((Config.height - (Config.height / 4)) / 2)
+        };
+    }*/
 };
 
 var Board = {
