@@ -32,39 +32,51 @@ var Table = {
         }
         return table;
     },
-    addRow: function (numberRow, numberColumn) {
+    addRow: function (row, col) {
         var tr = Dom.createElement('tr');
-        var numberCircle = numberRow;
-        if (numberRow === Config.rows) {
+        var number = row;
+        if (row === Config.rows) {
             tr.appendChild(
-                Board.addFirstColumn( 0, numberColumn, numberRow)
+                Board.addFirstColumn( 0, col, row)
             );
         }
-		numberRow = Config.rows - (numberRow - 1);
-        for (var i = 0; i < numberColumn; i++) {
+		row = Config.rows - (row - 1);
+        for (var i = 0; i < col; i++) {
             tr.appendChild(
-                Table.addCell(numberCircle, i, numberRow, false)
+                Table.addCell(number, i, row, false)
             );
-            numberCircle += 3;
+            number += 3;
         }
         return tr;
     },
-    addCell: function (numberCircle, numberCol, numberRow, isFirstColumn) {
+    addCell: function (number, col, row, isFirstColumn) {
         var td = Dom.createElement('td', 'cells');
-		var sizeTd = Table.getSize();
+		var sizeCell = Table.getSizeCell();
         td.appendChild(
-            Circle.getElement(numberCircle, numberCol, numberRow, sizeTd.width, sizeTd.height, isFirstColumn)
+            Table.getCircle (number, col, row, sizeCell, isFirstColumn, Circle.add)
         );
-        td.style.width = (sizeTd.width + 'px');
-        td.style.height = (sizeTd.height + 'px');
+        Table.setSizeCell(td, sizeCell);
         return td;
     },
-	getSize: function() {
+	getSizeCell: function() {
 		return {
 			width: Config.width,
 			height: Config.height
 		};
-	}
+	},
+    setSizeCell: function(element, size) {
+        element.style.width = (size.width + 'px');
+        element.style.height = (size.height + 'px');
+    },
+    getCircle: function(number, col, row, sizeCell, isFirstColumn, callback) {
+        var element = callback(number);
+        var sizeCircle = Circle.getSize();
+		var borderCircle = Circle.getBorder();
+		var positionCircle = getPositionCentered (col, row,  sizeCell, sizeCircle, borderCircle, isFirstColumn);
+		Circle.setSize (element, sizeCircle)
+        Circle.setPosition (element, positionCircle)
+		return element;
+    }
 };
 
 var Circle = {
@@ -73,7 +85,7 @@ var Circle = {
 		circle.className = "shape num-white " + getColor(number);
 		circle.style.border = (Config.borderCircle + 'px  solid');
 		circle.textContent = number;
-		return circle;
+        return circle;
 	},
     getSize: function() {
 		return {
@@ -84,17 +96,15 @@ var Circle = {
 	getBorder: function() {
 		return Config.borderCircle;
 	},
-	getElement: function(number, numberCol, numberRow, widthCell, heightCell, isFirstColumn) {
-		var circle = Circle.add(number);
-        var sizeCircle = Circle.getSize();
-		var borderCircle = Circle.getBorder();
-		var positionCircle = getPositionCentered(numberCol, numberRow, widthCell, heightCell, sizeCircle, borderCircle, isFirstColumn);
-		circle.style.width = (sizeCircle.width + 'px');
-		circle.style.height = (sizeCircle.height + 'px');
-		circle.style.top = (positionCircle.top + 'px');
-		circle.style.left = (positionCircle.left + 'px');
-		return circle;
-	}
+    setSize: function(element, size) {
+        element.style.width = (size.width + 'px');
+		element.style.height = (size.height + 'px');
+
+    },
+    setPosition: function(element,  position) {
+      	element.style.top = (position.top + 'px');
+		element.style.left = (position.left + 'px');
+    }
 };
 
 var Chip = {
@@ -115,15 +125,15 @@ var Chip = {
     }
 };
 
-var getPositionCentered = function(numberCol, numberRow, widthCell, heightCell, sizeElement, borderElement, isFirstColumn) {
+var getPositionCentered = function(col, row, sizeCell, sizeElement, borderElement, isFirstColumn) {
 	var x;
 	var y;
 	if (isFirstColumn) {
-		y = ((((numberRow * heightCell)) / 2) - (sizeElement.height / 2));
-		x = (widthCell / 2) - (sizeElement.width / 2) - borderElement;
+		y = ((((row * sizeCell.height)) / 2) - (sizeElement.height / 2));
+		x = (sizeCell.width / 2) - (sizeElement.width / 2) - borderElement;
 	} else {
-		y = ((numberRow * heightCell) - (heightCell / 2) - (sizeElement.height / 2));
-		x = widthCell + (((numberCol + 1) * widthCell) - (widthCell / 2) - (sizeElement.width / 2) - borderElement);
+		y = ((row * sizeCell.height) - (sizeCell.height / 2) - (sizeElement.height / 2));
+		x = sizeCell.width + (((col + 1) * sizeCell.width) - (sizeCell.width / 2) - (sizeElement.width / 2) - borderElement);
 	}
 	return {
 		left: x,
@@ -194,8 +204,8 @@ var Board = {
         document.body.appendChild(divContent);
 
     },
-    addFirstColumn: function (numberCircle, numberCol, numberRow) {
-		var td = Table.addCell(numberCircle, numberCol, numberRow, true);
+    addFirstColumn: function (number, col, row) {
+		var td = Table.addCell(number, col, row, true);
 	    td.setAttribute('rowspan', Config.rows);
         return td;
     }
