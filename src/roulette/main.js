@@ -51,13 +51,20 @@ var Table = {
     },
     addCell: function (numberCircle, numberCol, numberRow, isFirstColumn) {
         var td = Dom.createElement('td', 'cells');
+		var sizeTd = Table.getSize();
         td.appendChild(
-            Circle.getElement(numberCircle, numberCol, numberRow, isFirstColumn)
+            Circle.getElement(numberCircle, numberCol, numberRow, sizeTd.width, sizeTd.height, isFirstColumn)
         );
-        td.style.width = (Config.width + 'px');
-        td.style.height = (Config.height + 'px');
+        td.style.width = (sizeTd.width + 'px');
+        td.style.height = (sizeTd.height + 'px');
         return td;
-    }
+    },
+	getSize: function() {
+		return {
+			width: Config.width,
+			height: Config.height
+		};
+	}
 };
 
 var Circle = {
@@ -69,43 +76,58 @@ var Circle = {
 		return circle;
 	},
     getSize: function() {
-        return {
+		return {
             width: (Config.width - (Config.width / 4)),
             height: (Config.height - (Config.height / 4))
         };
     },
-	getPosition: function(numberCol, numberRow, widthCircle, heightCircle, isFirstColumn) {
-		var center = getValueCentered(numberCol, numberRow, widthCircle, heightCircle, isFirstColumn);
-		return {
-			top: center.y,
-			left: center.x
-		};
+	getBorder: function() {
+		return Config.borderCircle;
 	},
-	getElement: function(number, numberCol, numberRow, isFirstColumn) {
+	getElement: function(number, numberCol, numberRow, widthCell, heightCell, isFirstColumn) {
 		var circle = Circle.add(number);
-        var size = Circle.getSize();
-		var position = Circle.getPosition(numberCol, numberRow, size.width, size.height, isFirstColumn);
-		circle.style.width = (size.width + 'px');
-		circle.style.height = (size.height + 'px');
-		circle.style.top = (position.top + 'px');
-		circle.style.left = (position.left + 'px');
+        var sizeCircle = Circle.getSize();
+		var borderCircle = Circle.getBorder();
+		var positionCircle = getPositionCentered(numberCol, numberRow, widthCell, heightCell, sizeCircle, borderCircle, isFirstColumn);
+		circle.style.width = (sizeCircle.width + 'px');
+		circle.style.height = (sizeCircle.height + 'px');
+		circle.style.top = (positionCircle.top + 'px');
+		circle.style.left = (positionCircle.left + 'px');
 		return circle;
 	}
 };
 
-var getValueCentered = function(numberCol, numberRow, widthElement, heightElement, isFirstColumn) {
+var Chip = {
+    create: function () {
+        return {
+            element: Dom.createElement(
+                'div',
+                'chip-circle'
+            ),
+            number: 0
+        };
+    },
+	getSize: function() {
+         return {
+            width: ((Config.width - (Config.width / 4)) / 2),
+            height: ((Config.height - (Config.height / 4)) / 2)
+        };
+    }
+};
+
+var getPositionCentered = function(numberCol, numberRow, widthCell, heightCell, sizeElement, borderElement, isFirstColumn) {
 	var x;
 	var y;
 	if (isFirstColumn) {
-		y = ((((numberRow * Config.height)) / 2) - (heightElement / 2));
-		x = (Config.width / 2) - (widthElement / 2) - Config.borderCircle;
+		y = ((((numberRow * heightCell)) / 2) - (sizeElement.height / 2));
+		x = (widthCell / 2) - (sizeElement.width / 2) - borderElement;
 	} else {
-		y = ((numberRow * Config.height) - (Config.height / 2) - (heightElement / 2));
-		x = Config.width + (((numberCol + 1) * Config.width) - (Config.width / 2) - (widthElement / 2) - Config.borderCircle);
+		y = ((numberRow * heightCell) - (heightCell / 2) - (sizeElement.height / 2));
+		x = widthCell + (((numberCol + 1) * widthCell) - (widthCell / 2) - (sizeElement.width / 2) - borderElement);
 	}
 	return {
-		x: x,
-		y: y
+		left: x,
+		top: y
 	};
 };
 
@@ -154,25 +176,6 @@ var virtualTable = {
 
 };
 */
-
-var Chip = {
-    create: function () {
-        return {
-            element: Dom.createElement(
-                'div',
-                'chip-circle'
-            ),
-            number: 0
-        };
-    }/*,
-    getPosition: function() {},
-    getSize: function() {
-         return {
-            width: ((Config.width - (Config.width / 4)) / 2),
-            height: ((Config.height - (Config.height / 4)) / 2)
-        };
-    }*/
-};
 
 var Board = {
     create: function () {
