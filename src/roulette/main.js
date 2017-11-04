@@ -23,8 +23,14 @@ var Dom = {
 };
 
 var Table = {
-    create: function(rows, columns) {
-        var table = Dom.createElement('table');
+    create: function(rows, columns, callback) {
+        var table = Dom.createElement(
+			'table',
+			'hand',
+            function(e) {
+                callback(e);
+            }
+		);
         for (var i = rows; i >= 1; i--) {
             table.appendChild(
                 Table.addRow(i, columns - 1)
@@ -107,6 +113,21 @@ var Circle = {
     }
 };
 
+var Casino = {
+	getPositionChip: function(ev) {
+		var positionBoard = Board.getPosition(ev);
+	}
+};
+
+var Player = {
+	addChip: function(element) {
+		Chip.increment(element);
+	},
+	removeChip: function(element) {
+		Chip.decrement(element);
+	}
+};
+
 var Chip = {
     create: function() {
         return {
@@ -122,6 +143,17 @@ var Chip = {
             width: ((Config.width - (Config.width / 4)) / 2),
             height: ((Config.height - (Config.height / 4)) / 2)
         };
+    },
+	increment: function(chip) {
+        chip.number++;
+        Chip.update(chip);
+    },
+	decrement: function(chip) {
+        chip.number--;
+        Chip.update(chip);
+    },
+	update: function(chip) {
+        chip.element.textContent = chip.number;
     }
 };
 
@@ -174,6 +206,7 @@ var getColor = function (num) {
     return color;
 };
 /*
+var casino
 //el jugador agrega fichas, quita fichas en el board
 var Player = {
 };
@@ -190,12 +223,12 @@ var virtualTable = {
 var Board = {
     create: function() {
         var divContent = Dom.createElement('div', 'container-div');
-        var element = Table.create(Config.rows, Config.cols);
+        Board.element = Table.create(Config.rows, Config.cols, Casino.getPositionChip);
         var chip = Chip.create();
         chip.element.style.top = '10px';  /*sacar*/
         chip.element.style.left = '30px'; /*sacar*/
         chip.element.textContent = '1';  /*sacar*/
-        divContent.appendChild(element);
+        divContent.appendChild(Board.element);
         divContent.appendChild(chip.element); /*sacar*/
         divContent.style.width = ((Config.width * Config.cols) + 'px');
         divContent.style.height = ((Config.height * Config.rows) + 'px');
@@ -207,6 +240,19 @@ var Board = {
 		var td = Table.addCell(number, col, row, true);
 	    td.setAttribute('rowspan', Config.rows);
         return td;
+    },
+	getPosition: function(ev) {
+		return Utils.getCoordsFromEvent(ev);
+	}
+};
+
+var Utils = {
+    getCoordsFromEvent: function(e) {
+        return {
+            x: e.clientX - (Board.element.offsetLeft),
+            y: e.clientY - (Board.element.offsetTop)
+        };
     }
 };
+
 window.addEventListener('load', Board.create);
