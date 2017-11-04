@@ -9,7 +9,7 @@ var Config = {
 };
 
 var Dom = {
-    createElement: function (type, cssClass, clickCallBack) {
+    createElement: function(type, cssClass, clickCallBack) {
         var element = document.createElement(type);
         if (cssClass) {
             element.className = cssClass;
@@ -23,7 +23,7 @@ var Dom = {
 };
 
 var Table = {
-    create: function (rows, columns) {
+    create: function(rows, columns) {
         var table = Dom.createElement('table');
         for (var i = rows; i >= 1; i--) {
             table.appendChild(
@@ -32,7 +32,7 @@ var Table = {
         }
         return table;
     },
-    addRow: function (row, col) {
+    addRow: function(row, col) {
         var tr = Dom.createElement('tr');
         var number = row;
         if (row === Config.rows) {
@@ -49,11 +49,11 @@ var Table = {
         }
         return tr;
     },
-    addCell: function (number, col, row, isFirstColumn) {
+    addCell: function(number, col, row, isFirstColumn) {
         var td = Dom.createElement('td', 'cells');
 		var sizeCell = Table.getSizeCell();
         td.appendChild(
-            Table.getCircle (number, col, row, sizeCell, isFirstColumn, Circle.add)
+            Table.getCircle(number, col, row, sizeCell, isFirstColumn, Circle.add)
         );
         Table.setSizeCell(td, sizeCell);
         return td;
@@ -72,9 +72,9 @@ var Table = {
         var element = callback(number);
         var sizeCircle = Circle.getSize();
 		var borderCircle = Circle.getBorder();
-		var positionCircle = getPositionCentered (col, row,  sizeCell, sizeCircle, borderCircle, isFirstColumn);
-		Circle.setSize (element, sizeCircle)
-        Circle.setPosition (element, positionCircle)
+		var positionCircle = getPositionCentered(col, row, sizeCell, sizeCircle, borderCircle, isFirstColumn);
+		Circle.setSize(element, sizeCircle);
+        Circle.setPosition(element, positionCircle);
 		return element;
     }
 };
@@ -101,14 +101,14 @@ var Circle = {
 		element.style.height = (size.height + 'px');
 
     },
-    setPosition: function(element,  position) {
-      	element.style.top = (position.top + 'px');
+    setPosition: function(element, position) {
+		element.style.top = (position.top + 'px');
 		element.style.left = (position.left + 'px');
     }
 };
 
 var Chip = {
-    create: function () {
+    create: function() {
         return {
             element: Dom.createElement(
                 'div',
@@ -188,7 +188,7 @@ var virtualTable = {
 */
 
 var Board = {
-    create: function () {
+    create: function() {
         var divContent = Dom.createElement('div', 'container-div');
         var element = Table.create(Config.rows, Config.cols);
         var chip = Chip.create();
@@ -202,7 +202,6 @@ var Board = {
         divContent.style.top = (Config.top + 'px');
         divContent.style.left = (Config.left + 'px');
         document.body.appendChild(divContent);
-
     },
     addFirstColumn: function (number, col, row) {
 		var td = Table.addCell(number, col, row, true);
@@ -210,5 +209,4 @@ var Board = {
         return td;
     }
 };
-
 window.addEventListener('load', Board.create);
