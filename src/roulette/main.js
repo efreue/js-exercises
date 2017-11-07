@@ -3,7 +3,7 @@ var Config = {
     cols: 13,
     width: 100,
     height: 100,
-    top: 70,
+    top: 80,
     left: 30,
 	borderCircle: 3
 };
