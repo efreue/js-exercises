@@ -5,7 +5,8 @@ var Config = {
     height: 100,
     top: 70,
     left: 30,
-	borderCircle: 3
+    borderCircle: 3,
+    paddingContainer: 30
 };
 
 var Dom = {
@@ -23,13 +24,10 @@ var Dom = {
 };
 
 var Table = {
-    create: function(rows, columns, callback) {
+    create: function(rows, columns) {
         var table = Dom.createElement(
 			'table',
-			'hand',
-            function(e) {
-                callback(e);
-            }
+			'hand'
 		);
         for (var i = rows; i >= 1; i--) {
             table.appendChild(
@@ -78,7 +76,7 @@ var Table = {
         var element = callback(number);
         var sizeCircle = Circle.getSize();
 		var borderCircle = Circle.getBorder();
-		var positionCircle = getPositionCentered(col, row, sizeCell, sizeCircle, borderCircle, isFirstColumn);
+		var positionCircle = getCenteredPosition(col, row, sizeCell, sizeCircle, borderCircle, isFirstColumn);
 		Circle.setSize(element, sizeCircle);
         Circle.setPosition(element, positionCircle);
 		return element;
@@ -89,7 +87,7 @@ var Circle = {
 	add: function(number) {
 		var circle = Dom.createElement('div');
 		circle.className = "shape num-white " + getColor(number);
-		circle.style.border = (Config.borderCircle + 'px  solid');
+		circle.style.border = (Circle.getBorder() + 'px  solid');
 		circle.textContent = number;
         return circle;
 	},
@@ -156,16 +154,28 @@ var Chip = {
         chip.element.textContent = chip.number;
     }
 };
+/*
+var getCenteredPosition = function(outerSize, innerSize) {
+    var x,
+        y;
 
-var getPositionCentered = function(col, row, sizeCell, sizeElement, borderElement, isFirstColumn) {
+    -- logic 
+
+    return {
+        x: x,
+        y: y
+    };
+};
+*/
+var getCenteredPosition = function(col, row, sizeCell, sizeElement, borderElement, isFirstColumn) {
 	var x;
-	var y;
+    var y;    
 	if (isFirstColumn) {
-		y = ((((row * sizeCell.height)) / 2) - (sizeElement.height / 2));
-		x = (sizeCell.width / 2) - (sizeElement.width / 2) - borderElement;
+		y = ((((row * sizeCell.height)) / 2) - (sizeElement.height / 2)) + Config.paddingContainer;
+		x = (sizeCell.width / 2) - (sizeElement.width / 2) - borderElement + Config.paddingContainer;
 	} else {
-		y = ((row * sizeCell.height) - (sizeCell.height / 2) - (sizeElement.height / 2));
-		x = sizeCell.width + (((col + 1) * sizeCell.width) - (sizeCell.width / 2) - (sizeElement.width / 2) - borderElement);
+		y = ((row * sizeCell.height) - (sizeCell.height / 2) - (sizeElement.height / 2)) + Config.paddingContainer;
+		x = sizeCell.width + (((col + 1) * sizeCell.width) - (sizeCell.width / 2) - (sizeElement.width / 2) - borderElement) + Config.paddingContainer;
 	}
 	return {
 		left: x,
@@ -222,8 +232,9 @@ var virtualTable = {
 
 var Board = {
     create: function() {
-        var divContent = Dom.createElement('div', 'container-div');
-        Board.element = Table.create(Config.rows, Config.cols, Casino.getPositionChip);
+        var divContent = Dom.createElement('div', 'container-div', Casino.getPositionChip);
+        divContent.style.padding = (Board.getPaddingContainer() + 'px');
+        Board.element = Table.create(Config.rows, Config.cols);
         var chip = Chip.create();
         chip.element.style.top = '10px';  /*sacar*/
         chip.element.style.left = '30px'; /*sacar*/
@@ -243,6 +254,9 @@ var Board = {
     },
 	getPosition: function(ev) {
 		return Utils.getCoordsFromEvent(ev);
+    },
+    getPaddingContainer: function() {
+		return Config.paddingContainer;
 	}
 };
 
