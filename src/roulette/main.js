@@ -1,10 +1,10 @@
 var Config = {
     rows: 3,
     cols: 13,
-    width: 120,
-    height: 120,
-    top: 80,
-    left: 40,
+    width: 100,
+    height: 100,
+    top: 70,
+    left: 30,
 	borderCircle: 3
 };
 
