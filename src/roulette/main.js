@@ -6,7 +6,7 @@ var Config = {
     top: 70,
     left: 30,
     borderCircle: 3,
-    paddingContainer: 30
+    paddingContainer: 20
 };
 
 var Dom = {
@@ -80,6 +80,14 @@ var Table = {
 		Circle.setSize(element, sizeCircle);
         Circle.setPosition(element, positionCircle);
 		return element;
+    },
+    getPositionCell: function(col, row, sizeCell, isFirstColumn) {
+        var x,
+            y;
+        if (isFirstColumn) {
+            y = ((row * sizeCell.height) / 2) + Config.paddingContainer;
+            x = (sizeCell.width / 2) + Config.paddingContainer;
+        }  
     }
 };
 
@@ -160,12 +168,15 @@ var getCenteredPosition = function(outerSize, innerSize) {
         y;
 
     -- logic 
+	y = outerSize.height - innerSize.height;
+	x = outerSize.width - innerSize.width;
 
     return {
         x: x,
         y: y
     };
 };
+
 */
 var getCenteredPosition = function(col, row, sizeCell, sizeElement, borderElement, isFirstColumn) {
 	var x;
