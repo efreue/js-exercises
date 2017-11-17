@@ -77,7 +77,8 @@ var Table = {
         var sizeCircle = Circle.getSize();
 		var borderCircle = Circle.getBorder();
 		var positionCircle = getCenteredPosition(col, row, sizeCell, sizeCircle, borderCircle, isFirstColumn);
-		Circle.setSize(element, sizeCircle);
+        //var positionCell = Table.getPositionCell(col, row, sizeCell, isFirstColumn);
+        Circle.setSize(element, sizeCircle);
         Circle.setPosition(element, positionCircle);
 		return element;
     },
@@ -85,9 +86,12 @@ var Table = {
         var x,
             y;
         if (isFirstColumn) {
-            y = ((row * sizeCell.height) / 2) + Config.paddingContainer;
-            x = (sizeCell.width / 2) + Config.paddingContainer;
-        }  
+            y = ((row * sizeCell.height) / 2);
+            x = (sizeCell.width / 2);
+        }  else {
+            y = (row * sizeCell.height) - (sizeCell.height / 2);
+            x =  sizeCell.width + (((col + 1) * sizeCell.width) - (sizeCell.width / 2));
+        }
     }
 };
 
