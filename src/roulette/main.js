@@ -81,7 +81,7 @@ var Table = {
         Circle.setSize(element, sizeCircle);
         Circle.setPosition(element, positionCircle);
 		return element;
-    },
+    }, 
     getPositionCell: function(col, row, sizeCell, isFirstColumn) {
         var x,
             y;
@@ -120,6 +120,12 @@ var Circle = {
     setPosition: function(element, position) {
 		element.style.top = (position.top + 'px');
 		element.style.left = (position.left + 'px');
+    },
+    getCircle: function() {
+        return {
+            size: Circle.getSize(),
+            border: Circle.getBorder()
+        };
     }
 };
 
