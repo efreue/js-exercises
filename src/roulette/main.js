@@ -57,7 +57,7 @@ var Table = {
         var td = Dom.createElement('td', 'cells');
 		var sizeCell = Table.getSizeCell();
         td.appendChild(
-            Table.getCircle(number, col, row, sizeCell, isFirstColumn, Circle.add)
+            Table.getCircle(number, col, row, isFirstColumn, Circle.add)
         );
         Table.setSizeCell(td, sizeCell);
         return td;
@@ -72,26 +72,19 @@ var Table = {
         element.style.width = (size.width + 'px');
         element.style.height = (size.height + 'px');
     },
-    getCircle: function(number, col, row, sizeCell, isFirstColumn, callback) {
+    getCircle: function(number, col, row, isFirstColumn, callback) {
         var element = callback(number);
-        var sizeCircle = Circle.getSize();
-		var borderCircle = Circle.getBorder();
-		var positionCircle = getCenteredPosition(col, row, sizeCell, sizeCircle, borderCircle, isFirstColumn);
-        //var positionCell = Table.getPositionCell(col, row, sizeCell, isFirstColumn);
-        Circle.setSize(element, sizeCircle);
+        var innerElement = {
+            size: Circle.getSize(),
+            border: Circle.getBorder()                        
+        };
+        var outerElement = {
+           size: Table.getSizeCell()                       
+        }; 
+		var positionCircle = getCenteredPosition(col, row, outerElement, innerElement, isFirstColumn);
+        Circle.setSize(element, innerElement.size);
         Circle.setPosition(element, positionCircle);
 		return element;
-    }, 
-    getPositionCell: function(col, row, sizeCell, isFirstColumn) {
-        var x,
-            y;
-        if (isFirstColumn) {
-            y = ((row * sizeCell.height) / 2);
-            x = (sizeCell.width / 2);
-        }  else {
-            y = (row * sizeCell.height) - (sizeCell.height / 2);
-            x =  sizeCell.width + (((col + 1) * sizeCell.width) - (sizeCell.width / 2));
-        }
     }
 };
 
@@ -120,12 +113,6 @@ var Circle = {
     setPosition: function(element, position) {
 		element.style.top = (position.top + 'px');
 		element.style.left = (position.left + 'px');
-    },
-    getCircle: function() {
-        return {
-            size: Circle.getSize(),
-            border: Circle.getBorder()
-        };
     }
 };
 
@@ -172,31 +159,16 @@ var Chip = {
         chip.element.textContent = chip.number;
     }
 };
-/*
-var getCenteredPosition = function(outerSize, innerSize) {
-    var x,
-        y;
 
-    -- logic 
-	y = outerSize.height - innerSize.height;
-	x = outerSize.width - innerSize.width;
-
-    return {
-        x: x,
-        y: y
-    };
-};
-
-*/
-var getCenteredPosition = function(col, row, sizeCell, sizeElement, borderElement, isFirstColumn) {
+var getCenteredPosition = function(col, row, outerElement, innerElement, isFirstColumn) {
 	var x;
     var y;    
 	if (isFirstColumn) {
-		y = ((((row * sizeCell.height)) / 2) - (sizeElement.height / 2)) + Config.paddingContainer;
-		x = (sizeCell.width / 2) - (sizeElement.width / 2) - borderElement + Config.paddingContainer;
+		y = ((((row * outerElement.size.height)) / 2) - (innerElement.size.height / 2)) + Config.paddingContainer;
+		x = (outerElement.size.width / 2) - (innerElement.size.width / 2) - innerElement.border + Config.paddingContainer;
 	} else {
-		y = ((row * sizeCell.height) - (sizeCell.height / 2) - (sizeElement.height / 2)) + Config.paddingContainer;
-		x = sizeCell.width + (((col + 1) * sizeCell.width) - (sizeCell.width / 2) - (sizeElement.width / 2) - borderElement) + Config.paddingContainer;
+		y = ((row * outerElement.size.height) - (outerElement.size.height / 2) - (innerElement.size.height / 2)) + Config.paddingContainer;
+		x = outerElement.size.width + (((col + 1) * outerElement.size.width) - (outerElement.size.width / 2) - (innerElement.size.width / 2) - innerElement.border) + Config.paddingContainer;
 	}
 	return {
 		left: x,
