@@ -122,9 +122,24 @@ var Casino = {
 	}
 };
 
-var Player = {
+var HumanPlayer = {
     bet: function(ev) {
-        //poner como se realiza la apuesta
+        //realiza la apuesta
+        //1)obtener la coordenada del evento getCoordFromCells(x, y)
+        //2)obtener la celda getCellFromCoords(x, y)
+        alert('realizar apuesta');
+    },
+    addChip: function(element) {
+		Chip.increment(element);
+	},
+	removeChip: function(element) {
+		Chip.decrement(element);
+	}
+};
+
+var CpuPlayer = {
+    bet: function(ev) {
+        //realiza la apuesta
         alert('realizar apuesta');
     },
     addChip: function(element) {
@@ -213,24 +228,26 @@ var getColor = function (num) {
     return color;
 };
 /*
-var casino
-//el jugador agrega fichas, quita fichas en el board
-var Player = {
-    bet:
+var addEventListener = {
+    getPosition: function(element, typeEvent, callback) {
+        return 
+    }
 };
-//create, increment, decrement, deleted,
-var Chip = {
 
-};
+*/
 
 var virtualTable = {
-
+    //alert('agregar logica para poner ficha en posicion donde corresponda');    
 };
-*/
+    
 
 var Board = {
     create: function() {
-        var divContent = Dom.createElement('div', 'container-div', Casino.getPositionChip);
+        var divContent = Dom.createElement(
+            'div', 
+            'container-div', 
+             HumanPlayer.bet           
+        );
         divContent.style.padding = (Board.getPaddingContainer() + 'px');
         Board.element = Table.create(Config.rows, Config.cols);
         var chip = Chip.create();
