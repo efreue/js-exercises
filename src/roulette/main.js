@@ -123,7 +123,11 @@ var Casino = {
 };
 
 var Player = {
-	addChip: function(element) {
+    bet: function(ev) {
+        //poner como se realiza la apuesta
+        alert('realizar apuesta');
+    },
+    addChip: function(element) {
 		Chip.increment(element);
 	},
 	removeChip: function(element) {
@@ -212,6 +216,7 @@ var getColor = function (num) {
 var casino
 //el jugador agrega fichas, quita fichas en el board
 var Player = {
+    bet:
 };
 //create, increment, decrement, deleted,
 var Chip = {
