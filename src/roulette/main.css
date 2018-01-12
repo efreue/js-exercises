@@ -1,3 +1,9 @@
+.container-board {
+    background-color: #108413;
+    display: inline-block;
+    position: absolute;
+}
+
 .hand {
     cursor: pointer;
 }
@@ -5,12 +11,6 @@
 .cells {
     border: 1px solid white;
     box-sizing: border-box;
-}
-
-.container-div {
-    background-color: #108413;
-    display: inline-block;
-    position: absolute;
 }
 
 .red {
@@ -34,24 +34,10 @@
 	position: absolute;
 }
 
+
 .num-white {
     color:white;
     font-size:30px;
     font-family:Verdana;
     line-height: 70px;
-}
-
-.chip-circle {
-    width: 42px;
-    height: 42px;
-    border-radius: 100%;
-    border: 6px dashed;
-    position:absolute;
-    font-family: monospace;
-    font-size: 20px;
-    border-color: #debe12;
-    background: #FFFFFF;
-    text-align: center;
-    line-height: 40px;
-
 }
