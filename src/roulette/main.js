@@ -107,7 +107,7 @@ var Circle = {
             circle.style.border = (Config.borderCircle + 'px  solid');
         }
         circle.style.width = (sizeCircle.width + 'px');
-        circle.style.height = (sizeCircle.height+ 'px')
+        circle.style.height = (sizeCircle.height+ 'px');
         return circle;
     },
     getSize: function() {
