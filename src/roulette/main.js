@@ -1,6 +1,6 @@
 var Config = {
     rows: 3,
-    cols: 12,
+    cols: 13,
     width: 100,
     height: 100,
     top: 60,
@@ -14,8 +14,31 @@ var Utils = {
             x: e.clientX - (Board.element.offsetLeft),
             y: e.clientY - (Board.element.offsetTop)
         };
+    },
+    getWindowSize: function() {
+        var winWidth = 0;
+        var winHeight = 0;
+        if( typeof( window.innerWidth ) == 'number' ) { 
+            //No-IE 
+            winWidth = window.innerWidth; 
+            winHeight = window.innerHeight; 
+        } 
+        else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+            //IE 6+ 
+            winWidth = document.documentElement.clientWidth; 
+            winHeight = document.documentElement.clientHeight; 
+        } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+            //IE 4 compatible 
+            winWidth = document.body.clientWidth; 
+            winHeight = document.body.clientHeight; 
+        } 
+        return {
+            width: winWidth,
+            height: winHeight
+        };
     }
 };
+
 
 var Dom = {
     createElement: function(type, cssClass, clickCallBack) {
@@ -39,7 +62,7 @@ var Dom = {
         );
         for (var i = rows; i >= 1; i--) {
             table.appendChild(
-                Dom.createRow(i, cols - 1)
+                Dom.createRow(i, cols - 2)
             );
         }
         return table;
@@ -172,6 +195,8 @@ var Board = {
         };
     },
     create: function() {
+        //var win = Utils.getWindowSize();
+        //alert(win.width + ' ' + win.height);
         var content = Dom.createElement('div', 'container-board');
         Board.element = Dom.createTable(Config.rows, Config.cols, Player.bettingChip);
         content.style.top = (Config.top + 'px');
