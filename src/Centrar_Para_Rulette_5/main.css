@@ -1,0 +1,14 @@
+.padre {
+  width: 150px;
+  height: 150px;
+  background: yellow;
+  
+  /* IMPORTANTE */
+  display: table;
+}
+
+.hijo {
+  /* IMPORTANTE */
+  display: table-cell;
+  vertical-align: middle;
+}

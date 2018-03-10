@@ -1,0 +1,9 @@
+.padre {
+  background: yellow;
+  height: 100px;
+}
+
+.hijo {
+  /* IMPORTANTE */
+  line-height: 100px;
+}

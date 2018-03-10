@@ -1,0 +1,15 @@
+.padre {
+  background: yellow;
+  height: 200px;
+  position: relative;
+}
+
+.hijo {
+  background: red;
+  color: white;
+  width: 100px;
+  /*IMPORTANTE*/
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}

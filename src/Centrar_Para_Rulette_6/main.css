@@ -1,0 +1,9 @@
+.padre {
+  height: 200px;
+  width: 200px;
+  background: yellow;
+  
+  /* IMPORTANTE */
+  display: flex;
+  align-items: center;
+}
