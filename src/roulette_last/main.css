@@ -22,7 +22,7 @@ body
 {
   border: 1px solid white;
   display: table-cell;
-  width: 50px;
+  width: 48px;
   height: 100px;
   vertical-align: middle;
   text-align: center;
@@ -31,13 +31,13 @@ body
 .table_cell.empty
 {
   border: none;
-  width: 50px;
+  width: 48px;
 }
 
 .table_cell.rowspanned
 {
   position: absolute;
-  width: 50px;
+  width: 48px;
   height: 298px; /*resto los 2 px de empty*/
   text-align: center;
  }
