@@ -1,0 +1,65 @@
+<html>
+<head>
+  <title>Div Table with css row span</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <style type="text/css">
+  .wrapperDiv {
+    position: relative;
+  }
+  .table {
+    display: table;
+  }
+  .Tablerow {
+    display: table-row;
+  }
+  .Tablecell {
+    border: 2px solid #54FF93;
+    display: table-cell;
+  }
+  .Tablecell.empty
+  {
+    border: none;
+    width: 150px;
+  }
+  .Tablecell.rowspanned {
+    border: 2px solid #54FE43;
+    position: absolute;
+    width: 150px;
+    top: 0;
+    bottom: 0;
+  }
+  </style>
+</head>
+
+<body>
+   <p>
+      In this example we build table using Div tags and we add rows span
+      using CSS properties .
+   </p>
+<div class="wrapperDiv">
+  <div class="table">
+    <div class="Tablerow">
+      <div class="Tablecell">
+        Left Header
+      </div>
+      <div class="rowspanned Tablecell">
+        Center Spanned Cell
+      </div>
+      <div class="Tablecell">
+        Right Header
+      </div>
+    </div>
+    <div class="Tablerow">
+      <div class="Tablecell">
+        Left Footer
+      </div>
+      <div class="empty Tablecell"></div>
+      <div class="Tablecell">
+        Right Footer
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+body 
+{
+  background-color: #108413;
+}
+
+.container 
+{
+  position: relative;
+}
+
+.table 
+{
+  display: table;
+}
+
+.table_row 
+{
+  display: table-row;
+}
+
+.table_cell
+{
+  border: 1px solid white;
+  display: table-cell;
+  width: 50px;
+  height: 100px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.table_cell.empty
+{
+  border: none;
+  width: 50px;
+}
+
+.table_cell.rowspanned
+{
+  position: absolute;
+  width: 50px;
+  height: 298px; /*resto los 2 px de empty*/
+  text-align: center;
+ }
