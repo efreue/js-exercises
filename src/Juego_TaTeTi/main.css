@@ -1,0 +1,32 @@
+* {
+    box-sizing: border-box;
+}
+
+.board {
+    background-color: darkseagreen;
+    height: 400px;
+    width: 400px;
+}
+
+.board .header {
+    background-color: gray;
+    height: 50px;
+    width: 400px;    
+    color: white; text-shadow: black 0.1em 0.1em 0.2em;
+    font-size: 25px;
+    text-align: center;
+    padding-top: 10px;
+}
+
+
+.board .row:not(:last-child) {
+    height: 117px;
+    border-bottom: 2px solid gray;
+}
+
+.board .row .cell:not(:last-child) {
+    width: 135px;
+    height: 117px;
+    border-right: 2px solid gray;
+    float: left;
+}
