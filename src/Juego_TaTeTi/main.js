@@ -9,7 +9,7 @@ var Cell = {
         var positionElement = element.dataset;
         console.log('element', positionElement);
     }
-};
+};a
 /*
 var game = {
     matriz:[
