@@ -1,16 +1,22 @@
 function StartGame() {
     var Board = document.querySelector('.board');
+    var startButton = document.getElementById('startGame');
+    startButton.addEventListener('click', game.start);
     Board.addEventListener('click', Cell.getPosition);
+
 }
 
 var Cell = {
     getPosition: function(event) {
         var element = event.target;
         var positionElement = element.dataset;
-        console.log('element', positionElement);
+        if (positionElement && positionElement.row) {
+            console.log('PositionElement', positionElement.row, positionElement.col);
+        }        
     }
-};a
-/*
+};
+
+
 var game = {
     matriz:[
         [null, null, null],
@@ -18,16 +24,11 @@ var game = {
         [null, null, null]
     ],
     getMatriz: function() {
-        return this.matriz;
-    },
-    loadMatriz: function(cell) {
-        
+        return game.matriz;
     },
     start: function() {
-        var play = new this.matriz();
-        play.getMatriz();
+        console.log('start');
     }
-
 };
-*/
+
 window.addEventListener('load', StartGame);
