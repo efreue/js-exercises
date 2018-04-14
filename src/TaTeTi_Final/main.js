@@ -20,7 +20,6 @@ var Cell = {
     }
 };
 
-
 var Letter =  {
     value: '',    
     get: function() {
@@ -30,11 +29,11 @@ var Letter =  {
         Letter.value = letter;
     },
     selected: function() {
-        if(Letter.get() === '') {
+        if (Letter.get() === '') {
             Letter.set(Config.chip_start);
         }
         else {
-            if(Letter.get() === 'X') {
+            if (Letter.get() === 'X') {
                 Letter.set('O');
             }
             else {
@@ -46,19 +45,19 @@ var Letter =  {
 }; 
 
 var Chip = {
-    add: function(cellSelected, letterSelected) {
+    add: function(cellSelected) {
         var id = 'cell-' + cellSelected.row + '-' + cellSelected.col;
         var cellDiv = document.getElementById(id);
-        cellDiv.textContent = letterSelected;
+        if (cellDiv.textContent === '') {
+            cellDiv.textContent = Letter.selected();
+        }        
     }
 };
 
-
 var game = {
-    addChip: function(event) {
-        var letterSelected  = Letter.selected();
+    addChip: function(event) {        
         var cellSelected = Cell.getPosition(event);
-        Chip.add(cellSelected, letterSelected);
+        Chip.add(cellSelected);
     }
 };
 
