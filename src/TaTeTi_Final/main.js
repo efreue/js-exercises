@@ -4,7 +4,9 @@ var Config = {
 
 function StartGame() {
     var Board = document.querySelector('.board');
+    var clearButton = document.getElementById('clearGame');
     Board.addEventListener('click', game.addChip);
+    clearButton.addEventListener('click', Chip.remove);
 };
 
 var Cell = {
@@ -44,6 +46,7 @@ var Letter =  {
     }
 }; 
 
+
 var Chip = {
     add: function(cellSelected) {
         var id = 'cell-' + cellSelected.row + '-' + cellSelected.col;
@@ -51,6 +54,9 @@ var Chip = {
         if (cellDiv.textContent === '') {
             cellDiv.textContent = Letter.selected();
         }        
+    },
+    remove: function() {
+       console.log('clear chips');
     }
 };
 

@@ -31,21 +31,19 @@
 .board .row .cell {
     display: table-cell;
     width: 135px; 
-    border-bottom: 5px solid gray;      
+    font-family: 'Indie Flower', cursive;
+    font-size: 70px;
+    color: red;
+    text-align: center;
+    border-bottom: 5px solid gray;
 }
 
 .board .row .cell:not(:last-child)  {
     border-right: 5px solid gray;
 }
 
-.board .row .cell {
-    font-family: 'Indie Flower', cursive;
-    font-size: 70px;
-    color: red;
-    text-align: center;
-}
 
-#startGame {
+#clearGame {
     margin-top: 30px;
 }
 
