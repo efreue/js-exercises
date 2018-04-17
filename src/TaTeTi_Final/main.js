@@ -5,7 +5,7 @@ var Config = {
 function StartGame() {
     var Board = document.querySelector('.board');
     var clearButton = document.getElementById('clearGame');
-    Board.addEventListener('click', game.addChip);
+    Board.addEventListener('click', Game.addChip);
     clearButton.addEventListener('click', Chip.remove);
 };
 
@@ -48,19 +48,43 @@ var Letter =  {
 
 
 var Chip = {
+    increment: 0,
     add: function(cellSelected) {
         var id = 'cell-' + cellSelected.row + '-' + cellSelected.col;
         var cellDiv = document.getElementById(id);
         if (cellDiv.textContent === '') {
             cellDiv.textContent = Letter.selected();
+            Game.addItemList(cellSelected, cellDiv.textContent);
+            if(Chip.getCount() >= 5) {
+                console.log('comienza analisis de matriz');
+            }
         }        
     },
     remove: function() {
        console.log('clear chips');
+    },
+    setCount: function() {
+        Chip.increment += 1;
+    },
+    getCount: function() {
+        return Chip.increment;
     }
 };
 
-var game = {
+var ListLetters = [
+    [null, null, null],
+    [null, null, null],
+    [null, null, null]
+];
+
+
+
+var Game = {
+    addItemList: function(cell, letter) {
+        ListLetters[cell.row] [cell.col] = letter;
+        Chip.setCount();
+        console.log(ListLetters);
+    },
     addChip: function(event) {        
         var cellSelected = Cell.getPosition(event);
         Chip.add(cellSelected);
