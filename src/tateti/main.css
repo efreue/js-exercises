@@ -1,19 +1,12 @@
-* {
+*   
+{
     box-sizing: border-box;
 }
 
-.board {
-    background-color: white;
-    height: 430px;
-    width: 400px;
-    margin-left: 200px;
-    margin-top: 50px;
-}
-
-.board .header {
+.header {
     background-color: gray;
     height: 50px;
-    width: 400px;    
+    width: 300px;
     color: white; text-shadow: black 0.1em 0.1em 0.2em;
     font-size: 25px;
     text-align: center;
@@ -21,32 +14,42 @@
     margin-bottom: 20px;
 }
 
-.board .row:not(:last-child) {
-    height: 117px;
-    border-bottom: 5px solid gray;
+.board {
+    background-color: white;
+    height: 300px;
+    width: 300px;
+    margin-top: 20px;
+    display: table;
 }
 
-.board .row .cell:not(:last-child) {
-    width: 135px;
-    height: 117px;
-    border-right: 5px solid gray;
-    float: left;
+.board .row {
+    display: table-row;
+    height: 100px;        
 }
 
 .board .row .cell {
+    display: table-cell;
+    width: 135px; 
     font-family: 'Indie Flower', cursive;
     font-size: 70px;
     color: red;
     text-align: center;
+    border-bottom: 5px solid gray;
 }
 
-#startGame {
+.board .row .cell:not(:last-child)  {
+    border-right: 5px solid gray;
+}
+
+.board .row:last-child .cell {
+    border-bottom: none;
+}
+
+#clearGame {
     margin-top: 30px;
-    margin-left: 200px;
 }
 
 #stateGame {
-    margin-left: 20px;
     font-size: 20px;
     text-align: left;
     color: gray;
