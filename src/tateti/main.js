@@ -66,6 +66,11 @@ var Chip = {
     },
     getCount: function() {
         return Chip.increment;
+    },
+    colored: function(row, col) {
+        var id = "[data-row = '" + row + "'][data-col = '" + col + "']";
+        var button = document.querySelector(id);
+        button.className = "cell winColor";
     }
 };
 
@@ -93,22 +98,97 @@ var Game = {
         }        
     },
     getWinners: function() {
+        var indexsWin;
         if 
         (
             ((Matrix[0][0] === Matrix[0][1]) && (Matrix[0][0] === Matrix[0][2])) ||
             ((Matrix[0][0] === Matrix[1][1]) && (Matrix[0][0] === Matrix[2][2])) ||
             ((Matrix[0][0] === Matrix[1][0]) && (Matrix[0][0] === Matrix[2][0]))
         ) {
+            if ((Matrix[0][0] === Matrix[0][1]) && (Matrix[0][0] === Matrix[0][2])) {
+                indexsWin = {
+                    row0: 0,
+                    col0: 0,                    
+                    row1: 0,
+                    col1: 1,
+                    row2: 0,
+                    col2: 2                   
+                };
+            } else if ((Matrix[0][0] === Matrix[1][1]) && (Matrix[0][0] === Matrix[2][2])) {
+                indexsWin = {
+                    row0: 0,
+                    col0: 0,                    
+                    row1: 1,
+                    col1: 1,
+                    row2: 2,
+                    col2: 2                   
+                };
+            } else {
+                indexsWin = {
+                    row0: 0,
+                    col0: 0,                    
+                    row1: 1,
+                    col1: 0,
+                    row2: 2,
+                    col2: 0                   
+                };
+            }            
+            Game.coloredWin(indexsWin);
             return Matrix[0][0];
         } else if ((Matrix[0][1] === Matrix[1][1]) && (Matrix[0][1] === Matrix[2][1])) {
+            indexsWin = {
+                row0: 0,
+                col0: 1,                    
+                row1: 1,
+                col1: 1,
+                row2: 2,
+                col2: 1                   
+            };
+            Game.coloredWin(indexsWin);
             return Matrix[0][1];
         } else if ((Matrix[0][2] === Matrix[1][2]) && (Matrix[0][2] === Matrix[2][2])) {
+            indexsWin = {
+                row0: 0,
+                col0: 2,                    
+                row1: 1,
+                col1: 2,
+                row2: 2,
+                col2: 2                   
+            };
+            Game.coloredWin(indexsWin);
             return Matrix[0][2];
         } else if ((Matrix[1][0] === Matrix[1][1]) && (Matrix[1][0] === Matrix[1][2])) {
+            indexsWin = {
+                row0: 1,
+                col0: 0,                    
+                row1: 1,
+                col1: 1,
+                row2: 1,
+                col2: 2                   
+            };
+            Game.coloredWin(indexsWin);
             return Matrix[1][0];
         } else if ((Matrix[2][0] === Matrix[2][1]) && (Matrix[2][0] === Matrix[2][2])) { 
+            indexsWin = {
+                row0: 2,
+                col0: 0,                    
+                row1: 2,
+                col1: 1,
+                row2: 2,
+                col2: 2                   
+            };
+            Game.coloredWin(indexsWin);
             return Matrix[2][0];
         } else if ((Matrix[2][0] === Matrix[1][1]) && (Matrix[2][0] === Matrix[0][2])) { 
+            indexsWin = {
+                row0: 2,
+                col0: 0,                    
+                row1: 1,
+                col1: 1,
+                row2: 0,
+                col2: 2                   
+            };
+            Game.coloredWin(indexsWin);
             return Matrix[2][0];
         } else {
             return '';
@@ -126,6 +206,7 @@ var Game = {
         var buttons = document.getElementsByClassName('cell');
         for(i = 0; i < buttons.length; i++) {
             buttons[i].textContent = '';
+            buttons[i].className = "cell";
         }
         //falta limpiar matrix
         for (i = 0; i < Matrix.length; i++) {
@@ -141,7 +222,12 @@ var Game = {
     },
     getWin: function() {
         return Game.existWin;
-    } 
+    },
+    coloredWin: function(indexsWin) {
+        Chip.colored(indexsWin.row0, indexsWin.col0);
+        Chip.colored(indexsWin.row1, indexsWin.col1);
+        Chip.colored(indexsWin.row2, indexsWin.col2);
+    }     
 };
 
 window.addEventListener('load', StartGame);
