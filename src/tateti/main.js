@@ -6,7 +6,8 @@ var StartGame = function() {
     var Board = document.querySelector('.board');
     var ClearButton = document.getElementById('clearGame');
     Board.addEventListener('click', Game.play);
-    ClearButton.addEventListener('click', Game.Initialize)
+    ClearButton.addEventListener('click', Game.Initialize);
+    Game.whoPlay();
 };
 
 var Square = {
@@ -33,7 +34,7 @@ var Symbol = {
     },
     selected: function() {
         if (Symbol.get() === '') {
-            Symbol.set(Config.chipStart);
+            Symbol.set(Config.chipStart);            
         } else if (Symbol.get() === 'X') {
             Symbol.set('O');
         } else {
@@ -83,13 +84,14 @@ var Game = {
             if (squareSelected !== null) {
                 var privchip = Chip.create(squareSelected);
                 if (privchip !== null) {
+                    Game.whoPlay();
                     Chip.setCount();
                     Game.addMatrix(squareSelected.row, squareSelected.col, privchip.textContent);
                     if (Chip.getCount() >= 5) {
                         var symbolWin = Game.getWinners();
                         if (symbolWin === 'X' || symbolWin === 'O') {
-                            var lblMensaje = document.getElementById('stateGame');
-                            lblMensaje.textContent = 'Win Player ' + symbolWin;     
+                            var mens = 'Win Player ' + symbolWin;
+                            Game.showMensaje(mens);
                             Game.setWin(1);   
                         }                         
                     }
@@ -97,13 +99,33 @@ var Game = {
             }
         }        
     },
+    whoPlay: function() {
+        var symbol = Symbol.get();
+        var mens = '';
+        if (symbol === '') {
+            mens = 'Play ' + Config.chipStart;            
+        }            
+        else if(symbol === 'X') {
+            mens = 'Play O';
+        } else {
+            mens = 'Play X';
+        }            
+        Game.showMensaje(mens);
+    },
+    showMensaje: function(mens) {
+        var lblMensaje = document.getElementById('stateGame');
+        lblMensaje.textContent = mens;     
+    },
     getWinners: function() {
         var indexsWin;
         if 
         (
-            ((Matrix[0][0] === Matrix[0][1]) && (Matrix[0][0] === Matrix[0][2])) ||
-            ((Matrix[0][0] === Matrix[1][1]) && (Matrix[0][0] === Matrix[2][2])) ||
-            ((Matrix[0][0] === Matrix[1][0]) && (Matrix[0][0] === Matrix[2][0]))
+            (Matrix[0][0] != null) && 
+            (
+                ((Matrix[0][0] === Matrix[0][1]) && (Matrix[0][0] === Matrix[0][2])) ||
+                ((Matrix[0][0] === Matrix[1][1]) && (Matrix[0][0] === Matrix[2][2])) ||
+                ((Matrix[0][0] === Matrix[1][0]) && (Matrix[0][0] === Matrix[2][0]))
+            )
         ) {
             if ((Matrix[0][0] === Matrix[0][1]) && (Matrix[0][0] === Matrix[0][2])) {
                 indexsWin = {
@@ -135,7 +157,7 @@ var Game = {
             }            
             Game.coloredWin(indexsWin);
             return Matrix[0][0];
-        } else if ((Matrix[0][1] === Matrix[1][1]) && (Matrix[0][1] === Matrix[2][1])) {
+        } else if ((Matrix[0][1] != null) && (Matrix[0][1] === Matrix[1][1]) && (Matrix[0][1] === Matrix[2][1])) {
             indexsWin = {
                 row0: 0,
                 col0: 1,                    
@@ -146,7 +168,7 @@ var Game = {
             };
             Game.coloredWin(indexsWin);
             return Matrix[0][1];
-        } else if ((Matrix[0][2] === Matrix[1][2]) && (Matrix[0][2] === Matrix[2][2])) {
+        } else if ((Matrix[0][2] != null) && (Matrix[0][2] === Matrix[1][2]) && (Matrix[0][2] === Matrix[2][2])) {
             indexsWin = {
                 row0: 0,
                 col0: 2,                    
@@ -157,7 +179,7 @@ var Game = {
             };
             Game.coloredWin(indexsWin);
             return Matrix[0][2];
-        } else if ((Matrix[1][0] === Matrix[1][1]) && (Matrix[1][0] === Matrix[1][2])) {
+        } else if ((Matrix[1][0] != null) && (Matrix[1][0] === Matrix[1][1]) && (Matrix[1][0] === Matrix[1][2])) {
             indexsWin = {
                 row0: 1,
                 col0: 0,                    
@@ -168,7 +190,7 @@ var Game = {
             };
             Game.coloredWin(indexsWin);
             return Matrix[1][0];
-        } else if ((Matrix[2][0] === Matrix[2][1]) && (Matrix[2][0] === Matrix[2][2])) { 
+        } else if ((Matrix[2][0] != null) && (Matrix[2][0] === Matrix[2][1]) && (Matrix[2][0] === Matrix[2][2])) { 
             indexsWin = {
                 row0: 2,
                 col0: 0,                    
@@ -179,7 +201,7 @@ var Game = {
             };
             Game.coloredWin(indexsWin);
             return Matrix[2][0];
-        } else if ((Matrix[2][0] === Matrix[1][1]) && (Matrix[2][0] === Matrix[0][2])) { 
+        } else if ((Matrix[2][0] != null) && (Matrix[2][0] === Matrix[1][1]) && (Matrix[2][0] === Matrix[0][2])) { 
             indexsWin = {
                 row0: 2,
                 col0: 0,                    
@@ -216,6 +238,7 @@ var Game = {
                 }                
             }
         }
+        Game.whoPlay();
     },
     setWin: function(value) {
         Game.existWin = value;
