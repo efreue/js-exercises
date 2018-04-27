@@ -3,6 +3,16 @@ var getLessAge = function(age) {
   return age <= 18;
 };
 
-var showLessAge = function() {
-  document.getElementById('result1').innerText = ages.filter(getLessAge);
+var getAllAge = function(item, index) {
+  var text = '[index: ' + item + '] = ' + item;
+  printResult(text); 
+}
+
+var printResult = function(element) {
+  document.getElementById('result-all').innerText = element + ',';
+};
+
+var showResult = function() {
+  ages.forEach(getAllAge);
+  document.getElementById('result-less-18').innerText = ages.filter(getLessAge);
 };
