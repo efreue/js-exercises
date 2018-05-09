@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <title>Multidimensional Array</title>
+    </head>
+    <script type="text/javascript">
+        var People = [
+            ["John", 16, "Male"],
+            ["Mary", 42, "Famale"],
+            ["Jason", 21, "Male"]
+        ];
+        document.write("Leo el primer array de la matriz <br>");
+        document.write(People[0][0] + "<br>");
+        document.write(People[0][1] + "<br>");
+        document.write(People[0][2] + "<br>");
+        document.write("Modifico la Edad para People[0][1]: <br>");
+        People[0][1] = 18;
+        document.write("Modifico la Edad Modificada para People[0][1]: <br>");
+        document.write(People[0][1] + "<br>");
+        document.write("Modifico el primer array de la matriz en forma completa <br>");
+        People[0] = ["Emi",41,"Male"];
+        document.write("Muestro el primer array modificado <br><br>");
+        document.write(People[0]);
+
+        document.write("Muestro forEach para array <br>");
+        var Array1 = ["food1","food2","food3"];
+        var MyFunction = function(elem, index, array) {
+            array[index] = '<' + this.tag + '>';
+            array[index] += elem;
+            array[index] += '</' + this.tag + '>';
+            document.write(array[index] + "<br>");
+        };
+        var thisObject = {
+            tag: "div"
+        };
+        Array1.forEach(MyFunction,thisObject);
+    </script>
+    <body>
+
+    </body>
+</html>
