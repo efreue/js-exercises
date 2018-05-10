@@ -21,6 +21,19 @@
         document.write("Muestro el primer array modificado <br><br>");
         document.write(People[0]);
 
+        var FirstLevel = function(elem, index, array) {
+           array[index] = elem;
+           SecondLevel(array[index]);            
+        };
+        var SecondLevel = function(elem) {
+            elem.forEach(ShowResult);
+        };
+        var ShowResult = function(elem) {
+            console.log(elem);
+        };
+
+        People.forEach(FirstLevel);
+
         document.write("Muestro forEach para array <br>");
         var Array1 = ["food1","food2","food3"];
         var MyFunction = function(elem, index, array) {
