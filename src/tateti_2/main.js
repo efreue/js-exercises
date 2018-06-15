@@ -20,7 +20,6 @@ var Data = {
             if (Data.checkGame(row, column)) {
                 var lblMessage = document.getElementById('stateGame');
                 lblMessage.textContent = 'Win Player ' + Data.player;
-                console.log('gano ', Data.player);
             } else {
                 Data.changePlayer();
             }            
@@ -36,15 +35,23 @@ var Data = {
             Data.checkInvertedDiagonal(matrix, symbol)
         ];
         return checks.reduce(function(previous, current) {
-            return previous + current; 
+            return  previous || current; //false or true = true 
         }, false);        
     },
     checkRow: function(matrix, row, symbol) {
-        var row = matrix[row];
+        var indexRow = Number(row);
+        var row = matrix[indexRow];
         var length = row.length;
         for (var i = 0; i < length; i++) {
             if (row[i] !== symbol) {
                 return false;
+            }
+        }
+
+        //si llega aqui, puedo colorear las celdas ya que es el ganador
+        for (var i = 0; i < length; i++) {
+            if (row[i] === symbol) {
+                Board.colored(indexRow, i);
             }
         }
         return true;
@@ -54,6 +61,12 @@ var Data = {
         for (var i = 0; i < length; i++) {
             if (matrix[i][column] !== symbol) {
                 return false;
+            }
+        }
+        //si llega aqui, puedo colorear las celdas ya que es el ganador
+        for (var i = 0; i < length; i++) {
+            if (matrix[i][column] === symbol) {
+                Board.colored(i, Number(column));
             }
         }
         return true;
@@ -66,6 +79,13 @@ var Data = {
                 return false;
             }
         }
+
+        //si llega aqui, puedo colorear las celdas ya que es el ganador
+        for (var i = 0; i < length; i++) {
+            if (matrix[i][i] === symbol) {
+                Board.colored(i, i);
+            }
+        }
         return true;
     },
     checkInvertedDiagonal: function(matrix, symbol) {
@@ -75,6 +95,15 @@ var Data = {
         for (var i = 0; i < length; i++) {            
             if (matrix[i][j] !== symbol) {
                 return false;
+            }
+            j--;
+        }
+
+        //si llega aqui, puedo colorear las celdas ya que es el ganador
+        j = length - 1;
+        for (var i = 0; i < length; i++) {            
+            if (matrix[i][j] === symbol) {
+                Board.colored(i, j);
             }
             j--;
         }
@@ -93,12 +122,20 @@ var Data = {
     }
 };
 
+var Board = {
+    colored: function(row, column) {
+        var id = "[data-row = '" + row + "'][data-column = '" + column + "']";
+        var cell = document.querySelector(id);
+        cell.className = "cell winColor";
+    }
+};
+
 var Game = {
     onClickCell: function(event) {
         var target = event.target;
         var dataset = target.dataset;
-        //console.log(dataset);
-        //console.log('target', target);    
+        console.log('target', target);    
+        console.log(dataset);
         if (dataset && dataset.row) {
             Data.input(dataset.row, dataset.column);
             Game.play();
@@ -114,6 +151,7 @@ var Game = {
         //limpio board
         for(i = 0; i < board.length; i++) {
             board[i].textContent = '';
+            board[i].className = 'cell';
         }
         //limpio matrix
         for (i = 0; i < matrix.length; i++) {
@@ -126,6 +164,7 @@ var Game = {
         var lblMessage = document.getElementById('stateGame');
         lblMessage.textContent = '';
     },
+
     render: function(matrix) {
         var values = matrix.reduce(
             function(array, row, rowIndex) {
