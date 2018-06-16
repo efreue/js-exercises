@@ -1,8 +1,8 @@
 var StartGame = function() {
-    var Board = document.querySelector('.board');
-    var Clear = document.getElementById('clearGame');
-    Clear.addEventListener('click', Game.clear);
-    Board.addEventListener('click', Game.onClickCell);
+    var board = document.querySelector('.board');
+    var clear = document.getElementById('clearGame');
+    clear.addEventListener('click', Game.clear);
+    board.addEventListener('click', Game.onClickCell);
 };
 
 var Data = {
@@ -20,7 +20,9 @@ var Data = {
             if (Data.checkGame(row, column)) {
                 var lblMessage = document.getElementById('stateGame');
                 lblMessage.textContent = 'Win Player ' + Data.player;
+                Game.hasWinner = true;
             } else {
+                Game.hasWinner = false;
                 Data.changePlayer();
             }            
         }        
@@ -91,21 +93,17 @@ var Data = {
     checkInvertedDiagonal: function(matrix, symbol) {
         //se analiza las posiciones 02, 11, 20
         var length = matrix.length;
-        var j = length - 1;
-        for (var i = 0; i < length; i++) {            
+        for (var i = 0, j = length - 1; i < length; i++, j--) {            
             if (matrix[i][j] !== symbol) {
                 return false;
             }
-            j--;
         }
 
         //si llega aqui, puedo colorear las celdas ya que es el ganador
-        j = length - 1;
-        for (var i = 0; i < length; i++) {            
+        for (var i = 0, j = length - 1; i < length; i++, j--) {
             if (matrix[i][j] === symbol) {
                 Board.colored(i, j);
             }
-            j--;
         }
         return true;
     },
@@ -131,14 +129,17 @@ var Board = {
 };
 
 var Game = {
+    hasWinner: false,
     onClickCell: function(event) {
         var target = event.target;
         var dataset = target.dataset;
-        console.log('target', target);    
-        console.log(dataset);
+        //console.log('target', target);    
+        //console.log(dataset);
         if (dataset && dataset.row) {
-            Data.input(dataset.row, dataset.column);
-            Game.play();
+            if (Game.hasWinner === false) {
+                Data.input(dataset.row, dataset.column);
+                Game.play();
+            }
         }
     },
     play: function() {
@@ -147,24 +148,21 @@ var Game = {
     },
     clear: function() {
         var board = document.getElementsByClassName('cell');
-        var matrix = Data.matrix;
         //limpio board
         for(i = 0; i < board.length; i++) {
             board[i].textContent = '';
             board[i].className = 'cell';
         }
         //limpio matrix
-        for (i = 0; i < matrix.length; i++) {
-            for(j = 0; j < matrix[i].length; j++) {
-                if (typeof matrix[i][j] !== 'undefined' && matrix[i][j] !== null) {
-                    matrix[i][j] = null;
-                }                
-            }
-        }
+        Data.matrix = [
+            [null, null, null],
+            [null, null, null],
+            [null, null, null]
+        ];
         var lblMessage = document.getElementById('stateGame');
         lblMessage.textContent = '';
+        Game.hasWinner = false;
     },
-
     render: function(matrix) {
         var values = matrix.reduce(
             function(array, row, rowIndex) {
