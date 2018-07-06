@@ -1,3 +1,4 @@
+//en browser ejecutar localhost:8000/Partidos.txt
 var http = require('http');
 var fs = require('fs');
 var url = require('url');
