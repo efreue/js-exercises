@@ -3,7 +3,7 @@ var people = [
         'dni': '26443234',
         'name': 'Juan Alban',
         'sexo': 'M',
-        'edad': 30,
+        'edad': 13,
         'domicilio': 'manzanares 343',
         'barrio': 'belgrano'        
     },
@@ -11,7 +11,7 @@ var people = [
         'dni': '25323678',
         'name': 'Jose Perez',
         'sexo': 'M',
-        'edad': 41,
+        'edad': 15,
         'domicilio': 'junin 323',
         'barrio': 'balvanera'
     },
@@ -33,20 +33,52 @@ var people = [
     }
 ];
 
+var personJSON = JSON.stringify(people);
+
+var allPeople = people.map(
+    function(people) {
+        return people.dni.join(',');        
+    }
+)
+
 var namesPeople = people.map(
     function(people){
         return people.name;
     }
 );
 
-function showExample() {
+var peopleLess18 = people.filter(
+    function(people) {
+        return people.edad <= 18;
+    }
+);  
+
+
+var showExample = function() {
+    var divJSON = document.getElementById("listJSON");
+    var divPersonsAll = document.getElementById("listPersonsAll");
     var divNames = document.getElementById("listNames");
+    var divPersonsLess18 = document.getElementById("listPersonsLess18");
+    
+    divJSON.innerHTML = personJSON;
+    
+    allPeople.forEach(
+        function(item) {
+            divPersonsAll.innerHTML += item + "<br>";
+        }
+    );
     
     namesPeople.forEach(
         function(item, index) {
             divNames.innerHTML += "index[" + index + "]: " + item + "<br>"        
         }
-    )
+    );
+    
+    peopleLess18.forEach(
+        function(item, index) {
+            divPersonsLess18.innerHTML += item.name + "( edad: " + item.edad + ") " + "<br>";
+        }
+    );
 };
 
 window.addEventListener('load', showExample);
