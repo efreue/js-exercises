@@ -35,12 +35,6 @@ var people = [
 
 var personJSON = JSON.stringify(people);
 
-var allPeople = people.map(
-    function(people) {
-        return people.dni.join(',');        
-    }
-)
-
 var namesPeople = people.map(
     function(people){
         return people.name;
@@ -61,10 +55,16 @@ var showExample = function() {
     var divPersonsLess18 = document.getElementById("listPersonsLess18");
     
     divJSON.innerHTML = personJSON;
-    
-    allPeople.forEach(
+
+    people.forEach(
         function(item) {
-            divPersonsAll.innerHTML += item + "<br>";
+            divPersonsAll.innerHTML +=  'DNI:  ' + item.dni + '<BR>' + 
+                                        'NAME: ' + item.name +'<BR>' +
+                                        'EDAD: ' + item.edad +'<BR>' + 
+                                        'SEXO: ' + item.sexo +'<BR>' +
+                                        'DOMICILIO: ' + item.domicilio +'<BR>' + 
+                                        'BARRIO: ' + item.barrio +'<BR>' +
+                                        '*************************************<BR>';  
         }
     );
     
