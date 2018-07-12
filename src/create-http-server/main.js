@@ -5,12 +5,17 @@ var url = require('url');
 
 var File = {
     encoding: 'utf-8',
+    /*
     exists: function(path) {
         if (fs.existsSync(path)) {
             return true;
         } 
         return false;
     },
+    */
+   exists: function(path) {
+    return (!fs.existsSync(path)) ? false : true;
+   },
     getData: function(path) {
         return fs.readFileSync(path, File.encoding);    
     }
