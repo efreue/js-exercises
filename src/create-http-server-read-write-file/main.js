@@ -7,11 +7,10 @@ var File = {
        return fs.readFileSync(path, 'utf-8');
     },
     insertData: function(file, content) {
-        fs.writeFileSync(file,content,'utf-8');
+       fs.appendFileSync(file, content, 'utf-8');        
     },
     validateExistsFile: function(path) {
-        console.log(path);
-        return (!fs.existsSync(path)) ? false: true;
+       return (!fs.existsSync(path)) ? false: true;
     }
 };
 
@@ -19,20 +18,14 @@ var onRequest = {
     fileName: 'partidos.txt',
     path: '',
     start: function(request, response) {
-        var content = '';
         response.writeHead(200, {'Content-Type': 'text/plain'});
-        onRequest.path = onRequest.getLocation(request.url); 
+        onRequest.path = onRequest.getLocation(request.url);
         if (File.validateExistsFile(onRequest.path)) {
-            content = File.getData(onRequest.path);
-            if (content.length > 0) {
-                content += "\r\n"
-            }
             //obtengo parametros del path
             var param = url.parse(request.url, true);
             if (param.query.id !== undefined || param.query.team !== undefined) {
-                var paramText = param.query.id + ' ' + param.query.team;
-                content += paramText;
-                File.insertData(onRequest.path, content);
+                var paramText = param.query.id + ' ' + param.query.team + "\r\n";
+                File.insertData(onRequest.path, paramText);
             }
             response.write(File.getData(onRequest.path));
         }
