@@ -7,10 +7,10 @@ var File = {
        return fs.readFileSync(path, 'utf-8');
     },
     insertData: function(file, content) {
-       fs.appendFileSync(file, content, 'utf-8');        
+       fs.appendFileSync(file, content, 'utf-8');
     },
     validateExistsFile: function(path) {
-       return (!fs.existsSync(path)) ? false: true;
+       return (!fs.existsSync(path)) ? false : true;
     }
 };
 
@@ -33,19 +33,19 @@ var onRequest = {
             response.writeHead(404);
             response.write('File not Found');
         }
-        response.end(); 
+        response.end();
     },
     getLocation: function(path) {
         var dir;
         var currentPath = __dirname;
         if (url.parse(path).pathname === '/') {
             dir = currentPath + url.parse(path).pathname + onRequest.fileName;
-        } 
+        }
         else {
             dir = currentPath + url.parse(path).pathname;
         }
         return dir;
-    }    
+    }
 };
 
 var server = http.createServer(onRequest.start);

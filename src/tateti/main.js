@@ -34,7 +34,7 @@ var Symbol = {
     },
     selected: function() {
         if (Symbol.get() === '') {
-            Symbol.set(Config.chipStart);            
+            Symbol.set(Config.chipStart);
         } else if (Symbol.get() === 'X') {
             Symbol.set('O');
         } else {
@@ -53,7 +53,7 @@ var Matrix = [
 var Chip = {
     increment: 0,
     create: function(square) {
-        var id = "[data-row = '" + square.row + "'][data-col = '" + square.col + "']"; 
+        var id = "[data-row = '" + square.row + "'][data-col = '" + square.col + "']";
         var button = document.querySelector(id);
         if (button.textContent === '') {
             button.textContent = Symbol.selected();
@@ -92,35 +92,35 @@ var Game = {
                         if (symbolWin === 'X' || symbolWin === 'O') {
                             var mens = 'Win Player ' + symbolWin;
                             Game.showMensaje(mens);
-                            Game.setWin(1);   
-                        }                         
+                            Game.setWin(1);
+                        }
                     }
                 }
             }
-        }        
+        }
     },
     whoPlay: function() {
         var symbol = Symbol.get();
         var mens = '';
         if (symbol === '') {
-            mens = 'Play ' + Config.chipStart;            
-        }            
+            mens = 'Play ' + Config.chipStart;
+        }
         else if(symbol === 'X') {
             mens = 'Play O';
         } else {
             mens = 'Play X';
-        }            
+        }
         Game.showMensaje(mens);
     },
     showMensaje: function(mens) {
         var lblMensaje = document.getElementById('stateGame');
-        lblMensaje.textContent = mens;     
+        lblMensaje.textContent = mens;
     },
     getWinners: function() {
         var indexsWin;
-        if 
+        if
         (
-            (Matrix[0][0] != null) && 
+            (Matrix[0][0] !== null) &&
             (
                 ((Matrix[0][0] === Matrix[0][1]) && (Matrix[0][0] === Matrix[0][2])) ||
                 ((Matrix[0][0] === Matrix[1][1]) && (Matrix[0][0] === Matrix[2][2])) ||
@@ -130,85 +130,85 @@ var Game = {
             if ((Matrix[0][0] === Matrix[0][1]) && (Matrix[0][0] === Matrix[0][2])) {
                 indexsWin = {
                     row0: 0,
-                    col0: 0,                    
+                    col0: 0,
                     row1: 0,
                     col1: 1,
                     row2: 0,
-                    col2: 2                   
+                    col2: 2
                 };
             } else if ((Matrix[0][0] === Matrix[1][1]) && (Matrix[0][0] === Matrix[2][2])) {
                 indexsWin = {
                     row0: 0,
-                    col0: 0,                    
+                    col0: 0,
                     row1: 1,
                     col1: 1,
                     row2: 2,
-                    col2: 2                   
+                    col2: 2
                 };
             } else {
                 indexsWin = {
                     row0: 0,
-                    col0: 0,                    
+                    col0: 0,
                     row1: 1,
                     col1: 0,
                     row2: 2,
-                    col2: 0                   
+                    col2: 0
                 };
-            }            
+            }
             Game.coloredWin(indexsWin);
             return Matrix[0][0];
-        } else if ((Matrix[0][1] != null) && (Matrix[0][1] === Matrix[1][1]) && (Matrix[0][1] === Matrix[2][1])) {
+        } else if ((Matrix[0][1] !== null) && (Matrix[0][1] === Matrix[1][1]) && (Matrix[0][1] === Matrix[2][1])) {
             indexsWin = {
                 row0: 0,
-                col0: 1,                    
+                col0: 1,
                 row1: 1,
                 col1: 1,
                 row2: 2,
-                col2: 1                   
+                col2: 1
             };
             Game.coloredWin(indexsWin);
             return Matrix[0][1];
-        } else if ((Matrix[0][2] != null) && (Matrix[0][2] === Matrix[1][2]) && (Matrix[0][2] === Matrix[2][2])) {
+        } else if ((Matrix[0][2] !== null) && (Matrix[0][2] === Matrix[1][2]) && (Matrix[0][2] === Matrix[2][2])) {
             indexsWin = {
                 row0: 0,
-                col0: 2,                    
+                col0: 2,
                 row1: 1,
                 col1: 2,
                 row2: 2,
-                col2: 2                   
+                col2: 2
             };
             Game.coloredWin(indexsWin);
             return Matrix[0][2];
-        } else if ((Matrix[1][0] != null) && (Matrix[1][0] === Matrix[1][1]) && (Matrix[1][0] === Matrix[1][2])) {
+        } else if ((Matrix[1][0] !== null) && (Matrix[1][0] === Matrix[1][1]) && (Matrix[1][0] === Matrix[1][2])) {
             indexsWin = {
                 row0: 1,
-                col0: 0,                    
+                col0: 0,
                 row1: 1,
                 col1: 1,
                 row2: 1,
-                col2: 2                   
+                col2: 2
             };
             Game.coloredWin(indexsWin);
             return Matrix[1][0];
-        } else if ((Matrix[2][0] != null) && (Matrix[2][0] === Matrix[2][1]) && (Matrix[2][0] === Matrix[2][2])) { 
+        } else if ((Matrix[2][0] !== null) && (Matrix[2][0] === Matrix[2][1]) && (Matrix[2][0] === Matrix[2][2])) {
             indexsWin = {
                 row0: 2,
-                col0: 0,                    
+                col0: 0,
                 row1: 2,
                 col1: 1,
                 row2: 2,
-                col2: 2                   
+                col2: 2
             };
             Game.coloredWin(indexsWin);
             return Matrix[2][0];
-        } else if ((Matrix[2][0] != null) && (Matrix[2][0] === Matrix[1][1]) && (Matrix[2][0] === Matrix[0][2])) { 
+        } else if ((Matrix[2][0] !== null) && (Matrix[2][0] === Matrix[1][1]) && (Matrix[2][0] === Matrix[0][2])) {
             indexsWin = {
                 row0: 2,
-                col0: 0,                    
+                col0: 0,
                 row1: 1,
                 col1: 1,
                 row2: 0,
-                col2: 2                   
+                col2: 2
             };
             Game.coloredWin(indexsWin);
             return Matrix[2][0];
@@ -220,7 +220,7 @@ var Game = {
         Matrix[row][col] = symbol;
     },
     Initialize: function() {
-        var i,j;
+        var i, j;
         var lblMensaje = document.getElementById('stateGame');
         lblMensaje.textContent = '';
         Game.setWin(0);
@@ -235,7 +235,7 @@ var Game = {
             for(j = 0; j < Matrix[i].length; j++) {
                 if (typeof Matrix[i][j] !== 'undefined' && Matrix[i][j] !== null) {
                     Matrix[i][j] = null;
-                }                
+                }
             }
         }
         Game.whoPlay();
@@ -250,7 +250,7 @@ var Game = {
         Chip.colored(indexsWin.row0, indexsWin.col0);
         Chip.colored(indexsWin.row1, indexsWin.col1);
         Chip.colored(indexsWin.row2, indexsWin.col2);
-    }     
+    }
 };
 
 window.addEventListener('load', StartGame);
