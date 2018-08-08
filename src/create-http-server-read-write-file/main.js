@@ -1,6 +1,6 @@
-var http = require('http');
-var fs = require('fs');
-var url = require('url');
+const http = require('http');
+const fs = require('fs');
+const url = require('url');
 
 var File = {
     getData: function(path) {
@@ -14,20 +14,19 @@ var File = {
     }
 };
 
-var onRequest = {
+const FileRequest = {
     fileName: 'partidos.txt',
-    path: '',
     start: function(request, response) {
         response.writeHead(200, {'Content-Type': 'text/plain'});
-        onRequest.path = onRequest.getLocation(request.url);
-        if (File.validateExistsFile(onRequest.path)) {
+        var path = FileRequest.getLocation(request.url);
+        if (File.validateExistsFile(path)) {
             //obtengo parametros del path
-            var param = url.parse(request.url, true);
-            if (param.query.id !== undefined || param.query.team !== undefined) {
-                var paramText = param.query.id + ' ' + param.query.team + "\r\n";
-                File.insertData(onRequest.path, paramText);
+            var urlParams = url.parse(request.url, true).query;
+            if (typeof param.id != 'undefined' || typeof param.team != 'undefined') {
+                var paramText = param.id + ' ' + param.team + "\r\n";
+                File.insertData(path, paramText);
             }
-            response.write(File.getData(onRequest.path));
+            response.write(File.getData(path));
         }
         else {
             response.writeHead(404);
@@ -39,7 +38,7 @@ var onRequest = {
         var dir;
         var currentPath = __dirname;
         if (url.parse(path).pathname === '/') {
-            dir = currentPath + url.parse(path).pathname + onRequest.fileName;
+            dir = currentPath + url.parse(path).pathname + FileRequest.fileName;
         }
         else {
             dir = currentPath + url.parse(path).pathname;
@@ -48,6 +47,6 @@ var onRequest = {
     }
 };
 
-var server = http.createServer(onRequest.start);
+var server = http.createServer(FileRequest.start);
 server.listen(8000);
 console.log('server started');
