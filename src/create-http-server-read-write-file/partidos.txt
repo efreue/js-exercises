@@ -4,3 +4,11 @@ undefined boca
 11 river
 3 Racing
 3 undefined
+papa undefined
+papa undefined
+${urlParams.id} ${urlParams.team}
+${urlParams.id}${urlParams.team}
+${urlParams.id}${urlParams.team}
+99undefined
+99 undefined
+99 vamooosss
