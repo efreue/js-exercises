@@ -1,9 +1,7 @@
 //import {createServer as httpCreateServer} from "http.js";
-
 const http = require('http');
 const fs = require('fs');
 const url = require('url');
-
 
 const FileRequest = {
     start: (request, response) => {
