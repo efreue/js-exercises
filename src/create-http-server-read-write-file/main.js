@@ -1,9 +1,12 @@
+//import {createServer as httpCreateServer} from "http.js";
+
 const http = require('http');
 const fs = require('fs');
 const url = require('url');
 
+
 const FileRequest = {
-    start: function(request, response) {
+    start: (request, response) => {
         response.writeHead(200, {'Content-Type': 'text/plain'});
         const pathLocation = FileRequest.getLocation(request.url);
         if (fs.existsSync(pathLocation)) {
@@ -23,11 +26,10 @@ const FileRequest = {
         }
         response.end();
     },
-    getLocation: function(path) {
-        return __dirname + url.parse(path).pathname + (url.parse(path).pathname == '/' ? 'partidos.txt': '');
+    getLocation: (path) => {
+      return  __dirname + url.parse(path).pathname + (url.parse(path).pathname == '/' ? 'partidos.txt': '');
     }
 };
 
-const server = http.createServer(FileRequest.start);
-server.listen(8000);
+http.createServer(FileRequest.start).listen(8000);
 console.log('server started');
