@@ -17,7 +17,7 @@ const FileRequest = {
                 );
             }
             response.write(fs.readFileSync(pathLocation, 'utf-8'));
-        } 
+        }
         else {
             response.writeHead(404);
             response.write('File not Found');
@@ -25,7 +25,7 @@ const FileRequest = {
         response.end();
     },
     getLocation: (path) => {
-      return  __dirname + url.parse(path).pathname + (url.parse(path).pathname == '/' ? 'partidos.txt': '');
+        return __dirname + url.parse(path).pathname + (url.parse(path).pathname == '/' ? 'partidos.txt' : '');
     }
 };
 
