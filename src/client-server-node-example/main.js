@@ -1,1 +1,1 @@
-callback([{"name":"Emiliano", "age":"41"},{"name":"Silvia", "age":"40"}, {"name":"Sofia", "age":"8"}]);
+allData([{"name":"Emiliano", "age":"41"},{"name":"Silvia", "age":"40"}, {"name":"Sofia", "age":"8"}]);
