@@ -8,7 +8,7 @@ const FileRequest = {
         response.writeHead(200, {'Content-Type': 'text/plain'});
         const pathLocation = FileRequest.getLocation(request.url);
         if (existsSync(pathLocation)) {
-            const urlParams = url.parse(request.url, true).query;
+            const urlParams = parse(request.url, true).query;
             if (typeof urlParams.id !== 'undefined' || typeof urlParams.team !== 'undefined') {
                 appendFileSync(
                     pathLocation,
