@@ -2,16 +2,24 @@
     <head>
         <title>JSONP Ejemplo</title>
         <script type = "text/javascript">
-            var peoples = function(data) {
-                console.log(data);
+            const peoples = (data) => {
+                createStruct(data);
             }
+              
+            const createStruct = (data) => {
+                const divCont = document.createElement("div");
+                divCont.setAttribute("id", "container");
+                const btn = document.createElement("button");
+                const txt = document.createTextNode("add");
+                btn.appendChild(txt);
+                document.querySelector('#container').innerHTML = data;
+                document.body.appendChild(divCont);
+                document.body.appendChild(bth);
+            }            
         </script>
     
-        <script type = "text/javascript" src = "http://localhost:8000data-json.js"></script>
+        <script type = "text/javascript" src = "cb=peoples"></script>
     </head>
-    <body>
-        <div id="container">
-        
-        </div>
+    <body>        
     </body>
 </html>

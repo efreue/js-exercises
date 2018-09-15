@@ -1,11 +1,10 @@
 const {createServer} = require('http');
-const {parse} = require('url');
 
 var server = {
     DataClient: (request, response) => {
-        const urlParams = parse(request.url, true).query;
-        
-        console.log(urlParams.name); 
+        response.writeHead(200, {'Content-Type': 'text/javascript'});
+        response.write('peoples(34)');
+        response.end();         
     }           
 };
 
