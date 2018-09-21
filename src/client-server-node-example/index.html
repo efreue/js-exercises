@@ -5,27 +5,24 @@
             
             const peoples = (data) => {
                 console.log(data[0].name);
-                createStruct();
-                //document.getElementById("container").innerHTML = data[0].name;
-                    
+                //document.getElementById("container").innerHTML = data[0].name;                    
             }
               
             const createStruct = () => {
-                window.onload = () => {
-                    const divCont = document.createElement("div");
-                    divCont.setAttribute("id", "container");
-                    document.body.appendChild(divCont);
-                    const btn = document.createElement("input");
-                    btn.type = "button";
-                    btn.value = "click";
-                    document.body.appendChild(btn);    
-                }                
-            }            
+                const divCont = document.createElement("div");
+                divCont.setAttribute("id", "container");
+                document.body.appendChild(divCont);
+                const btn = document.createElement("input");
+                btn.type = "button";
+                btn.value = "click";
+                document.body.appendChild(btn);
+            }
+            window.addEventListener('load', createStruct);            
         </script>
     
         <script type = "text/javascript" src = "data-json.js?cb=peoples"></script>
     </head>
     <body>        
-        hola
+        
     </body>
 </html>
