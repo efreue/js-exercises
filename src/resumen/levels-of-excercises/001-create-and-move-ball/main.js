@@ -1,22 +1,38 @@
 var Css = {
-    add: function(name, className) {
-        Node.className += " " + className;
+    add: function(node, className) {
+        node.className += " " + className;
     }
 };
 
 var Element = {
-    add: function(typeElement, nameCls, textElem) {
+    create: function(typeElement, cssClass, txtElement, callback) {
         var elem = document.createElement(typeElement);
-        Css.add(elem, nameCls);
-        elem.innerText = textElem;
-        document.body.appendChild(elem);
+        Css.add(elem, cssClass);
+        elem.innerText = txtElement;
+        if (callback) {
+            elem.onclick = callback;
+        }
+        return elem;
     }
 };
 
 var App = {
     inicialize: function() {
-        Element.add("button", "buttons", "Add Ball");
-    }
+        document.body.appendChild(
+            Element.create(
+                "button", 
+                "buttons", 
+                "Add Ball",
+                function(e) {
+                    App.createBall();
+                }
+            )
+        );
+        document.body.appendChild(Element.create("button", "buttons", "Pause Ball"));
+    },
+    createBall: function() {
+        document.body.appendChild(Element.create("div", "ball",""));
+    } 
 };
 
-window.onload = App.inicialize;
+window.addEventListener('load', App.inicialize);
