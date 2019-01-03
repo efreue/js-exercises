@@ -18,7 +18,16 @@ var Element = {
 
 var App = {
     inicialize: function() {
-        document.body.appendChild(
+        var grandParentBoard = Element.create("div", "grandParentBoard", "");
+        var contentButton = Element.create("div", "parentFooter", "");
+        var parentBoard = Element.create("div", "parentBoard", "");
+        var childBoard = Element.create("div", "childBoard", "");
+        
+        childBoard.setAttribute("id", "spaceShowBall");
+        grandParentBoard.appendChild(parentBoard);
+        grandParentBoard.appendChild(contentButton);
+        parentBoard.appendChild(childBoard);
+        contentButton.appendChild(
             Element.create(
                 "button", 
                 "buttons", 
@@ -28,10 +37,12 @@ var App = {
                 }
             )
         );
-        document.body.appendChild(Element.create("button", "buttons", "Pause Ball"));
+        contentButton.appendChild(Element.create("button", "buttons", "Pause Ball"));
+        document.body.appendChild(grandParentBoard);
     },
     createBall: function() {
-        document.body.appendChild(Element.create("div", "ball",""));
+        var elementShowBall = document.getElementById("spaceShowBall");
+        elementShowBall.appendChild(Element.create("div", "ball",""));
     } 
 };
 
