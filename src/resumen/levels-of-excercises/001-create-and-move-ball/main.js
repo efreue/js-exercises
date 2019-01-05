@@ -1,3 +1,8 @@
+var Config = {
+    step: 24
+};
+
+
 var Css = {
     add: function(node, className) {
         node.className += " " + className;
@@ -16,7 +21,17 @@ var Element = {
     }
 };
 
+var Ball = {
+    create: function() {
+        var elementShowBall = document.getElementById("spaceShowBall");
+        var ball = Element.create("div", "ball","");
+        elementShowBall.appendChild(ball);
+        App.allBalls.push(ball);
+    }
+};
+
 var App = {
+    allBalls:[],
     inicialize: function() {
         var grandParentBoard = Element.create("div", "grandParentBoard", "");
         var contentButton = Element.create("div", "parentFooter", "");
@@ -31,18 +46,15 @@ var App = {
             Element.create(
                 "button", 
                 "buttons", 
-                "Add Ball",
+                "Add",
                 function(e) {
-                    App.createBall();
+                    Ball.create();
                 }
             )
         );
-        contentButton.appendChild(Element.create("button", "buttons", "Pause Ball"));
+        contentButton.appendChild(Element.create("button", "buttons", "Pause"));
+        contentButton.appendChild(Element.create("button", "buttons", "Play"))
         document.body.appendChild(grandParentBoard);
-    },
-    createBall: function() {
-        var elementShowBall = document.getElementById("spaceShowBall");
-        elementShowBall.appendChild(Element.create("div", "ball",""));
     } 
 };
 
