@@ -88,8 +88,7 @@ var Button = {
     add: function() {
         document.getElementById('btnPlay').disabled = false;
         document.getElementById('btnPause').disabled = false;
-        var content = document.getElementById("spaceShowBall");
-        Ball.create(content);
+        Ball.create(document.getElementById("spaceShowBall"));
     },
     play: function() {
         document.getElementById('btnAdd').disabled = false;
