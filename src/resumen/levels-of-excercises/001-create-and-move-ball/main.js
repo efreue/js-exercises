@@ -22,12 +22,11 @@ var Element = {
 };
 
 var Ball = {
-    create: function() {
-        var content = document.getElementById("spaceShowBall");
+    create: function(elementContent) {
         var ball = Element.create("div", "ball","");
         ball.directionX = "left";
         ball.directionY = "down";
-        content.appendChild(ball);
+        elementContent.appendChild(ball);
         App.allBalls.push(ball);
     },
     changePositionX: function(ball, dirX, positionX) {
@@ -87,21 +86,22 @@ var Ball = {
 
 var Button = {
     add: function() {
+        document.getElementById('btnAdd').disabled = true;
         document.getElementById('btnPlay').disabled = false;
-        document.getElementById('btnPause').disabled = true;
-        Ball.create();
+        document.getElementById('btnPause').disabled = false;
+        var content = document.getElementById("spaceShowBall");
+        Ball.create(content);
     },
     play: function() {
+        document.getElementById('btnAdd').disabled = false;
         document.getElementById('btnPlay').disabled = true;
         document.getElementById('btnPause').disabled = false;
         App.startBall();
-        //alert('click play');
     },
     pause: function() {
         document.getElementById('btnPlay').disabled = false;
         document.getElementById('btnPause').disabled = true;
         App.started = 0;
-        alert('click pause');
     }
 };
 
