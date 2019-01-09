@@ -5,7 +5,7 @@
     border-radius: 50%;
     left: 0px;
     top: 0px;
-    position: relative;
+    position: absolute;
 }
 
 .buttons {
@@ -56,5 +56,5 @@
     height: 318px;
     position: relative;
     padding: 1px;    
-    overflow: auto;
+    /*overflow: auto;*/
 }
