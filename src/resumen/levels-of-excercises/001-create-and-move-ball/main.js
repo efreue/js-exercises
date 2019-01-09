@@ -86,7 +86,6 @@ var Ball = {
 
 var Button = {
     add: function() {
-        document.getElementById('btnAdd').disabled = true;
         document.getElementById('btnPlay').disabled = false;
         document.getElementById('btnPause').disabled = false;
         var content = document.getElementById("spaceShowBall");
@@ -99,6 +98,7 @@ var Button = {
         App.startBall();
     },
     pause: function() {
+        document.getElementById('btnAdd').disabled = true;
         document.getElementById('btnPlay').disabled = false;
         document.getElementById('btnPause').disabled = true;
         App.started = 0;
