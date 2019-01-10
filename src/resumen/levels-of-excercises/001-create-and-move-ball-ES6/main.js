@@ -1,17 +1,18 @@
-var Config = {
+const Config = {
     step: 24,
     interval: 80
 };
 
-var Css = {
+const Css = {
     add(node, className) {
         node.className += ` ${className}`;
     }
 };
 
-var Element = {
+const Element = {
     create(typeElement, cssClass, txtElement, callback) {
-        var elem = document.createElement(typeElement);
+        const elem = document.createElement(typeElement);
+        Css.add(elem, cssClass);
         elem.innerText = txtElement;
         if (callback) {
             elem.onclick = callback;
@@ -24,13 +25,13 @@ var Element = {
     },
     enable(obj) {
         obj.disabled = false;
-        obj.className.remove('disabled');
+        obj.classList.remove('disabled');
     }
 };
 
-var Ball = {
+const Ball = {
     create: (elementContent) => {
-        let ball = Element.create('div', 'ball', '');
+        const ball = Element.create('div', 'ball', '');
         ball.directionX = 'left';
         ball.directionY = 'down';
         elementContent.appendChild(ball);
@@ -53,8 +54,8 @@ var Ball = {
         }
     },
     moveX(ball, elementParent) {
-        let screenSizeX = elementParent.clientWidth - ball.clientWidth - 40;
-        var positionX = ball.offsetLeft;
+        const screenSizeX = elementParent.clientWidth - ball.clientWidth - 40;
+        let positionX = ball.offsetLeft;
         if ((positionX <= screenSizeX) && (ball.directionX == 'left')) {
             positionX += Config.step;
             Ball.changePositionX(ball, 'left', positionX);
@@ -64,8 +65,8 @@ var Ball = {
         }
     },
     moveY(ball, elementParent) {
-        let screenSizeY = elementParent.clientHeight - ball.clientHeight - 40;
-        var positionY = ball.offsetTop;
+        const screenSizeY = elementParent.clientHeight - ball.clientHeight - 40;
+        let positionY = ball.offsetTop;
         if ((positionY <= screenSizeY) && (ball.directionY == 'down')) {
             positionY += Config.step;
             Ball.changePositionY(ball, 'down', positionY);
@@ -76,42 +77,42 @@ var Ball = {
     },
     move(ball) {
         if (App.started === 1) {
-            let content = document.getElementById('parentBoard');
+            const content = document.getElementById('parentBoard');
             Ball.moveX(ball, content);
             Ball.moveY(ball, content);
         }
     }
 };
 
-var Button = {
+const Button = {
     add() {
-        Element.enable(document.getElementById('btnPlay'));
-        Element.enable(document.getElementById('btnPause'));
+        (App.started == 0) ? Element.enable(document.getElementById('btnPlay')) : Element.disable(document.getElementById('btnPlay'));
+        Element.enable(document.getElementById('btnPause'));        
         Ball.create(document.getElementById('spaceShowBall'));
     },
     play() {
-        Element.enable(document.getElementById('btnadd'));
+        Element.enable(document.getElementById('btnAdd'));
         Element.disable(document.getElementById('btnPlay'));
         Element.enable(document.getElementById('btnPause'));
         App.startBall();
     },
     pause() {
-        Element.disable(document.getElementById('btnadd'));
+        Element.disable(document.getElementById('btnAdd'));
         Element.enable(document.getElementById('btnPlay'));
         Element.disable(document.getElementById('btnPause'));
         App.started = 0;
     }
 }
 
-var App = {
+const App = {
     started: 0,
     allBalls: [],
     inicialize() {
-        let grandParentBoard = Element.create('div', 'grandParentBoard', '');
-        let contentButton = Element.create('div', 'parentFooter', '');
-        let parentBoard = Element.create('div', 'parentBoard', '');
-        let childBoard = Element.create('div', 'childBoard', '');
-        let btnAdd = Element.create(
+        const grandParentBoard = Element.create('div', 'grandParentBoard', '');
+        const contentButton = Element.create('div', 'parentFooter', '');
+        const parentBoard = Element.create('div', 'parentBoard', '');
+        const childBoard = Element.create('div', 'childBoard', '');
+        const btnAdd = Element.create(
             'button',
             'buttons',
             'Add',
@@ -119,7 +120,7 @@ var App = {
                 Button.add();
             }
         );
-        let btnPause = Element.create(
+        const btnPause = Element.create(
             'button',
             'buttons',
             'Pause',
@@ -127,7 +128,7 @@ var App = {
                 Button.pause();
             }
         );
-        let btnPlay = Element.create(
+        const btnPlay = Element.create(
             'button',
             'buttons',
             'Play',
@@ -156,9 +157,9 @@ var App = {
         }            
     },
     moveBall() {
-        App.allBalls.forEach((index) => {
-            Ball.move(App.allBalls[index])
-        }); 
+        App.allBalls.forEach((item) => {
+            Ball.move(item)
+        });
     }
 };
 window.addEventListener('load', App.inicialize);
