@@ -18,6 +18,14 @@ var Element = {
             elem.onclick = callback;
         }
         return elem;
+    },
+    disable: function(obj) {
+        obj.disable = true;
+        Css.add(obj, 'disabled');
+    },
+    enable: function(obj) {
+        obj.disable = false;
+        obj.classList.remove('disabled');
     }
 };
 
@@ -86,20 +94,19 @@ var Ball = {
 
 var Button = {
     add: function() {
-        document.getElementById('btnPlay').disabled = false;
-        document.getElementById('btnPause').disabled = false;
+        (App.started == 0) ? Element.enable(document.getElementById('btnPlay')) : Element.disable(document.getElementById('btnPlay'));
         Ball.create(document.getElementById("spaceShowBall"));
     },
     play: function() {
-        document.getElementById('btnAdd').disabled = false;
-        document.getElementById('btnPlay').disabled = true;
-        document.getElementById('btnPause').disabled = false;
+        Element.enable(document.getElementById('btnAdd'));
+        Element.disable(document.getElementById('btnPlay'));
+        Element.enable(document.getElementById('btnPause'));
         App.startBall();
     },
     pause: function() {
-        document.getElementById('btnAdd').disabled = true;
-        document.getElementById('btnPlay').disabled = false;
-        document.getElementById('btnPause').disabled = true;
+        Element.disable(document.getElementById('btnAdd'));
+        Element.enable(document.getElementById('btnPlay'));
+        Element.disable(document.getElementById('btnPause'));
         App.started = 0;
     }
 };
