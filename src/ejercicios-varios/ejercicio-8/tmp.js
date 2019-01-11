@@ -1,7 +1,7 @@
 var getData = function(callback) {
     var ajax;
     ajax.url = 'http://...';
-    ajax.onload = fu() {
+    ajax.onload = function() {
         callback(ajax.responseText);
     };
 };
