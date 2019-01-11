@@ -10,10 +10,14 @@ const Css = {
 };
 
 const Element = {
-    create(typeElement, cssClass, txtElement, callback) {
-        const elem = document.createElement(typeElement);
-        Css.add(elem, cssClass);
-        elem.innerText = txtElement;
+    create({type, cssClass, text, callback}) {
+        const elem = document.createElement(type);
+        if (cssClass) {
+            Css.add(elem, cssClass);
+        }
+        if (text) {
+            elem.innerText = text;
+        }               
         if (callback) {
             elem.onclick = callback;
         }
@@ -31,7 +35,7 @@ const Element = {
 
 const Ball = {
     create: (elementContent) => {
-        const ball = Element.create('div', 'ball', '');
+        const ball = Element.create({type: 'div', cssClass: 'ball', text: ''});
         ball.directionX = 'left';
         ball.directionY = 'down';
         elementContent.appendChild(ball);
@@ -108,32 +112,38 @@ const App = {
     started: 0,
     allBalls: [],
     inicialize() {
-        const grandParentBoard = Element.create('div', 'grandParentBoard', '');
-        const contentButton = Element.create('div', 'parentFooter', '');
-        const parentBoard = Element.create('div', 'parentBoard', '');
-        const childBoard = Element.create('div', 'childBoard', '');
+        const grandParentBoard = Element.create({type: 'div', cssClass: 'grandParentBoard', text: ''});
+        const contentButton = Element.create({type: 'div', cssClass: 'parentFooter', text: ''});
+        const parentBoard = Element.create({type: 'div', cssClass: 'parentBoard', text: ''});
+        const childBoard = Element.create({type: 'div', cssClass: 'childBoard', text: ''});
         const btnAdd = Element.create(
-            'button',
-            'buttons',
-            'Add',
-            (e) => {
-                Button.add();
+            {
+                type: 'button',
+                cssClass: 'buttons',
+                text: 'Add',
+                callback() {
+                    Button.add();
+                }
             }
         );
         const btnPause = Element.create(
-            'button',
-            'buttons',
-            'Pause',
-            (e) => {
-                Button.pause();
+            {
+                type: 'button',
+                cssClass: 'buttons',
+                text: 'Pause',
+                callback() {
+                    Button.play();
+                }
             }
         );
         const btnPlay = Element.create(
-            'button',
-            'buttons',
-            'Play',
-            (e) => {
-                Button.play();
+            {
+                type: 'button',
+                cssClass: 'buttons',
+                text: 'Play',
+                callback() {
+                    Button.play();
+                }
             }
         );
         parentBoard.setAttribute('id', 'parentBoard');
