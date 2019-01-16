@@ -4,11 +4,21 @@
     <meta charset="iso-8859-1">
     <title>Publicaciones de Alegrarte</title>
     <script language="javascript" src="test/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <header>
-        
-    </header>
+    <div class="header">
+        <img class = "thumbnail" src="imgs/alegrarte.png" height='80px;'>        
+        <label id="TitleHeader">AlegrArte</label>
+    </div>    
+    <div class='containerParent'>
+        <div id="item1" class="item one">
+            <input id="btnMove" type="button" class="buttonCollapse" value="<<" onclick="Button.move()"">            
+        </div>
+        <div id="item2" class="item two">
+            <h1>{{ message }}</h1>
+        </div>
+    </div>
 </body>
 </html>
