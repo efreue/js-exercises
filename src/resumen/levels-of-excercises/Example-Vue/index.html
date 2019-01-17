@@ -1,0 +1,100 @@
+<!DOCTYPE>
+<HTML lang="es">
+<HEAD>
+        <meta charset="iso-8859-1">
+        <title>Publicaciones de Alegrarte</title>
+        <script language="javascript" src="main.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        <link rel="stylesheet" href="main.css">
+</HEAD>   
+<BODY>
+        Ejemplo1: with {{ message }}
+        <div id="ej-1">
+            <h2>{{ message }}</h2>
+        </div>
+        <br><br>
+        Ejemplo2: with v-bind:title
+        <div id="ej-2"><br>
+            <span v-bind:title="message">
+                Hover your mouse over me for a few seconds
+                to see my dynamically bound title!!
+            </span>
+        </div>
+        <br><br>
+        Ejemplo3: with v-if and v-on:click
+        <br>
+        <br>
+        <div id="ej-3">
+            <span v-if="seen">Now you see me</span>        
+            <button v-on:click="changeShow">Click Me</button>
+        </div>       
+        <br><br>
+        Ejemplo4: with v-for
+        <div id="ej-4">
+            <ol>
+                <li v-for="todo in todos">
+                    {{ todo.text }}
+                </li>
+            </ol>
+        </div>
+        <br>
+        Ejemplo5: with v-for
+        <ul id="ej-5">
+            <li v-for="item in items">
+                {{ item.message }}
+            </li>
+        </ul>
+        <br>
+        Ejemplo6: with v-for
+        <ul id="ej-6">
+            <li v-for="(item, index) in items">
+                {{ parentMessage}} - {{ index }} - {{ item.message }}
+            </li>
+        </ul>
+        <br>
+        Ejemplo7: v-for with an Object        
+        <ul id="ej-7" class="demo">
+            <li v-for="value in object">
+                {{ value }}
+            </li>
+        </ul>
+        <br>
+        Ejemplo8: v-for with an Object
+        <div id="ej-8">
+            Example 1:<br><br>
+
+            <div  v-for="(value, key) in object">
+                {{ key }}: {{ value }}
+            </div>
+            <br> 
+            Example2:<br><br>
+            <div v-for="(value, key, index) in object">
+                {{ index }}. {{ key }}: {{ value }}
+            </div>
+            <br>
+            Example3:<br><br>
+            <div v-for="(value, index) in object" :key="index">
+                {{ index }}: {{ value }}
+            </div>
+            <br>
+        </div>        
+        <br><br>
+        Ejemplo9: Add and Remove Item from array with vue
+        <br>
+        <br>
+        <div id="app">
+            <form v-on:submit.prevent="addTodo">
+                <input v-model="currentTodos" type="text">
+                <button type="submit">Add Todo</button>
+            </form>
+
+            <ul>
+                <li v-for="(todo, index) in todos">
+                    {{ todo }} <button v-on:click="deleteItem(index)">X</button>
+                </li>
+            </ul>
+        </div>
+        
+        
+</BODY>        
+</HTML>
