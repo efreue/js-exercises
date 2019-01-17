@@ -8,16 +8,16 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <div class="header">
-        <img class = "thumbnail" src="imgs/alegrarte.png" height='80px;'>        
-        <label id="TitleHeader">AlegrArte</label>
-    </div>    
-    <div class='containerParent'>
-        <div id="item1" class="item one">
-            <input id="btnMove" type="button" class="buttonCollapse" value="<<" onclick="Button.move()"">            
+    <div id="level-head" class="header">
+        <img v-bind:src="'imgs/' + logoHeader" height="80px" class="img-header"/>
+        <span class="title-header">{{nameCompany}}</span>
+    </div>
+    <div id="container" class="container-parent">
+        <div id="child1" class="child one">
+            <button v-on:click="collapseChildContainer" class="button-collapse" >{{ directionFlow }}</button>
         </div>
-        <div id="item2" class="item two">
-            <h1>{{ message }}</h1>
+        <div id="child2" class="child two">
+            <h1>{{message}}</h1>
         </div>
     </div>
 </body>
